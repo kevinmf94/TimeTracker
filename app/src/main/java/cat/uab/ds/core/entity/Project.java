@@ -1,12 +1,20 @@
 package cat.uab.ds.core.entity;
 
+import java.util.ArrayList;
+
 /**
  * Represents project with sub-projects and tasks
  */
-public class Project {
+public class Project extends Activity {
 
-    private String name;
-    private String description;
+    private ArrayList<Activity> activities = new ArrayList<>();
 
+    public Project(String name) {
+        super(name);
+    }
+
+    public Project(String name, String description) {
+        super(name, description);
+    }
 
 }

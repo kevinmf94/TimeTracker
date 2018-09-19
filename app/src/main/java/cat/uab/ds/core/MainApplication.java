@@ -9,7 +9,7 @@ public class MainApplication {
 
     public static void main(String args[]){
 
-        Task ts = new TaskBasic();
+        Task ts = new TaskBasic("HOLA");
         ts = new TaskLimited(ts);
         ts = new TaskScheduled(ts);
 
