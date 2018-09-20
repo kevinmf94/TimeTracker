@@ -1,4 +1,4 @@
-package cat.uab.ds.core;
+package cat.uab.ds;
 
 import cat.uab.ds.core.entity.TaskBasic;
 import cat.uab.ds.core.entity.TaskLimited;

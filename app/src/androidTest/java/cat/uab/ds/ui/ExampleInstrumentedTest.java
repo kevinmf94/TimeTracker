@@ -1,4 +1,4 @@
-package cat.uab.ds.ds_project;
+package cat.uab.ds.ui;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

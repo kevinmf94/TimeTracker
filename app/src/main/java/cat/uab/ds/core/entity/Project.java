@@ -17,4 +17,7 @@ public class Project extends Activity {
         super(name, description);
     }
 
+    public void addActivity(Activity activity){
+        this.activities.add(activity);
+    }
 }
