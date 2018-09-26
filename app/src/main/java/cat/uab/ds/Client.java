@@ -1,5 +1,6 @@
 package cat.uab.ds;
 
+import cat.uab.ds.core.TimeTracker;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.TaskBasic;
 
@@ -10,15 +11,18 @@ public class Client {
 
     public static void main(String args[]){
 
-        Project pr = new Project("P1");
-        pr.addActivity(new TaskBasic("T3"));
+        TimeTracker tt = new TimeTracker();
+
+        Project root = new Project("P1");
+        root.addActivity(new TaskBasic("T3"));
 
         Project pr2 = new Project("P2");
         pr2.addActivity(new TaskBasic("T1"));
         pr2.addActivity(new TaskBasic("T2"));
 
-        pr.addActivity(pr2);
+        root.addActivity(pr2);
 
+        tt.setRoot(root);
 
     }
 
