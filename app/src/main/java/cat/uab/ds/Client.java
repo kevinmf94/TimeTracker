@@ -1,10 +1,15 @@
 package cat.uab.ds;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cat.uab.ds.core.TimeTracker;
+import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Configuration;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.TaskBasic;
 import cat.uab.ds.core.utils.Clock;
+import cat.uab.ds.core.utils.PrintVisitor;
 
 /**
  * Test Client class
@@ -16,7 +21,7 @@ public class Client {
         Configuration.MIN_TIME = 2000;
 
         TimeTracker tt = new TimeTracker();
-        Clock clock = Clock.newInstance();
+        Clock clock = Clock.getInstance();
 
         Project root = new Project("P1");
         root.addActivity(new TaskBasic("T3"));
@@ -27,9 +32,13 @@ public class Client {
 
         root.addActivity(pr2);
 
-        tt.addProject(root);
+        List<Activity> aa = new ArrayList<>();
+        aa.add(root);
 
-        tt.startTimeTracker();
+        PrintVisitor print = new PrintVisitor();
+        root.aceptar(print);
+        System.out.println(print.getResult());
+        //tt.startTimeTracker();
 
     }
 

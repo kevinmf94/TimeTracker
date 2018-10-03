@@ -2,6 +2,8 @@ package cat.uab.ds.core.entity;
 
 import java.util.ArrayList;
 
+import cat.uab.ds.core.utils.ActivitiyVisitor;
+
 /**
  * Task abstract
  */
@@ -28,5 +30,10 @@ public abstract class Task extends Activity {
 
     public void setIntervals(ArrayList<Interval> intervals) {
         this.intervals = intervals;
+    }
+
+    @Override
+    public void aceptar(ActivitiyVisitor v) {
+        v.visitTask(this);
     }
 }
