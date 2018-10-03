@@ -20,4 +20,8 @@ public class Project extends Activity {
     public void addActivity(Activity activity){
         this.activities.add(activity);
     }
+
+    public ArrayList<Activity> getActivities() {
+        return activities;
+    }
 }

@@ -13,11 +13,14 @@ public class Clock extends Observable {
     private static Clock instance;
 
     private Timer timer;
-    private static final int SegsToMilis = 1000;
 
     private Clock() {
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(task, 0, Configuration.MIN_TIME*SegsToMilis);
+        this.timer.scheduleAtFixedRate(task, 0, Configuration.MIN_TIME);
+    }
+
+    public static Clock newInstance(){
+        return getInstance();
     }
 
     public static Clock getInstance(){
