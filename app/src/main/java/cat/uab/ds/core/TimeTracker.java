@@ -5,33 +5,30 @@ import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Configuration;
 import cat.uab.ds.core.entity.Project;
+import cat.uab.ds.core.utils.Clock;
 
-public class TimeTracker {
+public class TimeTracker implements Observer {
 
+    Clock clock;
     private ArrayList<Activity> activities = new ArrayList<>();
-    private Timer timer;
 
-    public TimeTracker() {}
+    public TimeTracker() {
+        clock = Clock.newInstance();
+        clock.addObserver(this);
+    }
 
     public void addProject(Project project){
         this.activities.add(project);
-    }
-
-    public void startTimeTracker() {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                printMenu();
-            }
-        }, 0, Configuration.MIN_TIME);
     }
 
     private void printMenu(){
@@ -49,5 +46,11 @@ public class TimeTracker {
             if(activity instanceof Project)
                 this.printActivities(((Project) activity).getActivities());
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        //System.out.println((Date)o);
+        printMenu();
     }
 }

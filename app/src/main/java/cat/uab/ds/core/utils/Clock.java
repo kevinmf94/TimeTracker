@@ -16,7 +16,7 @@ public class Clock extends Observable {
 
     private Clock() {
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(task, 0, Configuration.MIN_TIME);
+        this.timer.scheduleAtFixedRate(doTick, 0, Configuration.MIN_TIME);
     }
 
     public static Clock newInstance(){
@@ -30,7 +30,7 @@ public class Clock extends Observable {
         return instance;
     }
 
-    private TimerTask task = new TimerTask() {
+    private TimerTask doTick = new TimerTask() {
         @Override
         public void run() {
             instance.setChanged();

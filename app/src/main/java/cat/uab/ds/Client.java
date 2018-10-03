@@ -16,7 +16,7 @@ public class Client {
         Configuration.MIN_TIME = 2000;
 
         TimeTracker tt = new TimeTracker();
-        Clock clock = Clock.newInstance();
+
 
         Project root = new Project("P1");
         root.addActivity(new TaskBasic("T3"));
@@ -28,8 +28,6 @@ public class Client {
         root.addActivity(pr2);
 
         tt.addProject(root);
-
-        tt.startTimeTracker();
 
     }
 
