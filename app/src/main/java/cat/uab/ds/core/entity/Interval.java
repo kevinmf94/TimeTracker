@@ -1,5 +1,6 @@
 package cat.uab.ds.core.entity;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Represents interval of time
  */
-public class Interval implements Observer {
+public class Interval implements Observer, Serializable {
 
     private Date start;
     private Date end;

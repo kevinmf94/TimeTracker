@@ -12,6 +12,8 @@ public abstract class Activity implements Serializable {
     private String name;
     private String description;
 
+    private boolean isRoot = false;//For dummy root project container
+
     protected Activity(){};
 
     public Activity(String name) {
@@ -22,6 +24,12 @@ public abstract class Activity implements Serializable {
         this.name = name;
         this.description = description;
     }
+
+    /**
+     * Used for Visitor Pattern to generate view
+     * @param v Visitor
+     */
+    abstract public void aceptar(ActivitiyVisitor v);
 
     public String getName() {
         return name;
@@ -39,5 +47,11 @@ public abstract class Activity implements Serializable {
         this.description = description;
     }
 
-    abstract public void aceptar(ActivitiyVisitor v);
+    public boolean isRoot() {
+        return isRoot;
+    }
+
+    public void setRoot(boolean isRoot){
+        this.isRoot = isRoot;
+    }
 }

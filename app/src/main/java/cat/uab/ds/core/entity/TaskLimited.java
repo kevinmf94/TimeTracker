@@ -1,10 +1,12 @@
 package cat.uab.ds.core.entity;
 
+import java.io.Serializable;
+
 /**
  * TaskLimited
  * Implementation add functionality to limit task to certain time.
  */
-public class TaskLimited extends TaskDecorator {
+public class TaskLimited extends TaskDecorator implements Serializable {
 
     public TaskLimited(Task task) {
         super(task);

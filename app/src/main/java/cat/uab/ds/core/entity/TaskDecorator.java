@@ -1,9 +1,11 @@
 package cat.uab.ds.core.entity;
 
+import java.io.Serializable;
+
 /**
  * TaskDecorator implements decorator pattern for Task
  */
-public abstract class TaskDecorator extends Task {
+public abstract class TaskDecorator extends Task implements Serializable {
 
     private Task task;
 
