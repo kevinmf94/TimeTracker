@@ -19,10 +19,6 @@ public class Clock extends Observable {
         this.timer.scheduleAtFixedRate(doTick, 0, Configuration.MIN_TIME);
     }
 
-    public static Clock newInstance(){
-        return getInstance();
-    }
-
     public static Clock getInstance(){
         if(instance == null)
             instance = new Clock();

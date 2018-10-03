@@ -1,9 +1,5 @@
 package cat.uab.ds.core;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +19,7 @@ public class TimeTracker implements Observer {
     private ArrayList<Activity> activities = new ArrayList<>();
 
     public TimeTracker() {
-        clock = Clock.newInstance();
+        clock = Clock.getInstance();
         clock.addObserver(this);
     }
 
