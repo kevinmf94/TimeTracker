@@ -13,8 +13,8 @@ public class TaskLimited extends TaskDecorator implements Serializable {
     }
 
     @Override
-    public void prueba() {
-        getTask().prueba();
+    public void operaciondecorator() {
+        getTask().operaciondecorator();
         System.out.println("PRUEBA2");
     }
 }

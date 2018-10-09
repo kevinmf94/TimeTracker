@@ -1,10 +1,14 @@
 package cat.uab.ds.core.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 
 public class PrintVisitor implements ActivitiyVisitor {
 
+    private static SimpleDateFormat format = new SimpleDateFormat("uu-MMM-YYYY HH:mm:ss");
     private String result = "";
 
     /**
@@ -25,7 +29,22 @@ public class PrintVisitor implements ActivitiyVisitor {
      */
     @Override
     public void visitProject(Project project) {
-        this.result += "\n"+project.getName()+"\t\t\tEMPTY\t\t\t\t\tEMPTY\t\t\t\t\t00:00:00";
+        Date start = project.getStart();
+        Date end = project.getEnd();
+        int duration = project.getDuration();
+        String startStr = "\t\t\t\t\t";
+        String endStr = "\t\t\t\t\t";
+
+        if(start != null)
+            startStr = format.format(start);
+
+        if(end != null)
+            endStr = format.format(end);
+
+        this.result += "\n"+project.getName()
+                +"\t\t\t"+startStr
+                +"\t"+endStr
+                +"\t"+this.durationToStr(duration);
     }
 
     /**
@@ -34,7 +53,32 @@ public class PrintVisitor implements ActivitiyVisitor {
      */
     @Override
     public void visitTask(Task task) {
-        this.result += "\n"+task.getName()+"\t\t\tEMPTY\t\t\t\t\tEMPTY\t\t\t\t\t00:00:00";
+        Date start = task.getStart();
+        Date end = task.getEnd();
+        int duration = task.getDuration();
+        String startStr = "\t\t\t\t\t";
+        String endStr = "\t\t\t\t\t";
+
+        if(start != null)
+            startStr = format.format(start);
+
+        if(end != null)
+            endStr = format.format(end);
+
+        this.result += "\n"+task.getName()+"\t\t\t"
+                +startStr+"\t"
+                +endStr+"\t"
+                +this.durationToStr(duration);
+    }
+
+    private String durationToStr(int milis){
+        long original = Math.round(milis/1000.0);
+        long hours = original/60/60;
+        long minutes = original/60;
+        long seconds = original%60;
+
+        return milis+"";
+        //return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
 }

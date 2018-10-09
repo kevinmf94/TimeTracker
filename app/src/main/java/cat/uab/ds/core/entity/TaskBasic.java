@@ -17,7 +17,7 @@ public class TaskBasic extends Task implements Serializable {
     }
 
     @Override
-    public void prueba() {
+    public void operaciondecorator() {
         System.out.println("PRUEBA1");
     }
 

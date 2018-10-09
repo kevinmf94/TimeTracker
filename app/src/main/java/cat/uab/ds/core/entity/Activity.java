@@ -1,6 +1,7 @@
 package cat.uab.ds.core.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import cat.uab.ds.core.utils.ActivitiyVisitor;
 
@@ -30,6 +31,12 @@ public abstract class Activity implements Serializable {
      * @param v Visitor
      */
     abstract public void aceptar(ActivitiyVisitor v);
+
+    abstract public Date getStart();
+
+    abstract public Date getEnd();
+
+    abstract public int getDuration();
 
     public String getName() {
         return name;

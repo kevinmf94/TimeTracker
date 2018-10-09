@@ -33,4 +33,5 @@ public class Clock extends Observable {
             instance.notifyObservers(new Date());
         }
     };
+
 }
