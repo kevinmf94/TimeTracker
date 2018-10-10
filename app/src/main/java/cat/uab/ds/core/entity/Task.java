@@ -37,7 +37,7 @@ public abstract class Task extends Activity {
 
     @Override
     public void aceptar(ActivitiyVisitor v) {
-        v.visitTask(this);
+        v.visitActivity(this);
     }
 
     public void start() {

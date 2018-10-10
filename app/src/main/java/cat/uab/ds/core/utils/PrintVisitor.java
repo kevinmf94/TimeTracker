@@ -3,12 +3,13 @@ package cat.uab.ds.core.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 
 public class PrintVisitor implements ActivitiyVisitor {
 
-    private static SimpleDateFormat format = new SimpleDateFormat("uu-MMM-YYYY HH:mm:ss");
+    private static SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
     private String result = "";
 
     /**
@@ -25,50 +26,27 @@ public class PrintVisitor implements ActivitiyVisitor {
 
     /**
      * Generate String with project info
-     * @param project
+     * @param activity
      */
     @Override
-    public void visitProject(Project project) {
-        Date start = project.getStart();
-        Date end = project.getEnd();
-        int duration = project.getDuration();
-        String startStr = "\t\t\t\t\t";
-        String endStr = "\t\t\t\t\t";
+    public void visitActivity(Activity activity) {
+        Date start = activity.getStart();
+        Date end = activity.getEnd();
+        int duration = activity.getDuration();
+
+        StringBuilder sb = new StringBuilder("                                                                            ");
+
+        insertInLine(sb, 0, LevelLineStr(activity.getLevel()) + activity.getName());
 
         if(start != null)
-            startStr = format.format(start);
+            insertInLine(sb,12, format.format(start));
 
         if(end != null)
-            endStr = format.format(end);
+            insertInLine(sb,35,format.format(end));
 
-        this.result += "\n"+project.getName()
-                +"\t\t\t"+startStr
-                +"\t"+endStr
-                +"\t"+this.durationToStr(duration);
-    }
+        insertInLine(sb,60, this.durationToStr(duration));
 
-    /**
-     * Generate String with task info
-     * @param task
-     */
-    @Override
-    public void visitTask(Task task) {
-        Date start = task.getStart();
-        Date end = task.getEnd();
-        int duration = task.getDuration();
-        String startStr = "\t\t\t\t\t";
-        String endStr = "\t\t\t\t\t";
-
-        if(start != null)
-            startStr = format.format(start);
-
-        if(end != null)
-            endStr = format.format(end);
-
-        this.result += "\n"+task.getName()+"\t\t\t"
-                +startStr+"\t"
-                +endStr+"\t"
-                +this.durationToStr(duration);
+        this.result += "\n"+sb.toString();
     }
 
     private String durationToStr(int milis){
@@ -77,8 +55,23 @@ public class PrintVisitor implements ActivitiyVisitor {
         long minutes = original/60;
         long seconds = original%60;
 
-        return milis+"";
-        //return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        //return milis+"";
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
+    private void insertInLine(StringBuilder sb, int pos, String word){
+        sb.replace(pos,pos+word.length(), word);
+    }
+
+    private String LevelLineStr(int level){
+        String str = "";
+        for (int i = 1; i<level;i++){
+            if(i == level-1){
+                str += "└";
+            }else{
+                str += " ";
+            }
+        }
+        return  str;
+    }
 }

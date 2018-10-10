@@ -24,7 +24,7 @@ public class Project extends Activity implements Serializable {
     @Override
     public void aceptar(ActivitiyVisitor v) {
         if(!isRoot())
-            v.visitProject(this);
+            v.visitActivity(this);
 
         for(Activity activity : this.activities){
             activity.aceptar(v);
@@ -82,6 +82,7 @@ public class Project extends Activity implements Serializable {
     }
 
     public void addActivity(Activity activity){
+        activity.setLevel(this.getLevel()+1);
         this.activities.add(activity);
     }
 

@@ -2,6 +2,7 @@ package cat.uab.ds.core.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.logging.Level;
 
 import cat.uab.ds.core.utils.ActivitiyVisitor;
 
@@ -10,6 +11,7 @@ import cat.uab.ds.core.utils.ActivitiyVisitor;
  */
 public abstract class Activity implements Serializable {
 
+    private int level = 0;
     private String name;
     private String description;
 
@@ -60,5 +62,13 @@ public abstract class Activity implements Serializable {
 
     public void setRoot(boolean isRoot){
         this.isRoot = isRoot;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
