@@ -36,9 +36,6 @@ public class Interval implements Observer, Serializable {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Date) {
-            if (this.start == null)
-                this.start = (Date) arg;
-
             this.end = (Date) arg;
         }
     }
@@ -52,11 +49,12 @@ public class Interval implements Observer, Serializable {
     }
 
     public void start(){
+        start = new Date();
         isRunning = true;
     }
 
     public void stop() {
-        end = new Date();
+        isRunning = false;
         Clock.getInstance().deleteObserver(this);
     }
 }

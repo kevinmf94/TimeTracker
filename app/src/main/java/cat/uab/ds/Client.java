@@ -46,23 +46,33 @@ public class Client {
 
 
 
-        task3.start();
+        /*task3.start();
         wait(4000);
         task3.stop();
         wait(2000);
         task3.start();
         wait(2000);
-        task3.stop();
-        /*task3.start();
-        wait(3000);
-        task3.stop();
-        wait(7000);
-        task2.start();
-        wait(10000);
-        task2.stop();
-        task3.start();
-        wait(2000);
         task3.stop();*/
+
+        //Test Uni
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                task3.start();
+                Client.wait(3000);
+                task3.stop();
+
+                Client.wait(7000);
+                task2.start();
+                Client.wait(10000);
+                task2.stop();
+
+                task3.start();
+                Client.wait(2000);
+                task3.stop();
+            }
+        }).start();
+
 
     }
 
