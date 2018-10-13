@@ -8,13 +8,19 @@ import java.io.Serializable;
  */
 public class TaskLimited extends TaskDecorator implements Serializable {
 
-    public TaskLimited(Task task) {
+    private int timeLimit;
+
+    public TaskLimited(Task task, int timeLimit) {
         super(task);
+        this.timeLimit = timeLimit;
     }
 
     @Override
-    public void operaciondecorator() {
-        getTask().operaciondecorator();
-        System.out.println("PRUEBA2");
+    public void update() {
+        this.getTask().update();
+
+        if(getDuration() >= timeLimit){
+            this.stop();
+        }
     }
 }

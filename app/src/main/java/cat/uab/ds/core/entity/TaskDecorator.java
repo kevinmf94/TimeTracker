@@ -1,6 +1,10 @@
 package cat.uab.ds.core.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+
+import cat.uab.ds.core.utils.ActivitiyVisitor;
 
 /**
  * TaskDecorator implements decorator pattern for Task
@@ -24,6 +28,7 @@ public abstract class TaskDecorator extends Task implements Serializable {
     public Task removeLastComponent(){
         return task;
     }
+
 }
 
 

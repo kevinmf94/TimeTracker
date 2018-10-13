@@ -1,18 +1,14 @@
 package cat.uab.ds;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.sql.Time;
 
 import cat.uab.ds.core.TimeTracker;
 import cat.uab.ds.core.entity.Configuration;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 import cat.uab.ds.core.entity.TaskBasic;
-import cat.uab.ds.core.utils.Clock;
-import cat.uab.ds.core.utils.PrintVisitor;
+import cat.uab.ds.core.entity.TaskLimited;
 
 /**
  * Test Client class
@@ -28,52 +24,54 @@ public class Client {
         Project pr1 = new Project("P1");
         tt.addProject(pr1);
 
-        final Task task3 = new TaskBasic("T3");
+        Task task3 = new TaskBasic("T3");
         pr1.addActivity(task3);
 
         Project pr2 = new Project("P2");
         pr1.addActivity(pr2);
 
-        final Task task1 = new TaskBasic("T1");
-        final Task task2 = new TaskBasic("T2");
+        Task task1 = new TaskBasic("T1");
+        Task task2 = new TaskBasic("T2");
         pr2.addActivity(task1);
         pr2.addActivity(task2);
 
-        //Save Serializable
-        /*FileOutputStream out = new FileOutputStream("save.dat");
-        ObjectOutputStream outob = new ObjectOutputStream(out);
-        outob.writeObject(root);*/
+        Task task4 = new TaskBasic("T4");
+        task4 = new TaskLimited(task4,4000);
+        pr2.addActivity(task4);
+        task4.start();
 
+        //Save/Load Test
+        //tt.load("data.dat");
+        //tt.save("data.dat");
 
-
+        //Test Secuencial
         /*task3.start();
-        wait(4000);
+        wait(3000);
         task3.stop();
-        wait(2000);
+        wait(7000);
+        task2.start();
+        wait(10000);
+        task2.stop();
         task3.start();
         wait(2000);
         task3.stop();*/
 
-        //Test Uni
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                task3.start();
-                Client.wait(3000);
-                task3.stop();
-
-                Client.wait(7000);
-                task2.start();
-                Client.wait(10000);
-                task2.stop();
-
-                task3.start();
-                Client.wait(2000);
-                task3.stop();
-            }
-        }).start();
-
-
+        //Test simultani
+        /*task3.start();
+        wait(4000);
+        task2.start();
+        wait(2000);
+        task3.stop();
+        wait(2000);
+        task1.start();
+        wait(4000);
+        task1.stop();
+        wait(2000);
+        task2.stop();
+        wait(4000);
+        task3.start();
+        wait(2000);
+        task3.stop();*/
     }
 
     private static void wait(int milis){

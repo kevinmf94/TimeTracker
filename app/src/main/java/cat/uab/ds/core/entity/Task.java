@@ -23,9 +23,13 @@ public abstract class Task extends Activity {
         super(name, description);
     }
 
-    //Temporal test decorator
-    //TODO Rename
-    public abstract void operaciondecorator();
+    public Task(Task task){
+        this.setName(task.getName());
+        this.setDescription(task.getDescription());
+    }
+
+    //Decorator function, call with Interval is updated
+    public abstract void update();
 
     public ArrayList<Interval> getIntervals() {
         return intervals;
@@ -41,14 +45,22 @@ public abstract class Task extends Activity {
     }
 
     public void start() {
-        Interval interval = new Interval();
-        interval.start();
-        intervals.add(interval);
+        if(!isRunning()) {
+            Interval interval = new Interval(this);
+            interval.start();
+            intervals.add(interval);
+        }
     }
 
     public void stop() {
-        Interval interval = intervals.get(intervals.size()-1);
-        interval.stop();
+        if(isRunning()) {
+            Interval interval = intervals.get(intervals.size() - 1);
+            interval.stop();
+
+            //If the interval duration is less than MIN_Time remove it.
+            if(interval.getDuration() < Configuration.MIN_TIME)
+                this.intervals.remove(interval);
+        }
     }
 
     @Override
@@ -78,5 +90,13 @@ public abstract class Task extends Activity {
         }
 
         return total;
+    }
+
+    public boolean isRunning(){
+        int size = this.intervals.size();
+        if(size == 0)
+            return false;
+
+        return this.intervals.get(size-1).isRunning();
     }
 }
