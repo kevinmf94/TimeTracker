@@ -18,12 +18,10 @@ public class Interval implements Observer, Serializable {
 
     private Date start = null;
     private Date end = null;
-    private Task task;
 
     private boolean isRunning = false;
 
-    public Interval(Task task) {
-        this.task = task;
+    public Interval() {
         Clock.getInstance().addObserver(this);
     }
 
@@ -40,7 +38,6 @@ public class Interval implements Observer, Serializable {
         if (arg instanceof Date) {
             this.end = (Date) arg;
         }
-        this.task.update();
     }
 
     public Date getStart() {

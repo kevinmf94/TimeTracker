@@ -18,7 +18,7 @@ public class TaskBasic extends Task implements Serializable {
 
     @Override
     public void update() {
-        System.out.println("UPDATE BASIC");
+        System.out.println("BASIC");
     }
 
 }

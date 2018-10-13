@@ -29,6 +29,45 @@ public abstract class TaskDecorator extends Task implements Serializable {
         return task;
     }
 
+    @Override
+    public void update() {
+        task.update();
+    }
+
+    @Override
+    public void start() {
+        task.start();
+    }
+
+    @Override
+    public void stop() {
+        task.stop();
+    }
+
+    @Override
+    public Date getStart() {
+        return task.getStart();
+    }
+
+    @Override
+    public Date getEnd() {
+        return task.getEnd();
+    }
+
+    @Override
+    public int getDuration() {
+        return task.getDuration();
+    }
+
+    @Override
+    public String getName() {
+        return task.getName();
+    }
+
+    @Override
+    public String getDescription() {
+        return task.getDescription();
+    }
 }
 
 

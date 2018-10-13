@@ -46,7 +46,7 @@ public abstract class Task extends Activity {
 
     public void start() {
         if(!isRunning()) {
-            Interval interval = new Interval(this);
+            Interval interval = new Interval();
             interval.start();
             intervals.add(interval);
         }

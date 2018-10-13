@@ -13,21 +13,30 @@ public class TaskScheduled extends TaskDecorator implements Serializable {
     private Timer timer;
     private Date dateToStart;
 
+    private TimerTask timerTask = new TimerTask(){
+
+        @Override
+        public void run() {
+            TaskScheduled.this.start();
+        }
+    };
+
     public TaskScheduled(Task task, Date dateToStart) {
         super(task);
         this.dateToStart = dateToStart;
         this.timer = new Timer();
-        this.timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                getTask().start();
-            }
-        }, this.dateToStart);
+        this.timer.schedule(timerTask, this.dateToStart);
+    }
+
+    @Override
+    public void start() {
+        super.start();
     }
 
     @Override
     public void update() {
-        getTask().update();
+        System.out.println("SCHULED");
+        super.update();
     }
 
 }
