@@ -33,10 +33,4 @@ public class TaskScheduled extends TaskDecorator implements Serializable {
         super.start();
     }
 
-    @Override
-    public void update() {
-        System.out.println("SCHULED");
-        super.update();
-    }
-
 }

@@ -30,11 +30,6 @@ public abstract class TaskDecorator extends Task implements Serializable {
     }
 
     @Override
-    public void update() {
-        task.update();
-    }
-
-    @Override
     public void start() {
         task.start();
     }

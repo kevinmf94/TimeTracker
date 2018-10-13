@@ -40,6 +40,7 @@ public class Client {
         Task task4 = new TaskBasic("T4");
         Date now = new Date();
         task4 = new TaskScheduled(task4, new Date(now.getTime()+4000));
+
         task4 = new TaskLimited(task4,4000);
 
         pr2.addActivity(task4);

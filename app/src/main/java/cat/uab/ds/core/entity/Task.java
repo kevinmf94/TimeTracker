@@ -28,9 +28,6 @@ public abstract class Task extends Activity {
         this.setDescription(task.getDescription());
     }
 
-    //Decorator function, call with Interval is updated
-    public abstract void update();
-
     public ArrayList<Interval> getIntervals() {
         return intervals;
     }
