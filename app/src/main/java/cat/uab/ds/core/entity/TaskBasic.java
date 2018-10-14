@@ -1,7 +1,6 @@
 package cat.uab.ds.core.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Task implements basic functionality

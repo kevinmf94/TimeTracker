@@ -63,6 +63,11 @@ public abstract class TaskDecorator extends Task implements Serializable {
     public String getDescription() {
         return task.getDescription();
     }
+
+    @Override
+    public boolean isRunning() {
+        return task.isRunning();
+    }
 }
 
 

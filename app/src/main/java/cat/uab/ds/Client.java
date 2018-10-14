@@ -7,6 +7,7 @@ import cat.uab.ds.core.entity.Configuration;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 import cat.uab.ds.core.entity.TaskBasic;
+import cat.uab.ds.core.entity.TaskDecorator;
 import cat.uab.ds.core.entity.TaskLimited;
 import cat.uab.ds.core.entity.TaskScheduled;
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import cat.uab.ds.core.utils.ActivitiyVisitor;
-import cat.uab.ds.core.utils.Clock;
 
 /**
  * Task abstract
