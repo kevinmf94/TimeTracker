@@ -80,12 +80,12 @@ public abstract class Task extends Activity {
      * @return int Duration sum of intervals
      */
     public int getDuration() {
-        int total = 0;
+        float total = 0;
         for (Interval interval: intervals) {
             total += interval.getDuration();
         }
 
-        return total;
+        return Math.round(total/Configuration.SEC_TO_MILIS);
     }
 
     public boolean isRunning(){

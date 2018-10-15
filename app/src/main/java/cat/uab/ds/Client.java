@@ -20,7 +20,7 @@ public class Client {
 
     public static void main(String args[]) throws IOException {
 
-        Configuration.MIN_TIME = 2000;
+        Configuration.MIN_TIME = 2;
 
         TimeTracker tt = new TimeTracker();
 
@@ -38,15 +38,13 @@ public class Client {
         pr2.addActivity(task1);
         pr2.addActivity(task2);
 
-        Task task4 = new TaskBasic("T4");
+       /* Task task4 = new TaskBasic("T4");
         Date now = new Date();
         task4 = new TaskScheduled(task4, new Date(now.getTime()+4000));
-
-        task4 = new TaskLimited(task4,4000);
+        task4 = new TaskLimited(task4,4);
 
         pr2.addActivity(task4);
-        //task4.start();
-
+        //task4.start();*/
 
         //Save/Load Test
         //tt.load("data.dat");
@@ -65,7 +63,7 @@ public class Client {
         task3.stop();*/
 
         //Test simultani
-        /*task3.start();
+        task3.start();
         wait(4000);
         task2.start();
         wait(2000);
@@ -79,7 +77,7 @@ public class Client {
         wait(4000);
         task3.start();
         wait(2000);
-        task3.stop();*/
+        task3.stop();
     }
 
     private static void wait(int milis){
