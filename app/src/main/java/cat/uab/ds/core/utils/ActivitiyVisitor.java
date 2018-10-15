@@ -5,7 +5,7 @@ import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 
 /**
- * Visitor interface
+ * Visitor interface for Visitor pattern
  */
 public interface ActivitiyVisitor {
     void visitActivity(Activity p);
