@@ -20,7 +20,7 @@ public class Clock extends Observable {
 
     private Clock() {
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(doTick, 0, Configuration.MIN_TIME);
+        this.timer.scheduleAtFixedRate(doTick, 0, Configuration.MIN_TIME*Configuration.SEC_TO_MILIS);
     }
 
     public static Clock getInstance() {

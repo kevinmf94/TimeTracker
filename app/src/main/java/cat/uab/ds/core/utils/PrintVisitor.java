@@ -58,16 +58,14 @@ public class PrintVisitor implements ActivitiyVisitor {
 
     /**
      * Converts a number in miliseconds to readable duration string (Hours, Minutes and Seconds)
-     * @param milis Duration of activity in milliseconds
+     * @param time Duration of activity in milliseconds
      * @return Duration string
      */
-    private String durationToStr(int milis){
-        long original = Math.round(milis/1000.0);
-        long hours = original/60/60;
-        long minutes = original/60;
-        long seconds = original%60;
+    private String durationToStr(int time){
+        long hours = time/60/60;
+        long minutes = time/60;
+        long seconds = time%60;
 
-        //return milis+"";
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 

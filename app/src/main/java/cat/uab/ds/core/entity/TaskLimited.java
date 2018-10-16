@@ -14,15 +14,15 @@ public class TaskLimited extends TaskDecorator implements Serializable, Observer
 
     private int timeLimit;
 
+    /**
+     * Additional feature to Task, limit time of duration
+     * @param task
+     * @param timeLimit Time in seconds
+     */
     public TaskLimited(Task task, int timeLimit) {
         super(task);
         this.timeLimit = timeLimit;
         Clock.getInstance().addObserver(this);
-    }
-
-    @Override
-    public void start() {
-        super.start();
     }
 
     @Override
