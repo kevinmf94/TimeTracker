@@ -13,16 +13,25 @@ import cat.uab.ds.core.entity.Configuration;
  */
 public class Clock extends Observable {
 
-    //Singleton
+    //Singleton instance
     private static Clock instance;
 
     private Timer timer;
 
+    /**
+     * Clock constructor.
+     * Init timer and schelude task to notify Observers (Time set on connfiguration)
+     */
     private Clock() {
         this.timer = new Timer();
         this.timer.scheduleAtFixedRate(doTick, 0, Configuration.MIN_TIME*Configuration.SEC_TO_MILIS);
     }
 
+    /**
+     * Return instance of Clock, if this is not instatiated,
+     * create new instance.
+     * @return Clock instance
+     */
     public static Clock getInstance() {
         if (instance == null)
             instance = new Clock();
@@ -30,6 +39,9 @@ public class Clock extends Observable {
         return instance;
     }
 
+    /**
+     * TimerTask Runnable executed every tick of Observable
+     */
     private TimerTask doTick = new TimerTask() {
         @Override
         public void run() {

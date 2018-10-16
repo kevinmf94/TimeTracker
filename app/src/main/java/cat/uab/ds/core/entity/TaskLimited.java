@@ -16,7 +16,7 @@ public class TaskLimited extends TaskDecorator implements Serializable, Observer
 
     /**
      * Additional feature to Task, limit time of duration
-     * @param task
+     * @param task Task or TaskDecotor to wrap.
      * @param timeLimit Time in seconds
      */
     public TaskLimited(Task task, int timeLimit) {
@@ -25,6 +25,12 @@ public class TaskLimited extends TaskDecorator implements Serializable, Observer
         Clock.getInstance().addObserver(this);
     }
 
+    /**
+     * Receive notify of Clock observable and check if getDuration is greater then
+     * timeLimit stops this task.
+     * @param o Observable Clock
+     * @param arg Date
+     */
     @Override
     public void update(Observable o, Object arg) {
         if(isRunning()) {

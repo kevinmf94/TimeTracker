@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cat.uab.ds.core.entity.Activity;
-import cat.uab.ds.core.entity.Project;
-import cat.uab.ds.core.entity.Task;
 
 /**
  * Visitor in charge of read an Activity (Task or Project) and print it in console
