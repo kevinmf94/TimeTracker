@@ -23,6 +23,11 @@ public abstract class Activity implements Serializable {
         this(name, "");
     }
 
+    /**
+     * Activity Contructor
+     * @param name Name of Activity (Task or Project)
+     * @param description Description of Activity
+     */
     public Activity(String name, String description) {
         this.name = name;
         this.description = description;
@@ -30,7 +35,7 @@ public abstract class Activity implements Serializable {
 
     /**
      * Used for Visitor Pattern to generate view
-     * @param v Visitor
+     * @param v ActivitiyVisitor instance
      */
     abstract public void aceptar(ActivitiyVisitor v);
 

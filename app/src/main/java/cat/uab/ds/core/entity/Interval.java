@@ -21,18 +21,30 @@ public class Interval implements Observer, Serializable {
 
     private boolean isRunning = false;
 
+    /**
+     * Interval Constructor. Register yourself to Clock Observable updates.
+     */
     public Interval() {
         Clock.getInstance().addObserver(this);
     }
 
+    /**
+     * Get the duration by the diference between start and end Dates.
+     * @return Total duration in miliseconds
+     */
     public long getDuration(){
         if(end != null){
-            return end.getTime() - start.getTime();//as given
+            return end.getTime() - start.getTime();
         }else{
             return  0;
         }
     }
 
+    /**
+     * When is notified by Observable, updates the end Date.
+     * @param o Observable instance
+     * @param arg Date notified by the Observable (Clock in this case)
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Date) {
@@ -48,13 +60,19 @@ public class Interval implements Observer, Serializable {
         return end;
     }
 
+    /**
+     * Set the start Date to NOW, and change state to isRunning
+     */
     public void start(){
         start = new Date();
-        isRunning = true;
+        setRunning(true);
     }
 
+    /**
+     * Changes state to not running and unregister yourself from Clock observers list.
+     */
     public void stop() {
-        isRunning = false;
+        setRunning(false);
         Clock.getInstance().deleteObserver(this);
     }
 
