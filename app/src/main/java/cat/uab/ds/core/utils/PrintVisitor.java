@@ -7,26 +7,33 @@ import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 
+/**
+ * Visitor in charge of read an Activity (Task or Project) and print it in console
+ */
 public class PrintVisitor implements ActivitiyVisitor {
 
     private static SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
     private String result = "";
 
     /**
-     * Initialize basic menu info
+     * Initialize basic menu info with table header.
      */
     public PrintVisitor() {
         this.result += "\nNom\t\t\tTemps Inici\t\t\t\tTemps final\t\t\t\tDurada (hh:mm:ss)";
         this.result += "\n----------+----------------------+-----------------------+------------------";
     }
 
+    /**
+     * Result of PrintVisitor
+     * @return String with result
+     */
     public String getResult() {
         return result;
     }
 
     /**
-     * Generate String with project info
-     * @param activity
+     * Generate String with activity info (Name, Start, End and Duration)
+     * @param activity Project or Task to print
      */
     @Override
     public void visitActivity(Activity activity) {
@@ -50,23 +57,33 @@ public class PrintVisitor implements ActivitiyVisitor {
     }
 
     /**
-     * Format time number to  HH:MM:SS
-     * @param time Time in seconds
-     * @return String formated
+     * Converts a number in miliseconds to readable duration string (Hours, Minutes and Seconds)
+     * @param time Duration of activity in milliseconds
+     * @return Duration string
      */
     private String durationToStr(int time){
         long hours = time/60/60;
         long minutes = time/60;
         long seconds = time%60;
 
-        //return milis+"";
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
+    /**
+     * Inserts string in StringBuilder line.
+     * @param sb StringBuilder instance
+     * @param pos Position to insert
+     * @param word String to insert
+     */
     private void insertInLine(StringBuilder sb, int pos, String word){
         sb.replace(pos,pos+word.length(), word);
     }
 
+    /**
+     * Generates the characters for the tree hierarchy
+     * @param level The level of activity (Task or Project)
+     * @return String with first characters of activity print
+     */
     private String LevelLineStr(int level){
         String str = "";
         for (int i = 1; i<level;i++){

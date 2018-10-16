@@ -7,6 +7,10 @@ import java.util.TimerTask;
 
 import cat.uab.ds.core.entity.Configuration;
 
+/**
+ * Clock singleton for task time synchronization.
+ * Is an Observable class that do thick every x miliseconds (Value set in configuration class)
+ */
 public class Clock extends Observable {
 
     //Singleton
