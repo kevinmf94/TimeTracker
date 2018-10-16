@@ -7,20 +7,34 @@ import java.util.Date;
 import cat.uab.ds.core.utils.ActivitiyVisitor;
 
 /**
- * Represents project with sub-projects and tasks
+ * Represents project with sub-projects and tasks.
  */
 public class Project extends Activity implements Serializable {
 
     private ArrayList<Activity> activities = new ArrayList<>();
 
+    /**
+     * Project constructor.
+     * @param name The name of the project
+     */
     public Project(String name) {
         super(name);
     }
 
+    /**
+     * Project constructor.
+     * @param name The name of the project
+     * @param description The description of the project
+     */
     public Project(String name, String description) {
         super(name, description);
     }
 
+    /**
+     * Used for Visitor Pattern to generate view.
+     * Visits children activities and if not is the root project, visit yourself.
+     * @param v ActivitiyVisitor instance
+     */
     @Override
     public void aceptar(ActivitiyVisitor v) {
         if(!isRoot())
@@ -31,6 +45,10 @@ public class Project extends Activity implements Serializable {
         }
     }
 
+    /**
+     * Gets the start Date of the project with the activity that starts early.
+     * @return Date with start
+     */
     @Override
     public Date getStart() {
         Date start = null;
@@ -51,6 +69,10 @@ public class Project extends Activity implements Serializable {
         return start;
     }
 
+    /**
+     * Gets the end Date of the project with the activity that ends late.
+     * @return Date with end
+     */
     @Override
     public Date getEnd() {
         Date end = null;
@@ -70,6 +92,10 @@ public class Project extends Activity implements Serializable {
         return end;
     }
 
+    /**
+     * Gets the duration of the project adding the children activities duration (Projects or Tasks)
+     * @return Duration in miliseconds
+     */
     @Override
     public int getDuration() {
         int duration = 0;
@@ -81,11 +107,19 @@ public class Project extends Activity implements Serializable {
         return duration;
     }
 
+    /**
+     * Adds activity to the project (Another project or task)
+     * @param activity
+     */
     public void addActivity(Activity activity){
         activity.setLevel(this.getLevel()+1);
         this.activities.add(activity);
     }
 
+    /**
+     * Gets the children activities list of the project.
+     * @return Activities list
+     */
     public ArrayList<Activity> getActivities() {
         return activities;
     }
