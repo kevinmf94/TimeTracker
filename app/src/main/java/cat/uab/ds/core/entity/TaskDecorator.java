@@ -11,6 +11,10 @@ public abstract class TaskDecorator extends Task implements Serializable {
     private Task task;
     private boolean firstDecorator = false;
 
+    /**
+     * Task Decorator, additional feature to Task.
+     * @param task Task to wrap.
+     */
     public TaskDecorator(Task task) {
         if(!(task instanceof  TaskDecorator))
             this.firstDecorator = true;

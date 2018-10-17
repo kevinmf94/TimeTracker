@@ -17,7 +17,7 @@ public class TaskScheduled extends TaskDecorator implements Serializable, Observ
     /**
      * TaskScheduled Constructor.
      * Register this instance to Clock Observable.
-     * @param task Task or TaskDecotor to wrap.
+     * @param task Task or TaskDecorator to wrap.
      * @param dateToStart Date to start task.
      */
     public TaskScheduled(Task task, Date dateToStart) {
