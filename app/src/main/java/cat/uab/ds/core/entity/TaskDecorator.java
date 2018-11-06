@@ -1,12 +1,11 @@
 package cat.uab.ds.core.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * TaskDecorator implements decorator pattern for Task
  */
-public abstract class TaskDecorator extends Task implements Serializable {
+public abstract class TaskDecorator extends Task {
 
     private Task task;
     private boolean firstDecorator = false;
@@ -15,7 +14,7 @@ public abstract class TaskDecorator extends Task implements Serializable {
      * Task Decorator, additional feature to Task.
      * @param task Task to wrap.
      */
-    public TaskDecorator(Task task) {
+    TaskDecorator(Task task) {
         if(!(task instanceof  TaskDecorator))
             this.firstDecorator = true;
 
@@ -35,7 +34,7 @@ public abstract class TaskDecorator extends Task implements Serializable {
     }
 
     @Override
-    public void start() {
+    void start() {
         task.start();
     }
 
@@ -72,27 +71,6 @@ public abstract class TaskDecorator extends Task implements Serializable {
     @Override
     public boolean isRunning() {
         return task.isRunning();
-    }
-
-    public Task removeComponent(Class <? extends TaskDecorator> className){
-
-        TaskDecorator next = null;
-        TaskDecorator actual = this;
-
-        if(className.getName() == this.getClass().getName() && next == null)
-            return getTask();
-        else {
-
-        }
-
-        /*System.out.println(className.getName());
-        System.out.println(this.getClass().getName());
-        System.out.println(this.getTask().getClass().getName());
-        System.out.println(this.getTask().getClass().getName() == className.getName());*/
-        /*if(this.getClass(). instanceof  className.){
-
-        }*/
-        return null;
     }
 
     public boolean isFirstDecorator() {

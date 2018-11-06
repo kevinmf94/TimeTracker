@@ -1,6 +1,5 @@
 package cat.uab.ds.core.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,9 +9,9 @@ import cat.uab.ds.core.utils.Clock;
 /**
  * TaskScheduled. Implements scheduled functionality to task.
  */
-public class TaskScheduled extends TaskDecorator implements Serializable, Observer {
+public class TaskScheduled extends TaskDecorator implements Observer {
 
-    private Date dateToStart;
+    private final Date dateToStart;
 
     /**
      * TaskScheduled Constructor.

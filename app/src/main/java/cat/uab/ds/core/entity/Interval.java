@@ -1,20 +1,16 @@
 package cat.uab.ds.core.entity;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.TimeUnit;
 
 import cat.uab.ds.core.utils.Clock;
 
 /**
  * Represents interval of time
  */
-public class Interval implements Observer, Serializable {
+class Interval implements Observer, Serializable {
 
     private Date start = null;
     private Date end = null;
@@ -29,8 +25,8 @@ public class Interval implements Observer, Serializable {
     }
 
     /**
-     * Get the duration by the diference between start and end Dates.
-     * @return Total duration in miliseconds
+     * Get the duration by the difference between start and end Dates.
+     * @return Total duration in milliseconds
      */
     public long getDuration(){
         if(end != null){

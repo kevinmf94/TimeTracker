@@ -2,6 +2,7 @@ package cat.uab.ds.core.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import cat.uab.ds.core.entity.Activity;
 
@@ -10,14 +11,14 @@ import cat.uab.ds.core.entity.Activity;
  */
 public class PrintVisitor implements ActivitiyVisitor {
 
-    private static SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss");
-    private String result = "";
+    private static final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss", new Locale("en"));
+    private String result;
 
     /**
      * Initialize basic menu info with table header.
      */
     public PrintVisitor() {
-        this.result += "\nNom\t\t\tTemps Inici\t\t\t\tTemps final\t\t\t\tDurada (hh:mm:ss)";
+        this.result += "\nName\t\t\tStart Time\t\t\t\tEnd time\t\t\t\tDuration (hh:mm:ss)";
         this.result += "\n----------+----------------------+-----------------------+------------------";
     }
 
@@ -55,7 +56,7 @@ public class PrintVisitor implements ActivitiyVisitor {
     }
 
     /**
-     * Converts a number in miliseconds to readable duration string (Hours, Minutes and Seconds)
+     * Converts a number in milliseconds to readable duration string (Hours, Minutes and Seconds)
      * @param time Duration of activity in milliseconds
      * @return Duration string
      */
@@ -64,7 +65,7 @@ public class PrintVisitor implements ActivitiyVisitor {
         long minutes = time/60;
         long seconds = time%60;
 
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return String.format(new Locale("en"), "%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     /**
@@ -83,14 +84,14 @@ public class PrintVisitor implements ActivitiyVisitor {
      * @return String with first characters of activity print
      */
     private String LevelLineStr(int level){
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (int i = 1; i<level;i++){
             if(i == level-1){
-                str += "└";
+                str.append("└");
             }else{
-                str += " ";
+                str.append(" ");
             }
         }
-        return  str;
+        return str.toString();
     }
 }

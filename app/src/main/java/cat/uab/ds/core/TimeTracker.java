@@ -16,7 +16,6 @@ import cat.uab.ds.core.utils.PrintVisitor;
  */
 public class TimeTracker implements Observer {
 
-    private Clock clock;
     private Project root = new Project("root");
 
     /**
@@ -24,7 +23,7 @@ public class TimeTracker implements Observer {
      */
     public TimeTracker() {
         root.setRoot(true);
-        clock = Clock.getInstance();
+        Clock clock = Clock.getInstance();
         clock.addObserver(this);
     }
 
@@ -43,17 +42,17 @@ public class TimeTracker implements Observer {
      */
     private void printMenu() {
         PrintVisitor print = new PrintVisitor();
-        this.root.aceptar(print);
+        this.root.accept(print);
         System.out.println(print.getResult());
     }
 
     public void save(String fileName){
         try {
             FileOutputStream out = new FileOutputStream(fileName);
-            ObjectOutputStream outob = new ObjectOutputStream(out);
-            outob.writeObject(this.root);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
+            objectOutputStream.writeObject(this.root);
             out.close();
-            outob.close();
+            objectOutputStream.close();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
@@ -63,10 +62,10 @@ public class TimeTracker implements Observer {
     public void load(String fileName){
         try {
             FileInputStream in = new FileInputStream(fileName);
-            ObjectInputStream inob = new ObjectInputStream(in);
-            this.root = (Project) inob.readObject();
+            ObjectInputStream objectInputStream = new ObjectInputStream(in);
+            this.root = (Project) objectInputStream.readObject();
         } catch (java.io.IOException | ClassNotFoundException e){
-            System.out.println("Error al leer el fichero");
+            System.out.println("Error reading the data file");
             this.root = new Project("root");
             this.root.setRoot(true);
         }

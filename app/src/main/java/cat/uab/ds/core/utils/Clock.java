@@ -9,26 +9,32 @@ import cat.uab.ds.core.entity.Configuration;
 
 /**
  * Clock singleton for task time synchronization.
- * Is an Observable class that do thick every x miliseconds (Value set in configuration class)
+ * Is an Observable class that do thick every x milliseconds (Value set in configuration class)
  */
 public class Clock extends Observable {
 
     //Singleton instance
-    private static Clock instance;
+    private static Clock instance = null;
 
-    private Timer timer;
+    private final Timer timer;
 
     /**
      * Clock constructor.
-     * Init timer and schelude task to notify Observers (Time set on connfiguration)
+     * Init timer and schedule task to notify Observers (Time set on configuration)
      */
     private Clock() {
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(doTick, 0, Configuration.MIN_TIME*Configuration.SEC_TO_MILIS);
+        this.timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                instance.setChanged();
+                instance.notifyObservers(new Date());
+            }
+        }, 0, Configuration.MIN_TIME*Configuration.SECONDS_TO_MILLISECONDS);
     }
 
     /**
-     * Return instance of Clock, if this is not instatiated,
+     * Return instance of Clock, if this is not instantiated,
      * create new instance.
      * @return Clock instance
      */
@@ -39,15 +45,8 @@ public class Clock extends Observable {
         return instance;
     }
 
-    /**
-     * TimerTask Runnable executed every tick of Observable
-     */
-    private TimerTask doTick = new TimerTask() {
-        @Override
-        public void run() {
-            instance.setChanged();
-            instance.notifyObservers(new Date());
-        }
-    };
+    public void stopTimer(){
+        this.timer.cancel();
+    }
 
 }

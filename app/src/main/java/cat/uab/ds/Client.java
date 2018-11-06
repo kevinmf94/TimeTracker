@@ -1,31 +1,20 @@
 package cat.uab.ds;
 
-import java.io.IOException;
-
 import cat.uab.ds.core.TimeTracker;
 import cat.uab.ds.core.entity.Configuration;
-import cat.uab.ds.core.entity.Project;
-import cat.uab.ds.core.entity.Task;
-import cat.uab.ds.core.entity.TaskBasic;
-import cat.uab.ds.core.entity.TaskDecorator;
-import cat.uab.ds.core.entity.TaskLimited;
-import cat.uab.ds.core.entity.TaskScheduled;
-import java.util.Date;
 
 /**
  * Test Client class
  */
-public class Client {
+class Client {
 
-    public static TimeTracker timeTracker;
-
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) {
 
         Configuration.MIN_TIME = 2;
 
-        timeTracker = new TimeTracker();
+        TimeTracker timeTracker = new TimeTracker();
 
-        Project pr1 = new Project("P1");
+        /*Project pr1 = new Project("P1");
         timeTracker.addProject(pr1);
 
         Task task3 = new TaskBasic("T3");
@@ -37,9 +26,9 @@ public class Client {
         Task task1 = new TaskBasic("T1");
         Task task2 = new TaskBasic("T2");
         pr2.addActivity(task1);
-        pr2.addActivity(task2);
+        pr2.addActivity(task2);*/
 
-        //Test Secuencial
+        //Test Sequential
         /*task3.start();
         wait(3000);
         task3.stop();
@@ -51,7 +40,7 @@ public class Client {
         wait(2000);
         task3.stop();*/
 
-        //Test simultani
+        //Test simultaneous
         /*task3.start();
         wait(4000);
         task2.start();
@@ -69,13 +58,13 @@ public class Client {
         task3.stop();*/
 
         //Save/Load Test
-        //timeTracker.load("data.dat");
+        timeTracker.load("data.dat");
         //timeTracker.save("data.dat");
 
         //Test Decorator
-        Date now = new Date();
-        task1 = new TaskScheduled(task1, new Date(now.getTime()+4000));
-        task1 = new TaskLimited(task1, 8);
+        //Date now = new Date();
+        //task1 = new TaskScheduled(task1, new Date(now.getTime()+4000));
+        //task1 = new TaskLimited(task1, 8);
 
 
         //Task task4 = new TaskBasic("T4");
@@ -93,9 +82,9 @@ public class Client {
 
     }
 
-    private static void wait(int milis){
+    private static void wait(int milliseconds){
         try {
-            Thread.sleep(milis);
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

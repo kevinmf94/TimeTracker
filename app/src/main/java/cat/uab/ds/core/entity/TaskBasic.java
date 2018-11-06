@@ -1,11 +1,9 @@
 package cat.uab.ds.core.entity;
 
-import java.io.Serializable;
-
 /**
  * Task implements basic functionality
  */
-public class TaskBasic extends Task implements Serializable {
+public class TaskBasic extends Task {
     /**
      * Task constructor.
      * @param name The name of the task

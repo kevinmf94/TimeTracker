@@ -2,6 +2,7 @@ package cat.uab.ds.core.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import cat.uab.ds.core.utils.ActivitiyVisitor;
@@ -11,7 +12,7 @@ import cat.uab.ds.core.utils.ActivitiyVisitor;
  */
 public class Project extends Activity implements Serializable {
 
-    private ArrayList<Activity> activities = new ArrayList<>();
+    private final Collection<Activity> activities = new ArrayList<>();
 
     /**
      * Project constructor.
@@ -36,12 +37,12 @@ public class Project extends Activity implements Serializable {
      * @param v ActivitiyVisitor instance
      */
     @Override
-    public void aceptar(ActivitiyVisitor v) {
+    public void accept(ActivitiyVisitor v) {
         if(!isRoot())
             v.visitActivity(this);
 
         for(Activity activity : this.activities){
-            activity.aceptar(v);
+            activity.accept(v);
         }
     }
 
@@ -52,7 +53,7 @@ public class Project extends Activity implements Serializable {
     @Override
     public Date getStart() {
         Date start = null;
-        Date aux = null;
+        Date aux;
         for (Activity activity: this.activities) {
             aux = activity.getStart();
             if(aux == null)
@@ -76,7 +77,7 @@ public class Project extends Activity implements Serializable {
     @Override
     public Date getEnd() {
         Date end = null;
-        Date aux = null;
+        Date aux;
         for (Activity activity: this.activities) {
             aux = activity.getEnd();
             if(aux == null)
@@ -94,7 +95,7 @@ public class Project extends Activity implements Serializable {
 
     /**
      * Gets the duration of the project adding the children activities duration (Projects or Tasks)
-     * @return Duration in miliseconds
+     * @return Duration in milliseconds
      */
     @Override
     public int getDuration() {
@@ -109,7 +110,7 @@ public class Project extends Activity implements Serializable {
 
     /**
      * Adds activity to the project (Another project or task)
-     * @param activity
+     * @param activity Activity to add
      */
     public void addActivity(Activity activity){
         activity.setLevel(this.getLevel()+1);
@@ -120,7 +121,7 @@ public class Project extends Activity implements Serializable {
      * Gets the children activities list of the project.
      * @return Activities list
      */
-    public ArrayList<Activity> getActivities() {
+    public Collection<Activity> getActivities() {
         return activities;
     }
 }

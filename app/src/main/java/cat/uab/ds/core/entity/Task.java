@@ -12,7 +12,8 @@ public abstract class Task extends Activity {
 
     private ArrayList<Interval> intervals = new ArrayList<>();
 
-    protected Task(){};
+    protected Task(){}
+
     /**
      * Task constructor.
      * @param name The name of the task
@@ -37,6 +38,7 @@ public abstract class Task extends Activity {
     public Task(Task task){
         this.setName(task.getName());
         this.setDescription(task.getDescription());
+        this.setIntervals(task.getIntervals());
     }
 
     /**
@@ -56,14 +58,14 @@ public abstract class Task extends Activity {
      * @param v ActivitiyVisitor instance
      */
     @Override
-    public void aceptar(ActivitiyVisitor v) {
+    public void accept(ActivitiyVisitor v) {
         v.visitActivity(this);
     }
 
     /**
      * Start task. Creates new interval, start it add it to task.
      */
-    public void start() {
+    void start() {
         if(!isRunning()) {
             Interval interval = new Interval();
             interval.start();
@@ -121,11 +123,11 @@ public abstract class Task extends Activity {
             total += interval.getDuration();
         }
 
-        return Math.round(total/Configuration.SEC_TO_MILIS);
+        return Math.round(total/Configuration.SECONDS_TO_MILLISECONDS);
     }
 
     /**
-     * Checks if the taks is running. (The last interval is running)
+     * Checks if the tasks is running. (The last interval is running)
      * @return Boolean true if is running
      */
     public boolean isRunning(){

@@ -1,6 +1,5 @@
 package cat.uab.ds.core.entity;
 
-import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,9 +9,9 @@ import cat.uab.ds.core.utils.Clock;
  * TaskLimited
  * Implementation add functionality to limit task to certain time.
  */
-public class TaskLimited extends TaskDecorator implements Serializable, Observer {
+public class TaskLimited extends TaskDecorator implements Observer {
 
-    private int timeLimit;
+    private final int timeLimit;
 
     /**
      * Additional feature to Task, limit time of duration

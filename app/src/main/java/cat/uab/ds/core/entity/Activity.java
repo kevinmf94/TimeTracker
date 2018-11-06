@@ -2,7 +2,6 @@ package cat.uab.ds.core.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.logging.Level;
 
 import cat.uab.ds.core.utils.ActivitiyVisitor;
 
@@ -17,14 +16,14 @@ public abstract class Activity implements Serializable {
 
     private boolean isRoot = false;//For dummy root project container
 
-    protected Activity(){};
+    Activity(){}
 
-    public Activity(String name) {
+    Activity(String name) {
         this(name, "");
     }
 
     /**
-     * Activity Contructor
+     * Activity Constructor
      * @param name Name of Activity (Task or Project)
      * @param description Description of Activity
      */
@@ -37,7 +36,7 @@ public abstract class Activity implements Serializable {
      * Used for Visitor Pattern to generate view
      * @param v ActivitiyVisitor instance
      */
-    abstract public void aceptar(ActivitiyVisitor v);
+    abstract public void accept(ActivitiyVisitor v);
 
     abstract public Date getStart();
 
