@@ -1,14 +1,14 @@
 package cat.uab.ds.core.entity;
 
 /**
- * Task implements basic functionality
+ * Task implements basic functionality.
  */
 public class TaskBasic extends Task {
     /**
      * Task constructor.
      * @param name The name of the task
      */
-    public TaskBasic(String name) {
+    public TaskBasic(final String name) {
         super(name);
     }
     /**
@@ -16,7 +16,7 @@ public class TaskBasic extends Task {
      * @param name The name of the task
      * @param description The description of the task
      */
-    public TaskBasic(String name, String description) {
+    public TaskBasic(final String name, final String description) {
         super(name, description);
     }
 

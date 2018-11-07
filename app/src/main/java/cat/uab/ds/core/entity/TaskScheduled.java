@@ -17,12 +17,12 @@ public class TaskScheduled extends TaskDecorator implements Observer {
      * TaskScheduled Constructor.
      * Register this instance to Clock Observable.
      * @param task Task or TaskDecorator to wrap.
-     * @param dateToStart Date to start task.
+     * @param newDateToStart Date to start task.
      */
-    public TaskScheduled(Task task, Date dateToStart) {
+    public TaskScheduled(final Task task, final Date newDateToStart) {
         super(task);
         Clock.getInstance().addObserver(this);
-        this.dateToStart = dateToStart;
+        this.dateToStart = newDateToStart;
     }
 
     /**
@@ -32,10 +32,10 @@ public class TaskScheduled extends TaskDecorator implements Observer {
      * @param arg Date
      */
     @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof Date){
+    public void update(final Observable o, final Object arg) {
+        if (arg instanceof Date) {
             Date now = (Date) arg;
-            if(now.after(dateToStart)) {
+            if (now.after(dateToStart)) {
                 super.start();
                 Clock.getInstance().deleteObserver(this);
             }
