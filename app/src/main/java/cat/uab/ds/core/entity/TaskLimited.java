@@ -14,25 +14,25 @@ public class TaskLimited extends TaskDecorator implements Observer {
     private final int timeLimit;
 
     /**
-     * Additional feature to Task, limit time of duration
+     * Additional feature to Task, limit time of duration.
      * @param task Task or TaskDecorator to wrap.
-     * @param timeLimit Time in seconds
+     * @param newTimeLimit Time in seconds
      */
-    public TaskLimited(Task task, int timeLimit) {
+    public TaskLimited(final Task task, final int newTimeLimit) {
         super(task);
-        this.timeLimit = timeLimit;
+        this.timeLimit = newTimeLimit;
         Clock.getInstance().addObserver(this);
     }
 
     /**
-     * Receive notify of Clock observable and check if getDuration is greater then
-     * timeLimit stops this task.
+     * Receive notify of Clock observable and check if getDuration
+     * is greater then timeLimit stops this task.
      * @param o Observable Clock
      * @param arg Date
      */
     @Override
-    public void update(Observable o, Object arg) {
-        if(isRunning()) {
+    public void update(final Observable o, final Object arg) {
+        if (isRunning()) {
             if (getDuration() >= timeLimit) {
                 super.stop();
             }

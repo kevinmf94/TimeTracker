@@ -6,7 +6,7 @@ import java.util.Date;
 import cat.uab.ds.core.utils.ActivityVisitor;
 
 /**
- * Activity, represents conjunt of projects and tasks
+ * Activity, represents conjunt of projects and tasks.
  */
 public abstract class Activity implements Serializable {
 
@@ -14,41 +14,33 @@ public abstract class Activity implements Serializable {
     private String name;
     private String description;
 
-    private boolean isRoot = false;//For dummy root project container
+    private boolean isRoot = false; //For dummy root project container
 
-    Activity(){}
+    Activity() { }
 
-    Activity(String name) {
-        this(name, "");
+    /**
+     * Activity Constructor.
+     * @param newName Name of activity
+     */
+    Activity(final String newName) {
+        this(newName, "");
     }
 
     /**
-     * Activity Constructor
-     * @param name Name of Activity (Task or Project)
-     * @param description Description of Activity
+     * Activity Constructor.
+     * @param newName Name of Activity (Task or Project)
+     * @param newDescription Description of Activity
      */
-    public Activity(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public Activity(final String newName, final String newDescription) {
+        this.name = newName;
+        this.description = newDescription;
     }
-
-    /**
-     * Used for Visitor Pattern to generate view
-     * @param v ActivityVisitor instance
-     */
-    abstract public void accept(ActivityVisitor v);
-
-    abstract public Date getStart();
-
-    abstract public Date getEnd();
-
-    abstract public int getDuration();
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String newName) {
         this.name = name;
     }
 
@@ -56,7 +48,7 @@ public abstract class Activity implements Serializable {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String newDescription) {
         this.description = description;
     }
 
@@ -64,15 +56,27 @@ public abstract class Activity implements Serializable {
         return isRoot;
     }
 
-    public void setRoot(boolean isRoot){
-        this.isRoot = isRoot;
+    public void setRoot(final boolean newIsRoot) {
+        this.isRoot = newIsRoot;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setLevel(final int newLevel) {
+        this.level = newLevel;
     }
+
+    /**
+     * Used for Visitor Pattern to generate view.
+     * @param v ActivityVisitor instance
+     */
+    public abstract void accept(ActivityVisitor v);
+
+    public abstract Date getStart();
+
+    public abstract Date getEnd();
+
+    public abstract int getDuration();
 }
