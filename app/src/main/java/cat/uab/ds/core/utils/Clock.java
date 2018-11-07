@@ -9,9 +9,10 @@ import cat.uab.ds.core.entity.Configuration;
 
 /**
  * Clock singleton for task time synchronization.
- * Is an Observable class that do thick every x milliseconds (Value set in configuration class)
+ * Is an Observable class that do thick every x milliseconds (Value set in
+ * configuration class)
  */
-public class Clock extends Observable {
+public final class Clock extends Observable {
 
     //Singleton instance
     private static Clock instance = null;
@@ -20,7 +21,8 @@ public class Clock extends Observable {
 
     /**
      * Clock constructor.
-     * Init timer and schedule task to notify Observers (Time set on configuration)
+     * Init timer and schedule task to notify Observers (Time set on
+     * configuration)
      */
     private Clock() {
         this.timer = new Timer();
@@ -30,7 +32,7 @@ public class Clock extends Observable {
                 instance.setChanged();
                 instance.notifyObservers(new Date());
             }
-        }, 0, Configuration.MIN_TIME*Configuration.SECONDS_TO_MILLISECONDS);
+        }, 0, Configuration.MIN_TIME * Configuration.SECONDS_TO_MILLISECONDS);
     }
 
     /**
@@ -39,13 +41,13 @@ public class Clock extends Observable {
      * @return Clock instance
      */
     public static Clock getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new Clock();
-
+        }
         return instance;
     }
 
-    public void stopTimer(){
+    public void stopTimer() {
         this.timer.cancel();
     }
 
