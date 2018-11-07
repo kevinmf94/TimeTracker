@@ -3,7 +3,7 @@ package cat.uab.ds.core.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import cat.uab.ds.core.utils.ActivitiyVisitor;
+import cat.uab.ds.core.utils.ActivityVisitor;
 
 /**
  * Activity, represents conjunt of projects and tasks
@@ -34,9 +34,9 @@ public abstract class Activity implements Serializable {
 
     /**
      * Used for Visitor Pattern to generate view
-     * @param v ActivitiyVisitor instance
+     * @param v ActivityVisitor instance
      */
-    abstract public void accept(ActivitiyVisitor v);
+    abstract public void accept(ActivityVisitor v);
 
     abstract public Date getStart();
 

@@ -3,7 +3,7 @@ package cat.uab.ds.core.entity;
 import java.util.ArrayList;
 import java.util.Date;
 
-import cat.uab.ds.core.utils.ActivitiyVisitor;
+import cat.uab.ds.core.utils.ActivityVisitor;
 
 /**
  * Task abstract
@@ -55,10 +55,10 @@ public abstract class Task extends Activity {
 
     /**
      * Accept the visitor
-     * @param v ActivitiyVisitor instance
+     * @param v ActivityVisitor instance
      */
     @Override
-    public void accept(ActivitiyVisitor v) {
+    public void accept(ActivityVisitor v) {
         v.visitActivity(this);
     }
 

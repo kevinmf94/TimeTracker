@@ -9,7 +9,7 @@ import cat.uab.ds.core.entity.Activity;
 /**
  * Visitor in charge of read an Activity (Task or Project) and print it in console
  */
-public class PrintVisitor implements ActivitiyVisitor {
+public class PrintVisitor implements ActivityVisitor {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss", new Locale("en"));
     private String result;

@@ -1,11 +1,12 @@
 package cat.uab.ds.core.entity;
 
+import cat.uab.ds.core.utils.ActivityVisitor;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import cat.uab.ds.core.utils.ActivitiyVisitor;
 
 /**
  * Represents project with sub-projects and tasks.
@@ -18,7 +19,7 @@ public class Project extends Activity implements Serializable {
      * Project constructor.
      * @param name The name of the project
      */
-    public Project(String name) {
+    public Project(final String name) {
         super(name);
     }
 
@@ -27,22 +28,24 @@ public class Project extends Activity implements Serializable {
      * @param name The name of the project
      * @param description The description of the project
      */
-    public Project(String name, String description) {
+    public Project(final String name, final String description) {
         super(name, description);
     }
 
     /**
      * Used for Visitor Pattern to generate view.
-     * Visits children activities and if not is the root project, visit yourself.
-     * @param v ActivitiyVisitor instance
+     * Visits children activities and if not is
+     * the root project, visit yourself.
+     * @param visitor ActivityVisitor instance
      */
     @Override
-    public void accept(ActivitiyVisitor v) {
-        if(!isRoot())
-            v.visitActivity(this);
+    public void accept(final ActivityVisitor visitor) {
+        if (!isRoot()) {
+            visitor.visitActivity(this);
+        }
 
-        for(Activity activity : this.activities){
-            activity.accept(v);
+        for (Activity activity : this.activities) {
+            activity.accept(visitor);
         }
     }
 
@@ -56,14 +59,14 @@ public class Project extends Activity implements Serializable {
         Date aux;
         for (Activity activity: this.activities) {
             aux = activity.getStart();
-            if(aux == null)
+            if (aux == null) {
                 continue;
+            }
 
-            if(start == null)
+            if (start == null) {
                 start = aux;
-            else {
-                if (start.after(aux))
-                    start = aux;
+            } else if (start.after(aux)) {
+                start = aux;
             }
         }
 
@@ -80,21 +83,23 @@ public class Project extends Activity implements Serializable {
         Date aux;
         for (Activity activity: this.activities) {
             aux = activity.getEnd();
-            if(aux == null)
+            if (aux == null) {
                 continue;
+            }
 
-            if(end == null)
+            if (end == null) {
                 end = aux;
-            else
-                if (end.before(aux))
-                    end = aux;
+            } else if (end.before(aux)) {
+                end = aux;
+            }
         }
 
         return end;
     }
 
     /**
-     * Gets the duration of the project adding the children activities duration (Projects or Tasks)
+     * Gets the duration of the project adding the
+     * children activities duration (Projects or Tasks).
      * @return Duration in milliseconds
      */
     @Override
@@ -109,11 +114,11 @@ public class Project extends Activity implements Serializable {
     }
 
     /**
-     * Adds activity to the project (Another project or task)
+     * Adds activity to the project (Another project or task).
      * @param activity Activity to add
      */
-    public void addActivity(Activity activity){
-        activity.setLevel(this.getLevel()+1);
+    public void addActivity(final Activity activity) {
+        activity.setLevel(this.getLevel() + 1);
         this.activities.add(activity);
     }
 
