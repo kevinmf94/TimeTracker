@@ -3,7 +3,7 @@ package cat.uab.ds.core.entity;
 import java.util.Date;
 
 /**
- * TaskDecorator implements decorator pattern for Task
+ * TaskDecorator implements decorator pattern for Task.
  */
 public abstract class TaskDecorator extends Task {
 
@@ -12,24 +12,25 @@ public abstract class TaskDecorator extends Task {
 
     /**
      * Task Decorator, additional feature to Task.
-     * @param task Task to wrap.
+     * @param newTask Task to wrap.
      */
-    TaskDecorator(Task task) {
-        if(!(task instanceof  TaskDecorator))
+    TaskDecorator(final Task newTask) {
+        if (!(newTask instanceof  TaskDecorator)) {
             this.firstDecorator = true;
+        }
 
-        this.task = task;
+        this.task = newTask;
     }
 
     public Task getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public void setTask(final Task newTask) {
+        this.task = newTask;
     }
 
-    public Task removeLastComponent(){
+    public Task removeLastComponent() {
         return task;
     }
 
@@ -77,8 +78,8 @@ public abstract class TaskDecorator extends Task {
         return firstDecorator;
     }
 
-    public void setFirstDecorator(boolean firstDecorator) {
-        this.firstDecorator = firstDecorator;
+    public void setFirstDecorator(final boolean newFirstDecorator) {
+        this.firstDecorator = newFirstDecorator;
     }
 }
 
