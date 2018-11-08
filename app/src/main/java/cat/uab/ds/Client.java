@@ -12,7 +12,7 @@ final class Client {
 
     public static void main(final String[] args) {
 
-        Configuration.minimumTime = 2;
+        Configuration.setMinimumTime(2);
 
         TimeTracker timeTracker = new TimeTracker();
 

@@ -85,7 +85,7 @@ public abstract class Task extends Activity {
             interval.stop();
 
             //If the interval duration is less than MIN_Time remove it.
-            if (interval.getDuration() < Configuration.minimumTime) {
+            if (interval.getDuration() < Configuration.getMinimumTime()) {
                 this.intervals.remove(interval);
             }
         }
@@ -141,5 +141,9 @@ public abstract class Task extends Activity {
         }
 
         return this.intervals.get(size - 1).isRunning();
+    }
+
+    private boolean invariant() {
+        return false;
     }
 }
