@@ -49,7 +49,7 @@ public abstract class Task extends Activity {
         return intervals;
     }
 
-    public void setIntervals(final ArrayList<Interval> newIntervals) {
+    public final void setIntervals(final ArrayList<Interval> newIntervals) {
         this.intervals = newIntervals;
     }
 
@@ -76,7 +76,7 @@ public abstract class Task extends Activity {
     /**
      * Stop the task. Stops the last interval inside,
      * and checks if is your duration is lower than
-     * them MIN_TIME to save it or not. If is lower, discards the interval
+     * them minimumTime to save it or not. If is lower, discards the interval
      * (remove it from intervals list).
      */
     public void stop() {
@@ -85,7 +85,7 @@ public abstract class Task extends Activity {
             interval.stop();
 
             //If the interval duration is less than MIN_Time remove it.
-            if (interval.getDuration() < Configuration.MIN_TIME) {
+            if (interval.getDuration() < Configuration.minimumTime) {
                 this.intervals.remove(interval);
             }
         }

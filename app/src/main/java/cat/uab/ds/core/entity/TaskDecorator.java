@@ -22,63 +22,63 @@ public abstract class TaskDecorator extends Task {
         this.task = newTask;
     }
 
-    public Task getTask() {
+    public final Task getTask() {
         return task;
     }
 
-    public void setTask(final Task newTask) {
+    public final void setTask(final Task newTask) {
         this.task = newTask;
     }
 
-    public Task removeLastComponent() {
+    public final Task removeLastComponent() {
         return task;
     }
 
     @Override
-    void start() {
+    public final void start() {
         task.start();
     }
 
     @Override
-    public void stop() {
+    public final void stop() {
         task.stop();
     }
 
     @Override
-    public Date getStart() {
+    public final Date getStart() {
         return task.getStart();
     }
 
     @Override
-    public Date getEnd() {
+    public final Date getEnd() {
         return task.getEnd();
     }
 
     @Override
-    public int getDuration() {
+    public final int getDuration() {
         return task.getDuration();
     }
 
     @Override
-    public String getName() {
+    public final String getName() {
         return task.getName();
     }
 
     @Override
-    public String getDescription() {
+    public final String getDescription() {
         return task.getDescription();
     }
 
     @Override
-    public boolean isRunning() {
+    public final boolean isRunning() {
         return task.isRunning();
     }
 
-    public boolean isFirstDecorator() {
+    public final boolean isFirstDecorator() {
         return firstDecorator;
     }
 
-    public void setFirstDecorator(final boolean newFirstDecorator) {
+    public final void setFirstDecorator(final boolean newFirstDecorator) {
         this.firstDecorator = newFirstDecorator;
     }
 }

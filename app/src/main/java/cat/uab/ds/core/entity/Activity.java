@@ -36,35 +36,35 @@ public abstract class Activity implements Serializable {
         this.description = newDescription;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(final String newName) {
-        this.name = name;
+    public final void setName(final String newName) {
+        this.name = newName;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
-    public void setDescription(final String newDescription) {
-        this.description = description;
+    public final void setDescription(final String newDescription) {
+        this.description = newDescription;
     }
 
-    public boolean isRoot() {
+    public final boolean isRoot() {
         return isRoot;
     }
 
-    public void setRoot(final boolean newIsRoot) {
+    public final void setRoot(final boolean newIsRoot) {
         this.isRoot = newIsRoot;
     }
 
-    public int getLevel() {
+    public final int getLevel() {
         return level;
     }
 
-    public void setLevel(final int newLevel) {
+    public final void setLevel(final int newLevel) {
         this.level = newLevel;
     }
 

@@ -4,13 +4,15 @@ import cat.uab.ds.core.TimeTracker;
 import cat.uab.ds.core.entity.Configuration;
 
 /**
- * Test Client class
+ * Test Client class.
  */
-class Client {
+final class Client {
 
-    public static void main(String args[]) {
+    private Client() { }
 
-        Configuration.MIN_TIME = 2;
+    public static void main(final String[] args) {
+
+        Configuration.minimumTime = 2;
 
         TimeTracker timeTracker = new TimeTracker();
 
@@ -82,7 +84,7 @@ class Client {
 
     }
 
-    private static void wait(int milliseconds){
+    private static void wait(final int milliseconds) {
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {

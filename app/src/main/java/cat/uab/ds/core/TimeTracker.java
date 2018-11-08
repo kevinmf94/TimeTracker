@@ -27,12 +27,12 @@ public class TimeTracker implements Observer {
         clock.addObserver(this);
     }
 
-    public void addProject(final Project project) {
+    public final void addProject(final Project project) {
         this.root.addActivity(project);
     }
 
     @Override
-    public void update(final Observable observable, final Object o) {
+    public final void update(final Observable observable, final Object o) {
         printMenu();
     }
 
@@ -46,6 +46,10 @@ public class TimeTracker implements Observer {
         System.out.println(print.getResult());
     }
 
+    /**
+     * Save projects structure in a file.
+     * @param fileName Name of file
+     */
     public void save(final String fileName) {
         try {
             FileOutputStream out = new FileOutputStream(fileName);
@@ -59,6 +63,10 @@ public class TimeTracker implements Observer {
 
     }
 
+    /**
+     * Load project structure from a file.
+     * @param fileName File to read
+     */
     public void load(final String fileName) {
         try {
             FileInputStream in = new FileInputStream(fileName);

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="EntryPointsManager">
     <pattern value="cat.uab.ds.MainApplication" />
+    <pattern value="cat.uab.ds.Client" method="wait" />
   </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
