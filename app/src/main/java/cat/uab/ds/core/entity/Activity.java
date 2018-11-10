@@ -6,7 +6,7 @@ import java.util.Date;
 import cat.uab.ds.core.utils.ActivityVisitor;
 
 /**
- * Activity, represents conjunt of projects and tasks.
+ * Activity, represents a set of projects and tasks.
  */
 public abstract class Activity implements Serializable {
 

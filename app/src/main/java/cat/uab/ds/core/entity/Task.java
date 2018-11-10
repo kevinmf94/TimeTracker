@@ -36,6 +36,7 @@ public abstract class Task extends Activity {
      * @param task Task instance
      */
     public Task(final Task task) {
+        assert task != null;
         this.setName(task.getName());
         this.setDescription(task.getDescription());
         this.setIntervals(task.getIntervals());
@@ -59,6 +60,7 @@ public abstract class Task extends Activity {
      */
     @Override
     public void accept(final ActivityVisitor v) {
+        assert v != null;
         v.visitActivity(this);
     }
 
@@ -71,6 +73,7 @@ public abstract class Task extends Activity {
             interval.start();
             intervals.add(interval);
         }
+        assert isRunning();
     }
 
     /**
@@ -80,6 +83,8 @@ public abstract class Task extends Activity {
      * (remove it from intervals list).
      */
     public void stop() {
+        assert intervals != null && intervals.size() > 0;
+
         if (isRunning()) {
             Interval interval = intervals.get(intervals.size() - 1);
             interval.stop();
@@ -89,6 +94,8 @@ public abstract class Task extends Activity {
                 this.intervals.remove(interval);
             }
         }
+
+        assert !isRunning();
     }
 
     /**
@@ -97,9 +104,7 @@ public abstract class Task extends Activity {
      */
     @Override
     public Date getStart() {
-        if (intervals.size() == 0) {
-            return null;
-        }
+        assert intervals != null && intervals.size() > 0;
 
         return intervals.get(0).getStart();
     }
@@ -110,9 +115,7 @@ public abstract class Task extends Activity {
      */
     @Override
     public Date getEnd() {
-        if (intervals.size() == 0) {
-            return null;
-        }
+        assert intervals != null && intervals.size() > 0;
 
         return intervals.get(intervals.size() - 1).getEnd();
     }
@@ -122,11 +125,14 @@ public abstract class Task extends Activity {
      * @return int Duration sum of intervals
      */
     public int getDuration() {
+        assert intervals != null;
+
         float total = 0;
         for (Interval interval: intervals) {
             total += interval.getDuration();
         }
 
+        assert total > 0;
         return Math.round(total / Configuration.SECONDS_TO_MILLISECONDS);
     }
 
@@ -135,15 +141,19 @@ public abstract class Task extends Activity {
      * @return Boolean true if is running
      */
     public boolean isRunning() {
-        int size = this.intervals.size();
-        if (size == 0) {
-            return false;
-        }
+        assert intervals != null;
 
-        return this.intervals.get(size - 1).isRunning();
+        int size = this.intervals.size();
+        return size != 0 && this.intervals.get(size - 1).isRunning();
     }
 
     private boolean invariant() {
-        return false;
+        if (!(getStart().before(getEnd()))) {
+            return false;
+        }
+        if (!(getDuration() >= 0)) {
+            return false;
+        }
+        return true;
     }
 }
