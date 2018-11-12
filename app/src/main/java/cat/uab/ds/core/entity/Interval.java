@@ -52,11 +52,11 @@ public class Interval implements Observer, Serializable {
         }
     }
 
-    public Date getStart() {
+    public final Date getStart() {
         return start;
     }
 
-    public Date getEnd() {
+    public final Date getEnd() {
         return end;
     }
 
@@ -77,15 +77,15 @@ public class Interval implements Observer, Serializable {
         Clock.getInstance().deleteObserver(this);
     }
 
-    public boolean isRunning() {
+    public final boolean isRunning() {
         return isRunning;
     }
 
-    public void setRunning(final boolean running) {
+    public final void setRunning(final boolean running) {
         isRunning = running;
     }
 
-    public void accept(final ActivityVisitor activityVisitor) {
+    public final void accept(final ActivityVisitor activityVisitor) {
         activityVisitor.visit(this);
     }
 

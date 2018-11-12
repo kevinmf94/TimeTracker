@@ -8,15 +8,16 @@ public abstract class ReportAsciiVisitor extends ReportVisitor {
 
     /**
      * Initialize basic menu info with table header.
-     * @param newStartDate
-     * @param newEndDate
+     * @param newStartDate Start period
+     * @param newEndDate End period
      */
     public ReportAsciiVisitor(final Date newStartDate, final Date newEndDate) {
         super(newStartDate, newEndDate);
     }
 
     protected final void writeLine() {
-        activeStringBuilder.append("\n---------------------------------------------------"
+        activeStringBuilder.append("\n------------------------------"
+                + "---------------------"
                 + "-------------------------");
     }
 
@@ -24,11 +25,12 @@ public abstract class ReportAsciiVisitor extends ReportVisitor {
         activeStringBuilder.append("\n" + string);
     }
 
-    public StringBuilder getActiveStringBuilder() {
+    public final StringBuilder getActiveStringBuilder() {
         return activeStringBuilder;
     }
 
-    public void setActiveStringBuilder(final StringBuilder newActiveStringBuilder) {
+    public final void setActiveStringBuilder(
+            final StringBuilder newActiveStringBuilder) {
         this.activeStringBuilder = newActiveStringBuilder;
     }
 

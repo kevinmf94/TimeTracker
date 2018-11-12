@@ -106,8 +106,9 @@ public abstract class Task extends Activity {
     public Date getStart() {
         assert intervals != null;
 
-        if(intervals.size() == 0)
+        if (intervals.size() == 0) {
             return null;
+        }
 
         return intervals.get(0).getStart();
     }
@@ -120,8 +121,9 @@ public abstract class Task extends Activity {
     public Date getEnd() {
         assert intervals != null;
 
-        if(intervals.size() == 0)
+        if (intervals.size() == 0) {
             return null;
+        }
 
         return intervals.get(intervals.size() - 1).getEnd();
     }

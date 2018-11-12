@@ -36,7 +36,7 @@ public abstract class Activity implements Serializable {
         this.description = newDescription;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -44,7 +44,7 @@ public abstract class Activity implements Serializable {
         this.name = newName;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 

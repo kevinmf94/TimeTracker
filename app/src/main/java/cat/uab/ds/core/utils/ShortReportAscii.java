@@ -23,8 +23,8 @@ public class ShortReportAscii extends ReportAsciiVisitor {
 
     /**
      * Initialize basic menu info with table header.
-     * @param newStartDate
-     * @param newEndDate
+     * @param newStartDate Start period
+     * @param newEndDate End period
      */
     public ShortReportAscii(final Date newStartDate, final Date newEndDate) {
         super(newStartDate, newEndDate);
@@ -42,9 +42,10 @@ public class ShortReportAscii extends ReportAsciiVisitor {
         writeLine();
         writeTxt("Period");
         writeTxt("Date");
-        writeTxt("From " + getDateFormated(startDate));
-        writeTxt("To " + getDateFormated(endDate));
-        writeTxt("Date from generation of report "+ getDateFormated(new Date()));
+        writeTxt("From " + getDateFormated(getStartDate()));
+        writeTxt("To " + getDateFormated(getEndDate()));
+        writeTxt("Date from generation of report "
+                + getDateFormated(new Date()));
 
         setActiveStringBuilder(rootProjects);
         writeLine();
@@ -112,11 +113,13 @@ public class ShortReportAscii extends ReportAsciiVisitor {
         Date startInside = null;
         Date endInside = null;
 
-        if (taskStartDate.compareTo(startDate) >= 0 && taskEndDate.compareTo(endDate) <= 0) {
-            startInside = taskStartDate;
-            endInside = taskEndDate;
+        if (taskStartDate.compareTo(startDate) >= 0
+                && taskEndDate.compareTo(endDate) <= 0) {
             duration = (int) interval.getDuration();
-        } else if (taskStartDate.compareTo(startDate) < 0 && taskEndDate.compareTo(startDate) > 0 && taskEndDate.compareTo(endDate) < 0) {
+
+        } else if (taskStartDate.compareTo(startDate) < 0
+                && taskEndDate.compareTo(startDate) > 0
+                && taskEndDate.compareTo(endDate) < 0) {
             startInside = startDate;
             endInside = taskEndDate;
             duration = Interval.getDuration(startInside, endInside);

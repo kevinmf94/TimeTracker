@@ -11,17 +11,17 @@ public abstract class ReportVisitor implements ActivityVisitor {
 
     private static final int MINUTE = 60;
 
-    protected static final SimpleDateFormat FORMAT =
+    private static final SimpleDateFormat FORMAT =
             new SimpleDateFormat("dd/MM/YYYY, HH:mm:ss",
                     new Locale("en"));
 
-    protected Date startDate = null;
-    protected Date endDate = null;
+    private Date startDate = null;
+    private Date endDate = null;
 
     /**
      * Initialize basic menu info with table header.
-     * @param newStartDate
-     * @param newEndDate
+     * @param newStartDate Start period
+     * @param newEndDate End period
      */
     public ReportVisitor(final Date newStartDate, final Date newEndDate) {
         this.startDate = newStartDate;
@@ -45,27 +45,28 @@ public abstract class ReportVisitor implements ActivityVisitor {
 
     public abstract String getResult();
 
-    public Date getStartDate() {
+    public final Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(final Date newStartDate) {
+    public final void setStartDate(final Date newStartDate) {
         this.startDate = newStartDate;
     }
 
-    public Date getEndDate() {
+    public final Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(final Date newEndDate) {
+    public final void setEndDate(final Date newEndDate) {
         this.endDate = newEndDate;
     }
 
-    public String getDateFormated(final Date date) {
+    public final String getDateFormated(final Date date) {
         return FORMAT.format(date);
     }
 
-    public int getDurationNormalized(final Date intervalStart, final Date intervalEnd) {
+    public final int getDurationNormalized(
+            final Date intervalStart, final Date intervalEnd) {
         Date start, end;
 
         if (intervalStart.compareTo(startDate) < 0) {
@@ -83,7 +84,8 @@ public abstract class ReportVisitor implements ActivityVisitor {
         return Interval.getDuration(start, end);
     }
 
-    public ReportInterval getDurationByIntervals(final Collection<Interval> intervals) {
+    public final ReportInterval getDurationByIntervals(
+            final Collection<Interval> intervals) {
 
         Date start = null, end = null;
         Date tmpStart, tmpEnd;
@@ -111,15 +113,19 @@ public abstract class ReportVisitor implements ActivityVisitor {
         return new ReportInterval(start, end, duration);
     }
 
+
+
     class ReportInterval {
 
         private Date start;
         private Date end;
         private int duration;
 
-        ReportInterval(final Date startDate, final Date endDate, final int durationInterval) {
-            this.start = startDate;
-            this.end = endDate;
+        ReportInterval(final Date reportStartDate,
+                       final Date reportEndDate,
+                       final int durationInterval) {
+            this.start = reportStartDate;
+            this.end = reportEndDate;
             this.duration = durationInterval;
         }
 

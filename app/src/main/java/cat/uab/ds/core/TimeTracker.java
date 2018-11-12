@@ -83,14 +83,18 @@ public class TimeTracker implements Observer {
         }
     }
 
-    public void generateDetailedReportAscii(final Date startDate, final Date endDate) {
-        ReportAsciiVisitor detailedReportAscii = new DetailedReportAscii(startDate, endDate);
+    public final void generateDetailedReportAscii(
+            final Date startDate, final Date endDate) {
+        ReportAsciiVisitor detailedReportAscii =
+                new DetailedReportAscii(startDate, endDate);
         this.root.accept(detailedReportAscii);
         System.out.println(detailedReportAscii.getResult());
     }
 
-    public void generateShortReportAscii(final Date startDate, final Date endDate) {
-        ReportAsciiVisitor shortReportAscii = new ShortReportAscii(startDate, endDate);
+    public final void generateShortReportAscii(
+            final Date startDate, final Date endDate) {
+        ReportAsciiVisitor shortReportAscii =
+                new ShortReportAscii(startDate, endDate);
         this.root.accept(shortReportAscii);
         System.out.println(shortReportAscii.getResult());
     }

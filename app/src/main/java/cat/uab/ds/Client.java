@@ -88,7 +88,7 @@ final class Client {
         return timeTracker;
     }
 
-    private static void provesFita1(){
+    private static void provesFita1() {
         Configuration.setMinimumTime(2);
 
         TimeTracker timeTracker = new TimeTracker();
