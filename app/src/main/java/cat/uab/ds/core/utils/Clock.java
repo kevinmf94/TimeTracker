@@ -32,8 +32,8 @@ public final class Clock extends Observable {
                 instance.setChanged();
                 instance.notifyObservers(new Date());
             }
-        }, 0, Configuration.getMinimumTime()
-                * Configuration.SECONDS_TO_MILLISECONDS);
+        }, 0, (long) (Configuration.getMinimumTime()
+                        * Configuration.SECONDS_TO_MILLISECONDS));
     }
 
     /**

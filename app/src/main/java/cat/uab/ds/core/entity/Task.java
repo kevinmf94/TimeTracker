@@ -61,13 +61,13 @@ public abstract class Task extends Activity {
     @Override
     public void accept(final ActivityVisitor v) {
         assert v != null;
-        v.visitActivity(this);
+        v.visit(this);
     }
 
     /**
      * Start task. Creates new interval, start it add it to task.
      */
-    void start() {
+    public void start() {
         if (!isRunning()) {
             Interval interval = new Interval();
             interval.start();
@@ -104,7 +104,10 @@ public abstract class Task extends Activity {
      */
     @Override
     public Date getStart() {
-        assert intervals != null && intervals.size() > 0;
+        assert intervals != null;
+
+        if(intervals.size() == 0)
+            return null;
 
         return intervals.get(0).getStart();
     }
@@ -115,7 +118,10 @@ public abstract class Task extends Activity {
      */
     @Override
     public Date getEnd() {
-        assert intervals != null && intervals.size() > 0;
+        assert intervals != null;
+
+        if(intervals.size() == 0)
+            return null;
 
         return intervals.get(intervals.size() - 1).getEnd();
     }
@@ -132,8 +138,8 @@ public abstract class Task extends Activity {
             total += interval.getDuration();
         }
 
-        assert total > 0;
-        return Math.round(total / Configuration.SECONDS_TO_MILLISECONDS);
+        assert total >= 0;
+        return (int) total;
     }
 
     /**

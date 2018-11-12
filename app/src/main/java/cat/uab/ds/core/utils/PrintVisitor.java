@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import cat.uab.ds.core.entity.Activity;
+import cat.uab.ds.core.entity.Interval;
+import cat.uab.ds.core.entity.Project;
+import cat.uab.ds.core.entity.Task;
 
 /**
  * Visitor in charge of read an Activity (Task or Project) and print it in
@@ -27,6 +30,7 @@ public class PrintVisitor implements ActivityVisitor {
      * Initialize basic menu info with table header.
      */
     public PrintVisitor() {
+        this.result = "";
         this.result += "\nName\t\t\tStart Time\t\t\t\tEnd time\t\t\t\t"
                 + "Duration (hh:mm:ss)";
         this.result += "\n----------+----------------------+-----------------"
@@ -45,8 +49,7 @@ public class PrintVisitor implements ActivityVisitor {
      * Generate String with activity info (Name, Start, End and Duration).
      * @param activity Project or Task to print
      */
-    @Override
-    public void visitActivity(final Activity activity) {
+    public void generateActivity(final Activity activity) {
         Date start = activity.getStart();
         Date end = activity.getEnd();
         int duration = activity.getDuration();
@@ -109,5 +112,26 @@ public class PrintVisitor implements ActivityVisitor {
             }
         }
         return str.toString();
+    }
+
+    @Override
+    public final void visit(final Project project) {
+        if (!project.isRoot()) {
+            generateActivity(project);
+        }
+
+        for (Activity activity : project.getActivities()) {
+            activity.accept(this);
+        }
+    }
+
+    @Override
+    public final void visit(final Task task) {
+        generateActivity(task);
+    }
+
+    @Override
+    public void visit(final Interval interval) {
+
     }
 }

@@ -4,12 +4,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.utils.Clock;
+import cat.uab.ds.core.utils.DetailedReportAscii;
 import cat.uab.ds.core.utils.PrintVisitor;
+import cat.uab.ds.core.utils.ReportAsciiVisitor;
+import cat.uab.ds.core.utils.ShortReportAscii;
 
 /**
  * Main class of TimeTracker API.
@@ -77,5 +81,25 @@ public class TimeTracker implements Observer {
             this.root = new Project("root");
             this.root.setRoot(true);
         }
+    }
+
+    public void generateDetailedReportAscii(final Date startDate, final Date endDate) {
+        ReportAsciiVisitor detailedReportAscii = new DetailedReportAscii(startDate, endDate);
+        this.root.accept(detailedReportAscii);
+        System.out.println(detailedReportAscii.getResult());
+    }
+
+    public void generateShortReportAscii(final Date startDate, final Date endDate) {
+        ReportAsciiVisitor shortReportAscii = new ShortReportAscii(startDate, endDate);
+        this.root.accept(shortReportAscii);
+        System.out.println(shortReportAscii.getResult());
+    }
+
+    public void generateDetailedReportHTML() {
+
+    }
+
+    public void generateShortReportHTML() {
+
     }
 }

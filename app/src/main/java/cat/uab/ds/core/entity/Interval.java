@@ -5,12 +5,15 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
+import cat.uab.ds.core.utils.ActivityVisitor;
 import cat.uab.ds.core.utils.Clock;
+
+import static java.lang.Math.round;
 
 /**
  * Represents interval of time.
  */
-class Interval implements Observer, Serializable {
+public class Interval implements Observer, Serializable {
 
     private Date start = null;
     private Date end = null;
@@ -30,7 +33,8 @@ class Interval implements Observer, Serializable {
      */
     public long getDuration() {
         if (end != null) {
-            return end.getTime() - start.getTime();
+            return round((end.getTime() - start.getTime())
+                    / Configuration.SECONDS_TO_MILLISECONDS);
         } else {
             return  0;
         }
@@ -79,5 +83,20 @@ class Interval implements Observer, Serializable {
 
     public void setRunning(final boolean running) {
         isRunning = running;
+    }
+
+    public void accept(final ActivityVisitor activityVisitor) {
+        activityVisitor.visit(this);
+    }
+
+    /**
+     * Calculate duration between two dates.
+     * @param start Start date
+     * @param end End date
+     * @return Time in seconds
+     */
+    public static int getDuration(final Date start, final Date end) {
+        return Math.round((end.getTime() - start.getTime())
+                / Configuration.SECONDS_TO_MILLISECONDS);
     }
 }

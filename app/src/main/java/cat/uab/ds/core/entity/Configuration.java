@@ -5,7 +5,7 @@ package cat.uab.ds.core.entity;
  */
 public final class Configuration {
 
-    public static final int SECONDS_TO_MILLISECONDS = 1000;
+    public static final float SECONDS_TO_MILLISECONDS = 1000;
 
     private static int minimumTime = 1; //Minimum time in Seconds
 

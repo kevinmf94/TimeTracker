@@ -1,7 +1,13 @@
 package cat.uab.ds;
 
+import java.util.Date;
+
 import cat.uab.ds.core.TimeTracker;
 import cat.uab.ds.core.entity.Configuration;
+import cat.uab.ds.core.entity.Project;
+import cat.uab.ds.core.entity.Task;
+import cat.uab.ds.core.entity.TaskBasic;
+import cat.uab.ds.core.utils.Clock;
 
 /**
  * Test Client class.
@@ -12,6 +18,77 @@ final class Client {
 
     public static void main(final String[] args) {
 
+        //provesFita1();
+        TimeTracker tt = provesFita2();
+        //TimeTracker tt = new TimeTracker();
+        //tt.load("data.dat");
+
+    }
+
+    private static TimeTracker provesFita2() {
+
+        Configuration.setMinimumTime(2);
+        TimeTracker timeTracker = new TimeTracker();
+        Date start;
+        Date end;
+
+
+        Project p1 = new Project("P1");
+        Project p12 = new Project("P1.2");
+        Project p2 = new Project("P2");
+
+        Task t1 = new TaskBasic("T1");
+        Task t2 = new TaskBasic("T2");
+        Task t3 = new TaskBasic("T3");
+        Task t4 = new TaskBasic("T4");
+
+        //Add projects P1, P2 and subprojects
+        timeTracker.addProject(p1);
+        timeTracker.addProject(p2);
+
+        p1.addActivity(t1);
+        p1.addActivity(t2);
+        p1.addActivity(p12);
+        p12.addActivity(t4);
+
+        p2.addActivity(t3);
+
+        //Time
+        start = new Date();
+        t1.start();
+        t4.start();
+        wait(4000);
+
+        t1.stop();
+        t2.start();
+        wait(6000);
+        t2.stop();
+        t4.stop();
+        t3.start();
+        wait(4000);
+        t3.stop();
+        t2.start();
+
+        wait(2000);
+        t3.start();
+        wait(4000);
+        t3.stop();
+        t2.stop();
+
+        end = new Date();
+
+        timeTracker.save("data.dat");
+
+        wait(1000);
+        Clock.getInstance().deleteObserver(timeTracker);
+
+        //timeTracker.generateDetailedReportAscii(start, end);
+        //timeTracker.generateShortReportAscii(start, end);
+
+        return timeTracker;
+    }
+
+    private static void provesFita1(){
         Configuration.setMinimumTime(2);
 
         TimeTracker timeTracker = new TimeTracker();
@@ -78,10 +155,6 @@ final class Client {
         //((TaskDecorator) task4).removeComponent(TaskScheduled.class);
         //pr2.addActivity(task4);
         //task4.start();*/
-
-
-
-
     }
 
     private static void wait(final int milliseconds) {

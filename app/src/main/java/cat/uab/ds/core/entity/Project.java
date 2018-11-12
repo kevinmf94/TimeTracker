@@ -40,13 +40,7 @@ public class Project extends Activity implements Serializable {
      */
     @Override
     public void accept(final ActivityVisitor visitor) {
-        if (!isRoot()) {
-            visitor.visitActivity(this);
-        }
-
-        for (Activity activity : this.activities) {
-            activity.accept(visitor);
-        }
+        visitor.visit(this);
     }
 
     /**
