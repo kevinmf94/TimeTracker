@@ -1,5 +1,8 @@
 package cat.uab.ds;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 
 import cat.uab.ds.core.TimeTracker;
@@ -26,6 +29,9 @@ final class Client {
     }
 
     private static TimeTracker provesFita2() {
+
+        Logger log = LoggerFactory.getLogger("cat.uab.ds.Client");
+        log.info("JAJA");
 
         Configuration.setMinimumTime(2);
         TimeTracker timeTracker = new TimeTracker();
@@ -82,8 +88,8 @@ final class Client {
         wait(1000);
         Clock.getInstance().deleteObserver(timeTracker);
 
-        //timeTracker.generateDetailedReportAscii(start, end);
-        timeTracker.generateShortReportAscii(start, end);
+        timeTracker.generateDetailedReportAscii(start, end);
+        //timeTracker.generateShortReportAscii(start, end);
         //timeTracker.generateDetailedReportHTML(start, end);
 
         return timeTracker;
