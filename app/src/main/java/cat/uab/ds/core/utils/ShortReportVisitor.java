@@ -11,8 +11,6 @@ import cat.uab.ds.core.entity.Task;
 
 public abstract class ShortReportVisitor extends ReportVisitor {
 
-    public static final String SEPARATOR = "|";
-
     private Collection<Interval> intervals;
     private Collection<Interval> intervalsProject;
 
@@ -48,10 +46,16 @@ public abstract class ShortReportVisitor extends ReportVisitor {
                 ReportInterval report = getDurationByIntervals(
                         intervalsProject);
 
-                projectsResults.add(project.getName() + " "
-                        + getDateString(report.getStart())
-                        + " " + getDateString(report.getEnd()) + " "
-                        + durationToStr(report.getDuration()));
+                StringBuilder sb = new StringBuilder(WHITE_LINE);
+                insertInLine(sb, POS_PROJECT_NAME, project.getName());
+                insertInLine(sb, POS_PROJECT_START,
+                        getDateString(report.getStart()));
+                insertInLine(sb, POS_PROJECT_END,
+                        getDateString(report.getEnd()));
+                insertInLine(sb, POS_PROJECT_DURATION,
+                        durationToStr(report.getDuration()));
+
+                projectsResults.add(sb.toString());
             }
 
         } else if (project.getLevel() == 2) {
@@ -84,22 +88,21 @@ public abstract class ShortReportVisitor extends ReportVisitor {
         Date endDate = getEndDate();
         int duration = 0;
 
-        Date startInside;
-        Date endInside;
-
-        if (taskStartDate.compareTo(startDate) >= 0
-                && taskEndDate.compareTo(endDate) <= 0) {
+        if (taskStartDate.after(startDate)
+                && taskEndDate.before(endDate)) { //Inside task
             duration = (int) interval.getDuration();
-
-        } else if (taskStartDate.compareTo(startDate) < 0
-                && taskEndDate.compareTo(startDate) > 0
-                && taskEndDate.compareTo(endDate) < 0) {
-            startInside = startDate;
-            endInside = taskEndDate;
-            duration = Interval.getDuration(startInside, endInside);
+        } else if (taskStartDate.before(startDate)
+                && taskEndDate.after(startDate)
+                && taskEndDate.before(endDate)) { //Left cut task
+            duration = Interval.getDuration(startDate, taskEndDate);
+        } else if (taskStartDate.after(startDate)
+                && taskStartDate.before(endDate)
+                && taskEndDate.after(endDate)) { //Right cut task
+            duration = Interval.getDuration(taskStartDate, endDate);
+        } else if (taskStartDate.before(startDate)
+                && taskEndDate.after(endDate)) { //All fill task
+            duration = Interval.getDuration(startDate, endDate);
         }
-
-        //TODO Faltan casos
 
         if (duration > 0) {
             intervals.add(interval);

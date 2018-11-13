@@ -11,7 +11,18 @@ import cat.uab.ds.core.entity.Task;
 
 public abstract class DetailedReportVisitor extends ReportVisitor {
 
-    public static final String SEPARATOR = "|";
+    static final int POS_TASK_PROJECT = 0;
+    static final int POS_TASK_NAME = 8;
+    static final int POS_TASK_START = 15;
+    static final int POS_TASK_END = 38;
+    static final int POS_TASK_DURATION = 60;
+
+    static final int POS_INTERVAL_PROJECT = 0;
+    static final int POS_INTERVAL_TASK = 8;
+    static final int POS_INTERVAL_NAME = 15;
+    static final int POS_INTERVAL_START = 25;
+    static final int POS_INTERVAL_END = 48;
+    static final int POS_INTERVAL_DURATION = 70;
 
     private Project actualProject;
     private Task actualTask;
@@ -61,11 +72,17 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
                 ReportInterval report = getDurationByIntervals(
                         intervalsProject);
 
-                projectsResults.add(project.getName() + SEPARATOR
-                        + getDateString(report.getStart())
-                        + SEPARATOR + getDateString(report.getEnd())
-                        + SEPARATOR
-                        + durationToStr(report.getDuration()));
+                StringBuilder sb = new StringBuilder(WHITE_LINE);
+                insertInLine(sb, POS_PROJECT_NAME,
+                        project.getName());
+                insertInLine(sb, POS_PROJECT_START,
+                        getDateString(report.getStart()));
+                insertInLine(sb, POS_PROJECT_END,
+                        getDateString(report.getEnd()));
+                insertInLine(sb, POS_PROJECT_DURATION,
+                        durationToStr(report.getDuration()));
+
+                projectsResults.add(sb.toString());
             }
 
         } else if (project.getLevel() == 2) {
@@ -81,11 +98,15 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
                 ReportInterval report = getDurationByIntervals(
                         intervalsSubProject);
 
-                subProjectsResults.add(project.getName() + SEPARATOR
-                        + getDateString(report.getStart())
-                        + SEPARATOR + getDateString(report.getEnd())
-                        + SEPARATOR
-                        + durationToStr(report.getDuration()));
+                StringBuilder sb = new StringBuilder(WHITE_LINE);
+                insertInLine(sb, POS_PROJECT_NAME, project.getName());
+                insertInLine(sb, POS_PROJECT_START,
+                        getDateString(report.getStart()));
+                insertInLine(sb, POS_PROJECT_END,
+                        getDateString(report.getEnd()));
+                insertInLine(sb, POS_PROJECT_DURATION,
+                        durationToStr(report.getDuration()));
+                subProjectsResults.add(sb.toString());
             }
         }
     }
@@ -108,13 +129,16 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             }
 
             ReportInterval report = getDurationByIntervals(intervals);
-            tasksResults.add(actualProject.getName()
-                    + SEPARATOR + task.getName()
-                    + SEPARATOR + getDateString(report.getStart())
-                    + SEPARATOR
-                    + getDateString(report.getEnd())
-                    + SEPARATOR + durationToStr(report.getDuration())
-            );
+
+            StringBuilder sb = new StringBuilder(WHITE_LINE);
+            insertInLine(sb, POS_TASK_PROJECT, actualProject.getName());
+            insertInLine(sb, POS_TASK_NAME, task.getName());
+            insertInLine(sb, POS_TASK_START, getDateString(report.getStart()));
+            insertInLine(sb, POS_TASK_END, getDateString(report.getEnd()));
+            insertInLine(sb, POS_TASK_DURATION,
+                    durationToStr(report.getDuration()));
+
+            tasksResults.add(sb.toString());
         }
     }
 
@@ -129,29 +153,42 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
         Date startInside = null;
         Date endInside = null;
 
-        if (taskStartDate.compareTo(startDate) >= 0
-                && taskEndDate.compareTo(endDate) <= 0) {
+        if (taskStartDate.after(startDate)
+                && taskEndDate.before(endDate)) { //Inside task
             startInside = taskStartDate;
             endInside = taskEndDate;
             duration = (int) interval.getDuration();
-        } else if (taskStartDate.compareTo(startDate) < 0
-                && taskEndDate.compareTo(startDate) > 0
-                && taskEndDate.compareTo(endDate) < 0) {
+        } else if (taskStartDate.before(startDate)
+                && taskEndDate.after(startDate)
+                && taskEndDate.before(endDate)) { //Left cut task
             startInside = startDate;
             endInside = taskEndDate;
             duration = Interval.getDuration(startInside, endInside);
+        } else if (taskStartDate.after(startDate)
+                && taskStartDate.before(endDate)
+                && taskEndDate.after(endDate)) { //Right cut task
+            startInside = taskStartDate;
+            endInside = endDate;
+            duration = Interval.getDuration(startInside, endInside);
+        } else if (taskStartDate.before(startDate)
+                && taskEndDate.after(endDate)) { //All fill task
+            startInside = startDate;
+            endInside = endDate;
+            duration = Interval.getDuration(startInside, endInside);
         }
-
-        //TODO Faltan casos
 
         if (duration > 0) {
             intervals.add(interval);
-            intervalsResults.add(actualProject.getName()
-                    + SEPARATOR + actualTask.getName()
-                    + SEPARATOR + intervalId
-                    + SEPARATOR + getDateString(startInside)
-                    + SEPARATOR + getDateString(endInside)
-                    + SEPARATOR + durationToStr(duration));
+
+            StringBuilder sb = new StringBuilder(WHITE_LINE);
+            insertInLine(sb, POS_INTERVAL_PROJECT, actualProject.getName());
+            insertInLine(sb, POS_INTERVAL_TASK, actualTask.getName());
+            insertInLine(sb, POS_INTERVAL_NAME, Integer.toString(intervalId));
+            insertInLine(sb, POS_INTERVAL_START, getDateString(startInside));
+            insertInLine(sb, POS_INTERVAL_END, getDateString(endInside));
+            insertInLine(sb, POS_INTERVAL_DURATION, durationToStr(duration));
+
+            intervalsResults.add(sb.toString());
         }
     }
 

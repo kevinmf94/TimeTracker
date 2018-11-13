@@ -9,7 +9,16 @@ import cat.uab.ds.core.entity.Interval;
 
 public abstract class ReportVisitor implements ActivityVisitor {
 
-    private static final int MINUTE = 60;
+    static final int MINUTE = 60;
+
+    public static final String SEPARATOR = "|";
+    static final String WHITE_LINE = "                                     "
+            + "                                           ";
+
+    static final int POS_PROJECT_NAME = 0;
+    static final int POS_PROJECT_START = 12;
+    static final int POS_PROJECT_END = 35;
+    static final int POS_PROJECT_DURATION = 60;
 
     private static final SimpleDateFormat FORMAT =
             new SimpleDateFormat("dd/MM/YYYY, HH:mm:ss",
@@ -113,6 +122,16 @@ public abstract class ReportVisitor implements ActivityVisitor {
         return new ReportInterval(start, end, duration);
     }
 
+    /**
+     * Inserts string in StringBuilder line.
+     * @param sb StringBuilder instance
+     * @param pos Position to insert
+     * @param word String to insert
+     */
+    protected void insertInLine(final StringBuilder sb, final int pos,
+                              final String word) {
+        sb.replace(pos, pos + word.length(), word);
+    }
 
     class ReportInterval {
 

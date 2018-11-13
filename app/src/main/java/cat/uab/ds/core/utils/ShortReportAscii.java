@@ -30,7 +30,7 @@ public class ShortReportAscii extends ShortReportVisitor {
         result.append("\nPeriod");
         result.append("\nDate");
         result.append("\nFrom ").append(getDateString(getStartDate()));
-        result.append("\nTo ").append(getDateString(getEndDate()));
+        result.append("\nTo   ").append(getDateString(getEndDate()));
         result.append("\nDate from generation of report ")
                 .append(getDateString(new Date()));
 
@@ -40,13 +40,20 @@ public class ShortReportAscii extends ShortReportVisitor {
     protected final void projectReport() {
         writeLine();
         result.append("\nRoot projects");
-        result.append("\nNo. Project Start Date End Date Total time");
+
+        StringBuilder sb = new StringBuilder(WHITE_LINE);
+        insertInLine(sb, 0, "Project");
+        insertInLine(sb, POS_PROJECT_START, "Start Date");
+        insertInLine(sb, POS_PROJECT_END, "End Date");
+        insertInLine(sb, POS_PROJECT_DURATION, "Total time");
+
+        result.append("\n" + sb.toString());
+
         printResults(getProjectsResults());
     }
 
     private void printResults(final Collection<String> results) {
         for (String item: results) {
-            item = item.replace("|", " ");
             result.append("\n").append(item);
         }
     }

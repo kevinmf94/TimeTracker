@@ -30,7 +30,7 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         result.append("\nPeriod");
         result.append("\nDate");
         result.append("\nFrom ").append(getDateString(getStartDate()));
-        result.append("\nTo ").append(getDateString(getEndDate()));
+        result.append("\nTo   ").append(getDateString(getEndDate()));
         result.append("\nDate from generation of report ")
                 .append(getDateString(new Date()));
 
@@ -40,7 +40,7 @@ public class DetailedReportAscii extends DetailedReportVisitor {
     protected final void projectReport() {
         writeLine();
         result.append("\nRoot projects");
-        result.append("\nNo. Project Start Date End Date Total time");
+        projectsHeader();
         printResults(getProjectsResults());
     }
 
@@ -48,7 +48,7 @@ public class DetailedReportAscii extends DetailedReportVisitor {
     protected final void subProjectsReport() {
         writeLine();
         result.append("\nSub projects");
-        result.append("\nNo. Project Start Date End Date Total time");
+        projectsHeader();
         printResults(getSubProjectsResults());
     }
 
@@ -56,7 +56,7 @@ public class DetailedReportAscii extends DetailedReportVisitor {
     protected final void taskReport() {
         writeLine();
         result.append("\nTasks");
-        result.append("\nNo.Project Task Start Date End Date Total time");
+        tasksHeader();
         printResults(getTasksResults());
     }
 
@@ -64,14 +64,12 @@ public class DetailedReportAscii extends DetailedReportVisitor {
     protected final void intervalsReport() {
         writeLine();
         result.append("\nIntervals");
-        result.append("\nNo.Project Task Interval "
-                + "Start Date End Date Total time");
+        intervalsHeader();
         printResults(getIntervalsResults());
     }
 
     private void printResults(final Collection<String> results) {
         for (String item: results) {
-            item = item.replace("|", " ");
             result.append("\n").append(item);
         }
     }
@@ -80,6 +78,36 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         result.append("\n------------------------------"
                 + "---------------------"
                 + "-------------------------");
+    }
+
+    private void projectsHeader() {
+        StringBuilder sb = new StringBuilder(WHITE_LINE);
+        insertInLine(sb, POS_PROJECT_NAME, "Project");
+        insertInLine(sb, POS_PROJECT_START, "Start Date");
+        insertInLine(sb, POS_PROJECT_END, "End Date");
+        insertInLine(sb, POS_PROJECT_DURATION, "Total time");
+        result.append("\n" + sb.toString());
+    }
+
+    private void tasksHeader() {
+        StringBuilder sb = new StringBuilder(WHITE_LINE);
+        insertInLine(sb, POS_TASK_PROJECT, "Project");
+        insertInLine(sb, POS_TASK_NAME, "Task");
+        insertInLine(sb, POS_TASK_START, "Start Date");
+        insertInLine(sb, POS_TASK_END, "End Date");
+        insertInLine(sb, POS_TASK_DURATION, "Total time");
+        result.append("\n" + sb.toString());
+    }
+
+    private void intervalsHeader() {
+        StringBuilder sb = new StringBuilder(WHITE_LINE);
+        insertInLine(sb, POS_INTERVAL_PROJECT, "Project");
+        insertInLine(sb, POS_INTERVAL_TASK, "Task");
+        insertInLine(sb, POS_INTERVAL_NAME, "Interval");
+        insertInLine(sb, POS_INTERVAL_START, "Start Date");
+        insertInLine(sb, POS_INTERVAL_END, "End Date");
+        insertInLine(sb, POS_INTERVAL_DURATION, "Total time");
+        result.append("\n" + sb.toString());
     }
 
     @Override
