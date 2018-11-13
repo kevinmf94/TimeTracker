@@ -83,7 +83,8 @@ final class Client {
         Clock.getInstance().deleteObserver(timeTracker);
 
         //timeTracker.generateDetailedReportAscii(start, end);
-        //timeTracker.generateShortReportAscii(start, end);
+        timeTracker.generateShortReportAscii(start, end);
+        //timeTracker.generateDetailedReportHTML(start, end);
 
         return timeTracker;
     }

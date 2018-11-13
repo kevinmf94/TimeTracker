@@ -15,8 +15,8 @@ public abstract class ReportVisitor implements ActivityVisitor {
             new SimpleDateFormat("dd/MM/YYYY, HH:mm:ss",
                     new Locale("en"));
 
-    private Date startDate = null;
-    private Date endDate = null;
+    private Date startDate;
+    private Date endDate;
 
     /**
      * Initialize basic menu info with table header.
@@ -61,7 +61,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
         this.endDate = newEndDate;
     }
 
-    public final String getDateFormated(final Date date) {
+    public final String getDateString(final Date date) {
         return FORMAT.format(date);
     }
 
@@ -90,7 +90,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
         Date start = null, end = null;
         Date tmpStart, tmpEnd;
         int duration = 0;
-        for (Interval interval: intervals) {
+        for (Interval interval : intervals) {
             tmpStart = interval.getStart();
             tmpEnd = interval.getEnd();
             duration += getDurationNormalized(tmpStart, tmpEnd);
@@ -112,7 +112,6 @@ public abstract class ReportVisitor implements ActivityVisitor {
 
         return new ReportInterval(start, end, duration);
     }
-
 
 
     class ReportInterval {

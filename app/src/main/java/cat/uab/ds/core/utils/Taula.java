@@ -2,6 +2,7 @@ package cat.uab.ds.core.utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class Taula {
 
 	private int nfiles;

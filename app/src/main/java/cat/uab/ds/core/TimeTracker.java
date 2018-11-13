@@ -11,9 +11,12 @@ import java.util.Observer;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.utils.Clock;
 import cat.uab.ds.core.utils.DetailedReportAscii;
+import cat.uab.ds.core.utils.DetailedReportHTML;
+import cat.uab.ds.core.utils.DetailedReportVisitor;
 import cat.uab.ds.core.utils.PrintVisitor;
-import cat.uab.ds.core.utils.ReportAsciiVisitor;
 import cat.uab.ds.core.utils.ShortReportAscii;
+import cat.uab.ds.core.utils.ShortReportHTML;
+import cat.uab.ds.core.utils.ShortReportVisitor;
 
 /**
  * Main class of TimeTracker API.
@@ -85,7 +88,7 @@ public class TimeTracker implements Observer {
 
     public final void generateDetailedReportAscii(
             final Date startDate, final Date endDate) {
-        ReportAsciiVisitor detailedReportAscii =
+        DetailedReportVisitor detailedReportAscii =
                 new DetailedReportAscii(startDate, endDate);
         this.root.accept(detailedReportAscii);
         System.out.println(detailedReportAscii.getResult());
@@ -93,17 +96,26 @@ public class TimeTracker implements Observer {
 
     public final void generateShortReportAscii(
             final Date startDate, final Date endDate) {
-        ReportAsciiVisitor shortReportAscii =
+        ShortReportVisitor shortReportAscii =
                 new ShortReportAscii(startDate, endDate);
         this.root.accept(shortReportAscii);
         System.out.println(shortReportAscii.getResult());
     }
 
-    public void generateDetailedReportHTML() {
-
+    public void generateDetailedReportHTML(
+            final Date startDate, final Date endDate) {
+        DetailedReportVisitor detailedReportHTML =
+                new DetailedReportHTML(startDate, endDate);
+        this.root.accept(detailedReportHTML);
+        detailedReportHTML.getResult();
     }
 
-    public void generateShortReportHTML() {
+    public void generateShortReportHTML(
+            final Date startDate, final Date endDate) {
+        ShortReportVisitor shortReportHTML =
+                new ShortReportHTML(startDate, endDate);
+        this.root.accept(shortReportHTML);
+        shortReportHTML.getResult();
 
     }
 }

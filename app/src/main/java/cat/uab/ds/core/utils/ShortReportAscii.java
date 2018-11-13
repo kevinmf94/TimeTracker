@@ -1,25 +1,15 @@
 package cat.uab.ds.core.utils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
-import cat.uab.ds.core.entity.Activity;
-import cat.uab.ds.core.entity.Interval;
-import cat.uab.ds.core.entity.Project;
-import cat.uab.ds.core.entity.Task;
 
 /**
  * Visitor in charge of read an Activity (Task or Project) and print it in
  * console.
  */
-public class ShortReportAscii extends ReportAsciiVisitor {
+public class ShortReportAscii extends ShortReportVisitor {
 
-    private StringBuilder header;
-    private StringBuilder rootProjects;
-
-    private Collection<Interval> intervals;
-    private Collection<Interval> intervalsProject;
+    private StringBuilder result;
 
     /**
      * Initialize basic menu info with table header.
@@ -29,111 +19,48 @@ public class ShortReportAscii extends ReportAsciiVisitor {
     public ShortReportAscii(final Date newStartDate, final Date newEndDate) {
         super(newStartDate, newEndDate);
 
-        this.header = new StringBuilder();
-        this.rootProjects = new StringBuilder();
-
-        headersReport();
-    }
-
-    private void headersReport() {
-        setActiveStringBuilder(header);
-        writeLine();
-        writeTxt("Detailed report");
-        writeLine();
-        writeTxt("Period");
-        writeTxt("Date");
-        writeTxt("From " + getDateFormated(getStartDate()));
-        writeTxt("To " + getDateFormated(getEndDate()));
-        writeTxt("Date from generation of report "
-                + getDateFormated(new Date()));
-
-        setActiveStringBuilder(rootProjects);
-        writeLine();
-        writeTxt("Root projects");
-        writeTxt("No. Project Start Date End Date Total time");
+        this.result = new StringBuilder();
     }
 
     @Override
-    public final void visit(final Project project) {
+    protected final void headersReport() {
+        writeLine();
+        result.append("\nShort report");
+        writeLine();
+        result.append("\nPeriod");
+        result.append("\nDate");
+        result.append("\nFrom ").append(getDateString(getStartDate()));
+        result.append("\nTo ").append(getDateString(getEndDate()));
+        result.append("\nDate from generation of report ")
+                .append(getDateString(new Date()));
 
-        if (project.getLevel() == 0) {
-            for (Activity activity: project.getActivities()) {
-                activity.accept(this);
-            }
-        } else if (project.getLevel() == 1) {
-
-            intervalsProject = new ArrayList<>();
-
-            for (Activity activity: project.getActivities()) {
-                activity.accept(this);
-            }
-
-            if (intervalsProject.size() > 0) {
-                setActiveStringBuilder(rootProjects);
-
-                ReportInterval report = getDurationByIntervals(
-                        intervalsProject);
-
-                writeTxt(project.getName() + " "
-                        + getDateFormated(report.getStart())
-                        + " " + getDateFormated(report.getEnd()) + " "
-                        + durationToStr(report.getDuration()));
-            }
-
-        } else if (project.getLevel() == 2) {
-
-            for (Activity activity: project.getActivities()) {
-                if (activity instanceof Task) {
-                    activity.accept(this);
-                }
-            }
-        }
     }
 
     @Override
-    public final void visit(final Task task) {
-        intervals = new ArrayList<>();
-        ArrayList<Interval> intervalsTask = task.getIntervals();
-
-        for (int i = 0; i < intervalsTask.size(); i++) {
-            intervalsTask.get(i).accept(this);
-        }
-
-        intervalsProject.addAll(intervals);
+    protected final void projectReport() {
+        writeLine();
+        result.append("\nRoot projects");
+        result.append("\nNo. Project Start Date End Date Total time");
+        printResults(getProjectsResults());
     }
 
-    @Override
-    public final void visit(final Interval interval) {
-        Date taskStartDate = interval.getStart();
-        Date taskEndDate = interval.getEnd();
-        Date startDate = getStartDate();
-        Date endDate = getEndDate();
-        int duration = 0;
-
-        Date startInside = null;
-        Date endInside = null;
-
-        if (taskStartDate.compareTo(startDate) >= 0
-                && taskEndDate.compareTo(endDate) <= 0) {
-            duration = (int) interval.getDuration();
-
-        } else if (taskStartDate.compareTo(startDate) < 0
-                && taskEndDate.compareTo(startDate) > 0
-                && taskEndDate.compareTo(endDate) < 0) {
-            startInside = startDate;
-            endInside = taskEndDate;
-            duration = Interval.getDuration(startInside, endInside);
+    private void printResults(final Collection<String> results) {
+        for (String item: results) {
+            item = item.replace("|", " ");
+            result.append("\n").append(item);
         }
+    }
 
-        //TODO Faltan casos
-
-        if (duration > 0) {
-            intervals.add(interval);
-        }
+    private void writeLine() {
+        result.append("\n------------------------------"
+                + "---------------------"
+                + "-------------------------");
     }
 
     @Override
     public final String getResult() {
-        return header.toString() + rootProjects.toString();
+        headersReport();
+        projectReport();
+        return result.toString();
     }
 }
