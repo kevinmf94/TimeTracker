@@ -33,6 +33,7 @@ public abstract class Task extends Activity {
      */
     public Task(final String name, final String description) {
         super(name, description);
+        this.invariant();
         logger.info("Create task " + name);
     }
 
@@ -45,6 +46,7 @@ public abstract class Task extends Activity {
         this.setName(task.getName());
         this.setDescription(task.getDescription());
         this.setIntervals(task.getIntervals());
+        this.invariant();
     }
 
     /**
@@ -73,6 +75,7 @@ public abstract class Task extends Activity {
      * Start task. Creates new interval, start it add it to task.
      */
     public void start() {
+        assert this.invariant();
         if (!isRunning()) {
             logger.info("Start Task " + getName());
             Interval interval = new Interval();
@@ -89,6 +92,7 @@ public abstract class Task extends Activity {
      * (remove it from intervals list).
      */
     public void stop() {
+        assert this.invariant();
         assert intervals != null && intervals.size() > 0;
 
         if (isRunning()) {
@@ -163,8 +167,10 @@ public abstract class Task extends Activity {
     }
 
     private boolean invariant() {
-        if (!(getStart().before(getEnd()))) {
-            return false;
+        if(getStart() != null && getEnd() != null) {
+            if (!(getStart().before(getEnd()))) {
+                return false;
+            }
         }
         if (!(getDuration() >= 0)) {
             return false;
