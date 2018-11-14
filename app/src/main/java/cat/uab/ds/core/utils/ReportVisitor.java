@@ -97,12 +97,16 @@ public abstract class ReportVisitor implements ActivityVisitor {
             return null;
         }
 
-        if (start.compareTo(startDate) < 0) { //Left overflow
+        if (start.before(startDate)) { //Left overflow
             start = startDate;
         }
 
-        if (end.compareTo(endDate) > 0) { //Right overflow
+        if (end.after(endDate)) { //Right overflow
             end = endDate;
+        }
+
+        if (start.equals(end)) {
+            return null;
         }
 
         return new ReportInterval(start, end,
