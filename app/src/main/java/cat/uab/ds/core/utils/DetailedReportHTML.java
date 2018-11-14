@@ -68,13 +68,12 @@ public class DetailedReportHTML extends DetailedReportVisitor {
 
         web.afegeixHeader("Root projects", SECTION_HEADER_SIZE, false);
 
-        Taula table = new Taula(FILE_1 + items.size(), COL_5);
+        Taula table = new Taula(FILE_1 + items.size(), COL_4);
         //Header table
-        table.setPosicio(FILE_1, COL_1, "No.");
-        table.setPosicio(FILE_1, COL_2, "Project");
-        table.setPosicio(FILE_1, COL_3, "Start date");
-        table.setPosicio(FILE_1, COL_4, "End date");
-        table.setPosicio(FILE_1, COL_5, "Total time");
+        table.setPosicio(FILE_1, COL_1, "Project");
+        table.setPosicio(FILE_1, COL_2, "Start date");
+        table.setPosicio(FILE_1, COL_3, "End date");
+        table.setPosicio(FILE_1, COL_4, "Total time");
         setTableData(table, items);
 
         web.afegeixTaula(table.getTaula(), true, false);
@@ -87,13 +86,12 @@ public class DetailedReportHTML extends DetailedReportVisitor {
 
         web.afegeixHeader("Sub projects", SECTION_HEADER_SIZE, false);
 
-        Taula table = new Taula(FILE_1 + items.size(), COL_5);
+        Taula table = new Taula(FILE_1 + items.size(), COL_4);
         //Header table
-        table.setPosicio(FILE_1, COL_1, "No.");
-        table.setPosicio(FILE_1, COL_2, "Project");
-        table.setPosicio(FILE_1, COL_3, "Start date");
-        table.setPosicio(FILE_1, COL_4, "End date");
-        table.setPosicio(FILE_1, COL_5, "Total time");
+        table.setPosicio(FILE_1, COL_1, "Project");
+        table.setPosicio(FILE_1, COL_2, "Start date");
+        table.setPosicio(FILE_1, COL_3, "End date");
+        table.setPosicio(FILE_1, COL_4, "Total time");
         setTableData(table, items);
 
         web.afegeixTaula(table.getTaula(), true, false);

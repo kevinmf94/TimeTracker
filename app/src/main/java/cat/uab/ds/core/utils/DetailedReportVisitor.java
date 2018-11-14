@@ -11,19 +11,6 @@ import cat.uab.ds.core.entity.Task;
 
 public abstract class DetailedReportVisitor extends ReportVisitor {
 
-    static final int POS_TASK_PROJECT = 0;
-    static final int POS_TASK_NAME = 8;
-    static final int POS_TASK_START = 15;
-    static final int POS_TASK_END = 38;
-    static final int POS_TASK_DURATION = 60;
-
-    static final int POS_INTERVAL_PROJECT = 0;
-    static final int POS_INTERVAL_TASK = 8;
-    static final int POS_INTERVAL_NAME = 15;
-    static final int POS_INTERVAL_START = 25;
-    static final int POS_INTERVAL_END = 48;
-    static final int POS_INTERVAL_DURATION = 70;
-
     private Project actualProject;
     private Task actualTask;
     private int intervalId;
@@ -72,17 +59,11 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
                 ReportInterval report = getDurationByIntervals(
                         intervalsProject);
 
-                StringBuilder sb = new StringBuilder(WHITE_LINE);
-                insertInLine(sb, POS_PROJECT_NAME,
-                        project.getName());
-                insertInLine(sb, POS_PROJECT_START,
-                        getDateString(report.getStart()));
-                insertInLine(sb, POS_PROJECT_END,
-                        getDateString(report.getEnd()));
-                insertInLine(sb, POS_PROJECT_DURATION,
-                        durationToStr(report.getDuration()));
-
-                projectsResults.add(sb.toString());
+                projectsResults.add(project.getName() + SEPARATOR
+                        + getDateString(report.getStart())
+                        + SEPARATOR + getDateString(report.getEnd())
+                        + SEPARATOR
+                        + durationToStr(report.getDuration()));
             }
 
         } else if (project.getLevel() == 2) {
@@ -98,15 +79,11 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
                 ReportInterval report = getDurationByIntervals(
                         intervalsSubProject);
 
-                StringBuilder sb = new StringBuilder(WHITE_LINE);
-                insertInLine(sb, POS_PROJECT_NAME, project.getName());
-                insertInLine(sb, POS_PROJECT_START,
-                        getDateString(report.getStart()));
-                insertInLine(sb, POS_PROJECT_END,
-                        getDateString(report.getEnd()));
-                insertInLine(sb, POS_PROJECT_DURATION,
-                        durationToStr(report.getDuration()));
-                subProjectsResults.add(sb.toString());
+                subProjectsResults.add(project.getName() + SEPARATOR
+                        + getDateString(report.getStart())
+                        + SEPARATOR + getDateString(report.getEnd())
+                        + SEPARATOR
+                        + durationToStr(report.getDuration()));
             }
         }
     }
@@ -129,16 +106,13 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             }
 
             ReportInterval report = getDurationByIntervals(intervals);
-
-            StringBuilder sb = new StringBuilder(WHITE_LINE);
-            insertInLine(sb, POS_TASK_PROJECT, actualProject.getName());
-            insertInLine(sb, POS_TASK_NAME, task.getName());
-            insertInLine(sb, POS_TASK_START, getDateString(report.getStart()));
-            insertInLine(sb, POS_TASK_END, getDateString(report.getEnd()));
-            insertInLine(sb, POS_TASK_DURATION,
-                    durationToStr(report.getDuration()));
-
-            tasksResults.add(sb.toString());
+            tasksResults.add(actualProject.getName()
+                    + SEPARATOR + task.getName()
+                    + SEPARATOR + getDateString(report.getStart())
+                    + SEPARATOR
+                    + getDateString(report.getEnd())
+                    + SEPARATOR + durationToStr(report.getDuration())
+            );
         }
     }
 
@@ -179,16 +153,12 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
 
         if (duration > 0) {
             intervals.add(interval);
-
-            StringBuilder sb = new StringBuilder(WHITE_LINE);
-            insertInLine(sb, POS_INTERVAL_PROJECT, actualProject.getName());
-            insertInLine(sb, POS_INTERVAL_TASK, actualTask.getName());
-            insertInLine(sb, POS_INTERVAL_NAME, Integer.toString(intervalId));
-            insertInLine(sb, POS_INTERVAL_START, getDateString(startInside));
-            insertInLine(sb, POS_INTERVAL_END, getDateString(endInside));
-            insertInLine(sb, POS_INTERVAL_DURATION, durationToStr(duration));
-
-            intervalsResults.add(sb.toString());
+            intervalsResults.add(actualProject.getName()
+                    + SEPARATOR + actualTask.getName()
+                    + SEPARATOR + intervalId
+                    + SEPARATOR + getDateString(startInside)
+                    + SEPARATOR + getDateString(endInside)
+                    + SEPARATOR + durationToStr(duration));
         }
     }
 

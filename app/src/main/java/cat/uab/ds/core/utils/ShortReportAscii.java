@@ -11,6 +11,11 @@ public class ShortReportAscii extends ShortReportVisitor {
 
     private StringBuilder result;
 
+    private static final int POS_0 = 0;
+    private static final int POS_1 = 1;
+    private static final int POS_2 = 2;
+    private static final int POS_3 = 3;
+
     /**
      * Initialize basic menu info with table header.
      * @param newStartDate Start period
@@ -49,12 +54,16 @@ public class ShortReportAscii extends ShortReportVisitor {
 
         result.append("\n" + sb.toString());
 
-        printResults(getProjectsResults());
-    }
+        String[] lineTmp;
 
-    private void printResults(final Collection<String> results) {
-        for (String item: results) {
-            result.append("\n").append(item);
+        for (String line : getProjectsResults()) {
+            lineTmp = line.split("\\" + SEPARATOR);
+            StringBuilder sbLine = new StringBuilder(WHITE_LINE);
+            insertInLine(sbLine, POS_PROJECT_NAME, lineTmp[POS_0]);
+            insertInLine(sbLine, POS_PROJECT_START, lineTmp[POS_1]);
+            insertInLine(sbLine, POS_PROJECT_END, lineTmp[POS_2]);
+            insertInLine(sbLine, POS_PROJECT_DURATION, lineTmp[POS_3]);
+            result.append("\n").append(sbLine.toString());
         }
     }
 

@@ -1,6 +1,5 @@
 package cat.uab.ds.core.utils;
 
-import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -8,6 +7,26 @@ import java.util.Date;
  * console.
  */
 public class DetailedReportAscii extends DetailedReportVisitor {
+
+    private static final int POS_TASK_PROJECT = 0;
+    private static final int POS_TASK_NAME = 8;
+    private static final int POS_TASK_START = 15;
+    private static final int POS_TASK_END = 38;
+    private static final int POS_TASK_DURATION = 60;
+
+    private static final int POS_INTERVAL_PROJECT = 0;
+    private static final int POS_INTERVAL_TASK = 8;
+    private static final int POS_INTERVAL_NAME = 15;
+    private static final int POS_INTERVAL_START = 25;
+    private static final int POS_INTERVAL_END = 48;
+    private static final int POS_INTERVAL_DURATION = 70;
+
+    private static final int POS_0 = 0;
+    private static final int POS_1 = 1;
+    private static final int POS_2 = 2;
+    private static final int POS_3 = 3;
+    private static final int POS_4 = 4;
+    private static final int POS_5 = 5;
 
     private StringBuilder result;
 
@@ -41,7 +60,17 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         writeLine();
         result.append("\nRoot projects");
         projectsHeader();
-        printResults(getProjectsResults());
+        String[] lineTmp;
+
+        for (String line : getProjectsResults()) {
+            lineTmp = line.split("\\" + SEPARATOR);
+            StringBuilder sb = new StringBuilder(WHITE_LINE);
+            insertInLine(sb, POS_PROJECT_NAME, lineTmp[POS_0]);
+            insertInLine(sb, POS_PROJECT_START, lineTmp[POS_1]);
+            insertInLine(sb, POS_PROJECT_END, lineTmp[POS_2]);
+            insertInLine(sb, POS_PROJECT_DURATION, lineTmp[POS_3]);
+            result.append("\n").append(sb.toString());
+        }
     }
 
     @Override
@@ -49,7 +78,18 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         writeLine();
         result.append("\nSub projects");
         projectsHeader();
-        printResults(getSubProjectsResults());
+
+        String[] lineTmp;
+
+        for (String line : getSubProjectsResults()) {
+            lineTmp = line.split("\\" + SEPARATOR);
+            StringBuilder sb = new StringBuilder(WHITE_LINE);
+            insertInLine(sb, POS_PROJECT_NAME, lineTmp[POS_0]);
+            insertInLine(sb, POS_PROJECT_START, lineTmp[POS_1]);
+            insertInLine(sb, POS_PROJECT_END, lineTmp[POS_2]);
+            insertInLine(sb, POS_PROJECT_DURATION, lineTmp[POS_3]);
+            result.append("\n").append(sb.toString());
+        }
     }
 
     @Override
@@ -57,7 +97,20 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         writeLine();
         result.append("\nTasks");
         tasksHeader();
-        printResults(getTasksResults());
+
+        String[] lineTmp;
+
+        for (String line : getTasksResults()) {
+            lineTmp = line.split("\\" + SEPARATOR);
+
+            StringBuilder sb = new StringBuilder(WHITE_LINE);
+            insertInLine(sb, POS_TASK_PROJECT, lineTmp[POS_0]);
+            insertInLine(sb, POS_TASK_NAME, lineTmp[POS_1]);
+            insertInLine(sb, POS_TASK_START, lineTmp[POS_2]);
+            insertInLine(sb, POS_TASK_END, lineTmp[POS_3]);
+            insertInLine(sb, POS_TASK_DURATION, lineTmp[POS_4]);
+            result.append("\n").append(sb.toString());
+        }
     }
 
     @Override
@@ -65,12 +118,20 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         writeLine();
         result.append("\nIntervals");
         intervalsHeader();
-        printResults(getIntervalsResults());
-    }
 
-    private void printResults(final Collection<String> results) {
-        for (String item: results) {
-            result.append("\n").append(item);
+        String[] lineTmp;
+
+        for (String line : getIntervalsResults()) {
+            lineTmp = line.split("\\" + SEPARATOR);
+
+            StringBuilder sb = new StringBuilder(WHITE_LINE);
+            insertInLine(sb, POS_INTERVAL_PROJECT, lineTmp[POS_0]);
+            insertInLine(sb, POS_INTERVAL_TASK, lineTmp[POS_1]);
+            insertInLine(sb, POS_INTERVAL_NAME, lineTmp[POS_2]);
+            insertInLine(sb, POS_INTERVAL_START, lineTmp[POS_3]);
+            insertInLine(sb, POS_INTERVAL_END, lineTmp[POS_4]);
+            insertInLine(sb, POS_INTERVAL_DURATION, lineTmp[POS_5]);
+            result.append("\n").append(sb.toString());
         }
     }
 
