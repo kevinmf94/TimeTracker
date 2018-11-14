@@ -137,39 +137,6 @@ public abstract class ReportVisitor implements ActivityVisitor {
     }
 
     /**
-     * Merge a set of intervals to ReportInterval cutting the Start and End
-     * dates to the limit of the range, excluding those that are out of the
-     * range.
-     * @param intervals Set of intervals
-     * @return ReportInterval with minStart, maxEnd and durationSum
-     */
-    public final ReportInterval mergeIntervalsToReportInterval(
-            final Collection<Interval> intervals) {
-
-        Date minStart = null, maxEnd = null;
-        int durationSum = 0;
-        for (Interval interval : intervals) {
-
-            ReportInterval tmpInterval = convertToReportInterval(interval);
-
-            if (tmpInterval != null) {
-                durationSum += tmpInterval.getDuration();
-
-                if (minStart == null
-                        || tmpInterval.getStart().compareTo(minStart) < 0) {
-                    minStart = tmpInterval.getStart();
-                }
-                if (maxEnd == null
-                        || tmpInterval.getEnd().compareTo(maxEnd) > 0) {
-                    maxEnd = tmpInterval.getEnd();
-                }
-            }
-        }
-
-        return new ReportInterval(minStart, maxEnd, durationSum);
-    }
-
-    /**
      * Inserts string in StringBuilder line.
      * @param sb StringBuilder instance
      * @param pos Position to insert
