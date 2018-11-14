@@ -41,6 +41,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         this.result = new StringBuilder();
     }
 
+    /**
+     * Add headers' report to result.
+     */
     @Override
     protected final void headersReport() {
         writeLine();
@@ -55,6 +58,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
 
     }
 
+    /**
+     * Add root project's report.
+     */
     @Override
     protected final void projectReport() {
         writeLine();
@@ -73,6 +79,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         }
     }
 
+    /**
+     * Add subprojects report's to result.
+     */
     @Override
     protected final void subProjectsReport() {
         writeLine();
@@ -92,6 +101,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         }
     }
 
+    /**
+     * Add task's report to result.
+     */
     @Override
     protected final void taskReport() {
         writeLine();
@@ -113,6 +125,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         }
     }
 
+    /**
+     * Add intervals' report to result.
+     */
     @Override
     protected final void intervalsReport() {
         writeLine();
@@ -171,6 +186,10 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         result.append("\n" + sb.toString());
     }
 
+    /**
+     * Return the final result.
+     * @return
+     */
     @Override
     public final String getResult() {
         headersReport();
