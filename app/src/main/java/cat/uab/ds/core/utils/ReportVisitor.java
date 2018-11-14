@@ -1,11 +1,15 @@
 package cat.uab.ds.core.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
 import cat.uab.ds.core.entity.Interval;
+import cat.uab.ds.core.entity.Project;
 
 public abstract class ReportVisitor implements ActivityVisitor {
 

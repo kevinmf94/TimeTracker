@@ -1,5 +1,8 @@
 package cat.uab.ds.core.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -12,6 +15,10 @@ import cat.uab.ds.core.entity.Task;
 public abstract class ShortReportVisitor extends ReportVisitor {
 
     public static final String SEPARATOR = "|";
+
+    private final Logger logger =
+            LoggerFactory.getLogger(
+                    ShortReportVisitor.class);
 
     private Collection<Interval> intervals;
     private Collection<Interval> intervalsProject;
@@ -31,6 +38,8 @@ public abstract class ShortReportVisitor extends ReportVisitor {
 
     @Override
     public final void visit(final Project project) {
+
+        logger.info("Visit project " + project.getName());
 
         if (project.getLevel() == 0) {
             for (Activity activity: project.getActivities()) {

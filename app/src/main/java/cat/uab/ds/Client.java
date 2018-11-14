@@ -30,9 +30,6 @@ final class Client {
 
     private static TimeTracker provesFita2() {
 
-        Logger log = LoggerFactory.getLogger("cat.uab.ds.Client");
-        log.info("JAJA");
-
         Configuration.setMinimumTime(2);
         TimeTracker timeTracker = new TimeTracker();
         Date start;

@@ -1,5 +1,8 @@
 package cat.uab.ds.core.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cat.uab.ds.core.utils.ActivityVisitor;
 
 import java.io.Serializable;
@@ -13,6 +16,7 @@ import java.util.Date;
  */
 public class Project extends Activity implements Serializable {
 
+    private final Logger logger = LoggerFactory.getLogger(Project.class);
     private final Collection<Activity> activities = new ArrayList<>();
 
     /**
@@ -30,6 +34,7 @@ public class Project extends Activity implements Serializable {
      */
     public Project(final String name, final String description) {
         super(name, description);
+        logger.info("Create project " + name);
     }
 
     /**

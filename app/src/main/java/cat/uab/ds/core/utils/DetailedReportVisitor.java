@@ -1,5 +1,8 @@
 package cat.uab.ds.core.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -10,6 +13,10 @@ import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 
 public abstract class DetailedReportVisitor extends ReportVisitor {
+
+    private final Logger logger =
+            LoggerFactory.getLogger(
+                    DetailedReportVisitor.class);
 
     private Project actualProject;
     private Task actualTask;
@@ -41,6 +48,8 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
     @Override
     public final void visit(final Project project) {
         actualProject = project;
+
+        logger.info("Visit project " + project.getName());
 
         if (project.getLevel() == 0) {
             for (Activity activity: project.getActivities()) {
@@ -90,6 +99,9 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
 
     @Override
     public final void visit(final Task task) {
+
+        logger.info("Visit task " + task.getName());
+
         intervals = new ArrayList<>();
         actualTask = task;
         ArrayList<Interval> intervalsTask = task.getIntervals();
@@ -127,8 +139,10 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
         Date startInside = null;
         Date endInside = null;
 
-        if (taskStartDate.after(startDate)
-                && taskEndDate.before(endDate)) { //Inside task
+        if ((taskStartDate.after(startDate)
+                || taskStartDate.equals(startDate))
+                && (taskEndDate.before(endDate)
+                || taskEndDate.equals(endDate))) { //Inside task
             startInside = taskStartDate;
             endInside = taskEndDate;
             duration = (int) interval.getDuration();
@@ -183,4 +197,5 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
     public Collection<String> getIntervalsResults() {
         return intervalsResults;
     }
+
 }

@@ -1,5 +1,8 @@
 package cat.uab.ds.core.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,6 +13,7 @@ import cat.uab.ds.core.utils.ActivityVisitor;
  */
 public abstract class Task extends Activity {
 
+    private final Logger logger = LoggerFactory.getLogger(Task.class);
     private ArrayList<Interval> intervals = new ArrayList<>();
 
     protected Task() { }
@@ -29,6 +33,7 @@ public abstract class Task extends Activity {
      */
     public Task(final String name, final String description) {
         super(name, description);
+        logger.info("Create task " + name);
     }
 
     /**
@@ -69,6 +74,7 @@ public abstract class Task extends Activity {
      */
     public void start() {
         if (!isRunning()) {
+            logger.info("Start Task " + getName());
             Interval interval = new Interval();
             interval.start();
             intervals.add(interval);
@@ -86,6 +92,7 @@ public abstract class Task extends Activity {
         assert intervals != null && intervals.size() > 0;
 
         if (isRunning()) {
+            logger.info("Stop Task " + getName());
             Interval interval = intervals.get(intervals.size() - 1);
             interval.stop();
 
