@@ -20,8 +20,8 @@ public abstract class ShortReportVisitor extends ReportVisitor {
             LoggerFactory.getLogger(
                     ShortReportVisitor.class);
 
-    private Collection<Interval> intervals;
-    private Collection<Interval> intervalsProject;
+    private Collection<ReportInterval> intervals;
+    private Collection<ReportInterval> intervalsProject;
 
     private Collection<String> projectsResults;
 
@@ -60,8 +60,7 @@ public abstract class ShortReportVisitor extends ReportVisitor {
             }
 
             if (intervalsProject.size() > 0) {
-                ReportInterval report = mergeIntervalsToReportInterval(
-                        intervalsProject);
+                ReportInterval report = mergeReportInterval(intervalsProject);
 
                 projectsResults.add(project.getName() + SEPARATOR
                         + getDateString(report.getStart())
@@ -103,7 +102,7 @@ public abstract class ShortReportVisitor extends ReportVisitor {
         ReportInterval reportInterval = convertToReportInterval(interval);
 
         if (reportInterval != null) {
-            intervals.add(interval);
+            intervals.add(reportInterval);
         }
     }
 

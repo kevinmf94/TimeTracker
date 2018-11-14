@@ -21,9 +21,9 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
     private Project actualProject;
     private Task actualTask;
     private int intervalId;
-    private Collection<Interval> intervals;
-    private Collection<Interval> intervalsProject;
-    private Collection<Interval> intervalsSubProject;
+    private Collection<ReportInterval> intervals;
+    private Collection<ReportInterval> intervalsProject;
+    private Collection<ReportInterval> intervalsSubProject;
 
     private Collection<String> projectsResults;
     private Collection<String> subProjectsResults;
@@ -71,8 +71,7 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
 
             if (intervalsProject.size() > 0) {
 
-                ReportInterval report = mergeIntervalsToReportInterval(
-                        intervalsProject);
+                ReportInterval report = mergeReportInterval(intervalsProject);
 
                 projectsResults.add(project.getName() + SEPARATOR
                         + getDateString(report.getStart())
@@ -91,8 +90,7 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             }
 
             if (intervalsSubProject.size() > 0) {
-                ReportInterval report = mergeIntervalsToReportInterval(
-                        intervalsSubProject);
+                ReportInterval report = mergeReportInterval(intervalsSubProject);
 
                 subProjectsResults.add(project.getName() + SEPARATOR
                         + getDateString(report.getStart())
@@ -127,7 +125,7 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
                 intervalsSubProject.addAll(intervals);
             }
 
-            ReportInterval report = mergeIntervalsToReportInterval(intervals);
+            ReportInterval report = mergeReportInterval(intervals);
             tasksResults.add(actualProject.getName()
                     + SEPARATOR + task.getName()
                     + SEPARATOR + getDateString(report.getStart())
@@ -152,7 +150,7 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             Date endInside = reportInterval.getEnd();
             int duration = reportInterval.getDuration();
 
-            intervals.add(interval);
+            intervals.add(reportInterval);
             intervalsResults.add(actualProject.getName()
                     + SEPARATOR + actualTask.getName()
                     + SEPARATOR + intervalId
