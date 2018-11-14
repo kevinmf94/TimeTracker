@@ -60,7 +60,7 @@ public abstract class ShortReportVisitor extends ReportVisitor {
             }
 
             if (intervalsProject.size() > 0) {
-                ReportInterval report = getDurationByIntervals(
+                ReportInterval report = mergeIntervalsToReportInterval(
                         intervalsProject);
 
                 projectsResults.add(project.getName() + SEPARATOR
@@ -99,40 +99,10 @@ public abstract class ShortReportVisitor extends ReportVisitor {
      */
     @Override
     public final void visit(final Interval interval) {
-        Date taskStartDate = interval.getStart();
-        Date taskEndDate = interval.getEnd();
-        Date startDate = getStartDate();
-        Date endDate = getEndDate();
-        int duration = 0;
 
-        Date startInside;
-        Date endInside;
+        ReportInterval reportInterval = convertToReportInterval(interval);
 
-        if (taskStartDate.after(startDate)
-                && taskEndDate.before(endDate)) { //Inside task
-            startInside = taskStartDate;
-            endInside = taskEndDate;
-            duration = (int) interval.getDuration();
-        } else if (taskStartDate.before(startDate)
-                && taskEndDate.after(startDate)
-                && taskEndDate.before(endDate)) { //Left cut task
-            startInside = startDate;
-            endInside = taskEndDate;
-            duration = Interval.getDuration(startInside, endInside);
-        } else if (taskStartDate.after(startDate)
-                && taskStartDate.before(endDate)
-                && taskEndDate.after(endDate)) { //Right cut task
-            startInside = taskStartDate;
-            endInside = endDate;
-            duration = Interval.getDuration(startInside, endInside);
-        } else if (taskStartDate.before(startDate)
-                && taskEndDate.after(endDate)) { //All fill task
-            startInside = startDate;
-            endInside = endDate;
-            duration = Interval.getDuration(startInside, endInside);
-        }
-
-        if (duration > 0) {
+        if (reportInterval != null) {
             intervals.add(interval);
         }
     }

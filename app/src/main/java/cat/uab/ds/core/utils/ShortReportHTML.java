@@ -29,7 +29,7 @@ public class ShortReportHTML extends ShortReportVisitor {
      * @param newEndDate End period
      */
     public ShortReportHTML(final Date newStartDate, final Date newEndDate) {
-        super(newStartDate, newEndDate);
+        super(newStartDate, newEndDate, null);
     }
 
     /**
@@ -104,7 +104,6 @@ public class ShortReportHTML extends ShortReportVisitor {
      * Return the final report.
      * @return
      */
-    @Override
     public final String getResult() {
         headersReport();
         projectReport();

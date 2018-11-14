@@ -71,7 +71,7 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
 
             if (intervalsProject.size() > 0) {
 
-                ReportInterval report = getDurationByIntervals(
+                ReportInterval report = mergeIntervalsToReportInterval(
                         intervalsProject);
 
                 projectsResults.add(project.getName() + SEPARATOR
@@ -91,7 +91,7 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             }
 
             if (intervalsSubProject.size() > 0) {
-                ReportInterval report = getDurationByIntervals(
+                ReportInterval report = mergeIntervalsToReportInterval(
                         intervalsSubProject);
 
                 subProjectsResults.add(project.getName() + SEPARATOR
@@ -127,7 +127,7 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
                 intervalsSubProject.addAll(intervals);
             }
 
-            ReportInterval report = getDurationByIntervals(intervals);
+            ReportInterval report = mergeIntervalsToReportInterval(intervals);
             tasksResults.add(actualProject.getName()
                     + SEPARATOR + task.getName()
                     + SEPARATOR + getDateString(report.getStart())
@@ -144,42 +144,14 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
      */
     @Override
     public final void visit(final Interval interval) {
-        Date taskStartDate = interval.getStart();
-        Date taskEndDate = interval.getEnd();
-        Date startDate = getStartDate();
-        Date endDate = getEndDate();
-        int duration = 0;
 
-        Date startInside = null;
-        Date endInside = null;
+        ReportInterval reportInterval = convertToReportInterval(interval);
 
-        if ((taskStartDate.after(startDate)
-                || taskStartDate.equals(startDate))
-                && (taskEndDate.before(endDate)
-                || taskEndDate.equals(endDate))) { //Inside task
-            startInside = taskStartDate;
-            endInside = taskEndDate;
-            duration = (int) interval.getDuration();
-        } else if (taskStartDate.before(startDate)
-                && taskEndDate.after(startDate)
-                && taskEndDate.before(endDate)) { //Left cut task
-            startInside = startDate;
-            endInside = taskEndDate;
-            duration = Interval.getDuration(startInside, endInside);
-        } else if (taskStartDate.after(startDate)
-                && taskStartDate.before(endDate)
-                && taskEndDate.after(endDate)) { //Right cut task
-            startInside = taskStartDate;
-            endInside = endDate;
-            duration = Interval.getDuration(startInside, endInside);
-        } else if (taskStartDate.before(startDate)
-                && taskEndDate.after(endDate)) { //All fill task
-            startInside = startDate;
-            endInside = endDate;
-            duration = Interval.getDuration(startInside, endInside);
-        }
+        if (reportInterval != null) {
+            Date startInside = reportInterval.getStart();
+            Date endInside = reportInterval.getEnd();
+            int duration = reportInterval.getDuration();
 
-        if (duration > 0) {
             intervals.add(interval);
             intervalsResults.add(actualProject.getName()
                     + SEPARATOR + actualTask.getName()

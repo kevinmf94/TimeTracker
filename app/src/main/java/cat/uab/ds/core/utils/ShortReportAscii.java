@@ -22,7 +22,7 @@ public class ShortReportAscii extends ShortReportVisitor {
      * @param newEndDate End period
      */
     public ShortReportAscii(final Date newStartDate, final Date newEndDate) {
-        super(newStartDate, newEndDate);
+        super(newStartDate, newEndDate, null);
 
         this.result = new StringBuilder();
     }
@@ -86,7 +86,6 @@ public class ShortReportAscii extends ShortReportVisitor {
      * Return the final report.
      * @return
      */
-    @Override
     public final String getResult() {
         headersReport();
         projectReport();

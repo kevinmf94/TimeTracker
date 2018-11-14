@@ -35,7 +35,7 @@ public class DetailedReportHTML extends DetailedReportVisitor {
      * @param newEndDate End period
      */
     public DetailedReportHTML(final Date newStartDate, final Date newEndDate) {
-        super(newStartDate, newEndDate);
+        super(newStartDate, newEndDate, null);
     }
 
     @Override

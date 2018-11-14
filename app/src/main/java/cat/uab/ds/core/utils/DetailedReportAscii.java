@@ -36,7 +36,7 @@ public class DetailedReportAscii extends DetailedReportVisitor {
      * @param newEndDate End period
      */
     public DetailedReportAscii(final Date newStartDate, final Date newEndDate) {
-        super(newStartDate, newEndDate);
+        super(newStartDate, newEndDate, null);
 
         this.result = new StringBuilder();
     }
@@ -199,7 +199,6 @@ public class DetailedReportAscii extends DetailedReportVisitor {
      * Return the final result.
      * @return
      */
-    @Override
     public final String getResult() {
         headersReport();
         projectReport();

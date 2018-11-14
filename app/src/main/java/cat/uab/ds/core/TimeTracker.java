@@ -88,7 +88,7 @@ public class TimeTracker implements Observer {
 
     public final void generateDetailedReportAscii(
             final Date startDate, final Date endDate) {
-        DetailedReportVisitor detailedReportAscii =
+        DetailedReportAscii detailedReportAscii =
                 new DetailedReportAscii(startDate, endDate);
         this.root.accept(detailedReportAscii);
         System.out.println(detailedReportAscii.getResult());
@@ -96,7 +96,7 @@ public class TimeTracker implements Observer {
 
     public final void generateShortReportAscii(
             final Date startDate, final Date endDate) {
-        ShortReportVisitor shortReportAscii =
+        ShortReportAscii shortReportAscii =
                 new ShortReportAscii(startDate, endDate);
         this.root.accept(shortReportAscii);
         System.out.println(shortReportAscii.getResult());
@@ -104,7 +104,7 @@ public class TimeTracker implements Observer {
 
     public void generateDetailedReportHTML(
             final Date startDate, final Date endDate) {
-        DetailedReportVisitor detailedReportHTML =
+        DetailedReportHTML detailedReportHTML =
                 new DetailedReportHTML(startDate, endDate);
         this.root.accept(detailedReportHTML);
         detailedReportHTML.getResult();
@@ -112,7 +112,7 @@ public class TimeTracker implements Observer {
 
     public void generateShortReportHTML(
             final Date startDate, final Date endDate) {
-        ShortReportVisitor shortReportHTML =
+        ShortReportHTML shortReportHTML =
                 new ShortReportHTML(startDate, endDate);
         this.root.accept(shortReportHTML);
         shortReportHTML.getResult();

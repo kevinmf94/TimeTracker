@@ -85,23 +85,27 @@ public abstract class ReportVisitor implements ActivityVisitor {
      * @param intervalEnd The end of interval
      * @return Duration
      */
-    public final int getDurationNormalized(
-            final Date intervalStart, final Date intervalEnd) {
-        Date start, end;
+    public final ReportInterval convertToReportInterval(
+            final Interval interval) {
+        Date start = interval.getStart();
+        Date end = interval.getEnd();
 
-        if (intervalStart.compareTo(startDate) < 0) {
+        if ((start.compareTo(startDate) < 0 && end.compareTo(startDate) < 0)
+                || (start.compareTo(endDate) > 0 && end.compareTo(endDate) > 0)
+            ) { // Interval out of range
+            return null;
+        }
+
+        if (start.compareTo(startDate) < 0) {
             start = startDate;
-        } else {
-            start = intervalStart;
         }
 
-        if (intervalEnd.compareTo(endDate) >= 0) {
+        if (end.compareTo(endDate) > 0) {
             end = endDate;
-        } else {
-            end = intervalEnd;
         }
 
-        return Interval.getDuration(start, end);
+        return new ReportInterval(start, end,
+                Interval.getDuration(start, end));
     }
 
     /**
@@ -109,33 +113,30 @@ public abstract class ReportVisitor implements ActivityVisitor {
      * @param intervals
      * @return
      */
-    public final ReportInterval getDurationByIntervals(
+    public final ReportInterval mergeIntervalsToReportInterval(
             final Collection<Interval> intervals) {
 
-        Date start = null, end = null;
-        Date tmpStart, tmpEnd;
-        int duration = 0;
+        Date minStart = null, maxEnd = null;
+        int durationSum = 0;
         for (Interval interval : intervals) {
-            tmpStart = interval.getStart();
-            tmpEnd = interval.getEnd();
-            duration += getDurationNormalized(tmpStart, tmpEnd);
 
-            if (start == null || tmpStart.compareTo(start) < 0) {
-                start = tmpStart;
-            }
-            if (end == null || tmpEnd.compareTo(end) > 0) {
-                end = tmpEnd;
-            }
+            ReportInterval tmpInterval = convertToReportInterval(interval);
 
-            if (start.compareTo(startDate) < 0) {
-                start = startDate;
-            }
-            if (end.compareTo(endDate) >= 0) {
-                end = endDate;
+            if (tmpInterval != null) {
+                durationSum += tmpInterval.getDuration();
+
+                if (minStart == null
+                        || tmpInterval.getStart().compareTo(minStart) < 0) {
+                    minStart = tmpInterval.getStart();
+                }
+                if (maxEnd == null
+                        || tmpInterval.getEnd().compareTo(maxEnd) > 0) {
+                    maxEnd = tmpInterval.getEnd();
+                }
             }
         }
 
-        return new ReportInterval(start, end, duration);
+        return new ReportInterval(minStart, maxEnd, durationSum);
     }
 
     /**
