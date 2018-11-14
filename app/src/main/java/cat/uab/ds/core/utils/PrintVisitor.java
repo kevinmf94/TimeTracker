@@ -57,7 +57,8 @@ public class PrintVisitor implements ActivityVisitor {
         StringBuilder sb = new StringBuilder("                               "
                 + "                                             ");
 
-        insertInLine(sb, 0, activity.getName());
+        insertInLine(sb, 0, levelLineStr(activity.getLevel())
+                + activity.getName());
 
         if (start != null) {
             insertInLine(sb, POS_START, FORMAT.format(start));
