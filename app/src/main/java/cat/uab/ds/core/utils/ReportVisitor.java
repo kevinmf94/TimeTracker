@@ -81,9 +81,10 @@ public abstract class ReportVisitor implements ActivityVisitor {
 
     /**
      * Limit the start date and end date by the limits of established range.
-     * @param intervalStart The start of interval
-     * @param intervalEnd The end of interval
-     * @return Duration
+     * If interval is out of range, return null.
+     * @param interval IntervalEntity
+     * @return ReportInterval, the container with Start Date, End Date and
+     * the duration
      */
     public final ReportInterval convertToReportInterval(
             final Interval interval) {
@@ -96,11 +97,11 @@ public abstract class ReportVisitor implements ActivityVisitor {
             return null;
         }
 
-        if (start.compareTo(startDate) < 0) {
+        if (start.compareTo(startDate) < 0) { //Left overflow
             start = startDate;
         }
 
-        if (end.compareTo(endDate) > 0) {
+        if (end.compareTo(endDate) > 0) { //Right overflow
             end = endDate;
         }
 
@@ -109,9 +110,11 @@ public abstract class ReportVisitor implements ActivityVisitor {
     }
 
     /**
-     * Get the total duration of intervals between start and end date.
-     * @param intervals
-     * @return
+     * Merge a set of intervals to ReportInterval cutting the Start and End
+     * dates to the limit of the range, excluding those that are out of the
+     * range.
+     * @param intervals Set of intervals
+     * @return ReportInterval with minStart, maxEnd and durationSum
      */
     public final ReportInterval mergeIntervalsToReportInterval(
             final Collection<Interval> intervals) {
