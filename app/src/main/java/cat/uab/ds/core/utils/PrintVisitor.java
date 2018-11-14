@@ -114,6 +114,10 @@ public class PrintVisitor implements ActivityVisitor {
         return str.toString();
     }
 
+    /**
+     * Visit the project.
+     * @param project The project
+     */
     @Override
     public final void visit(final Project project) {
         if (!project.isRoot()) {

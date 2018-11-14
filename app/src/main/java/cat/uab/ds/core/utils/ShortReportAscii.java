@@ -1,6 +1,5 @@
 package cat.uab.ds.core.utils;
 
-import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -11,6 +10,7 @@ public class ShortReportAscii extends ShortReportVisitor {
 
     private StringBuilder result;
 
+    // Array positions
     private static final int POS_0 = 0;
     private static final int POS_1 = 1;
     private static final int POS_2 = 2;
@@ -27,6 +27,9 @@ public class ShortReportAscii extends ShortReportVisitor {
         this.result = new StringBuilder();
     }
 
+    /**
+     * Add report header to result.
+     */
     @Override
     protected final void headersReport() {
         writeLine();
@@ -41,6 +44,9 @@ public class ShortReportAscii extends ShortReportVisitor {
 
     }
 
+    /**
+     * Add root projects report to result.
+     */
     @Override
     protected final void projectReport() {
         writeLine();
@@ -67,12 +73,19 @@ public class ShortReportAscii extends ShortReportVisitor {
         }
     }
 
+    /**
+     * Add line separator to result.
+     */
     private void writeLine() {
         result.append("\n------------------------------"
                 + "---------------------"
                 + "-------------------------");
     }
 
+    /**
+     * Return the final report.
+     * @return
+     */
     @Override
     public final String getResult() {
         headersReport();

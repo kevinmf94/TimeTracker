@@ -22,7 +22,6 @@ public class ShortReportHTML extends ShortReportVisitor {
     public static final int COL_2 = 2;
     public static final int COL_3 = 3;
     public static final int COL_4 = 4;
-    public static final int COL_5 = 5;
 
     /**
      * Initialize basic menu info with table header.
@@ -33,6 +32,9 @@ public class ShortReportHTML extends ShortReportVisitor {
         super(newStartDate, newEndDate);
     }
 
+    /**
+     * Add table header to web result.
+     */
     @Override
     protected final void headersReport() {
 
@@ -57,6 +59,9 @@ public class ShortReportHTML extends ShortReportVisitor {
         web.afegeixLiniaSeparacio();
     }
 
+    /**
+     * Add root projects table header.
+     */
     @Override
     protected final void projectReport() {
         Collection<String> items = getProjectsResults();
@@ -75,6 +80,11 @@ public class ShortReportHTML extends ShortReportVisitor {
         web.afegeixLiniaSeparacio();
     }
 
+    /**
+     * Parse the results and make the report table.
+     * @param table Taula class
+     * @param results List of results
+     */
     private void setTableData(final Taula table,
                               final Collection<String> results) {
         String tmp;
@@ -90,6 +100,10 @@ public class ShortReportHTML extends ShortReportVisitor {
         }
     }
 
+    /**
+     * Return the final report.
+     * @return
+     */
     @Override
     public final String getResult() {
         headersReport();

@@ -29,6 +29,10 @@ public abstract class ShortReportVisitor extends ReportVisitor {
         projectsResults = new ArrayList<>();
     }
 
+    /**
+     * Visit project and their task or intervals and make the project's report.
+     * @param project
+     */
     @Override
     public final void visit(final Project project) {
 
@@ -63,7 +67,10 @@ public abstract class ShortReportVisitor extends ReportVisitor {
             }
         }
     }
-
+    /**
+     * Visit task and their intervals and make the task's report.
+     * @param task
+     */
     @Override
     public final void visit(final Task task) {
         intervals = new ArrayList<>();
@@ -75,7 +82,10 @@ public abstract class ShortReportVisitor extends ReportVisitor {
 
         intervalsProject.addAll(intervals);
     }
-
+    /**
+     * Visit interval and make the intervals's report.
+     * @param interval
+     */
     @Override
     public final void visit(final Interval interval) {
         Date taskStartDate = interval.getStart();
