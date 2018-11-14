@@ -1,15 +1,11 @@
 package cat.uab.ds.core.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
 import cat.uab.ds.core.entity.Interval;
-import cat.uab.ds.core.entity.Project;
 
 public abstract class ReportVisitor implements ActivityVisitor {
 
@@ -33,14 +29,19 @@ public abstract class ReportVisitor implements ActivityVisitor {
     private Date startDate;
     private Date endDate;
 
+    private ReportFormat reportFormat;
+
     /**
      * Initialize basic menu info with table header.
      * @param newStartDate Start period
      * @param newEndDate End period
+     * @param newReportFormat Report format
      */
-    public ReportVisitor(final Date newStartDate, final Date newEndDate) {
+    public ReportVisitor(final Date newStartDate, final Date newEndDate,
+                         final ReportFormat newReportFormat) {
         this.startDate = newStartDate;
         this.endDate = newEndDate;
+        this.reportFormat = newReportFormat;
     }
 
     /**
@@ -57,8 +58,6 @@ public abstract class ReportVisitor implements ActivityVisitor {
         return String.format(new Locale("en"),
                 "%dh %dm %ds", hours, minutes, seconds);
     }
-
-    public abstract String getResult();
 
     public final Date getStartDate() {
         return startDate;

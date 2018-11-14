@@ -34,10 +34,12 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
      * Initialize basic menu info with table header.
      * @param newStartDate Start period
      * @param newEndDate End period
+     * @param newReportFormat Report format
      */
-    public DetailedReportVisitor(
-            final Date newStartDate, final Date newEndDate) {
-        super(newStartDate, newEndDate);
+    public DetailedReportVisitor(final Date newStartDate,
+                                 final Date newEndDate,
+                                 final ReportFormat newReportFormat) {
+        super(newStartDate, newEndDate, newReportFormat);
 
         projectsResults = new ArrayList<>();
         subProjectsResults = new ArrayList<>();

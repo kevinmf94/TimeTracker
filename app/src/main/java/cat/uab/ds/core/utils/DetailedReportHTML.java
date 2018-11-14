@@ -152,7 +152,6 @@ public class DetailedReportHTML extends DetailedReportVisitor {
         }
     }
 
-    @Override
     public final String getResult() {
         headersReport();
         projectReport();

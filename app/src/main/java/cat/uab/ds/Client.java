@@ -84,10 +84,10 @@ final class Client {
         wait(1000);
         Clock.getInstance().deleteObserver(timeTracker);
 
-        timeTracker.generateDetailedReportAscii(start, end);
+        //timeTracker.generateDetailedReportAscii(start, end);
         //timeTracker.generateShortReportAscii(start, end);
         //timeTracker.generateDetailedReportHTML(start, end);
-        //timeTracker.generateShortReportHTML(start, end);
+        timeTracker.generateShortReportHTML(start, end);
 
         return timeTracker;
     }
