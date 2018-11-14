@@ -41,6 +41,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         this.result = new StringBuilder();
     }
 
+    /**
+     * Add header's report to result.
+     */
     @Override
     protected final void headersReport() {
         writeLine();
@@ -55,6 +58,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
 
     }
 
+    /**
+     * Add root project's report.
+     */
     @Override
     protected final void projectReport() {
         writeLine();
@@ -73,6 +79,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         }
     }
 
+    /**
+     * Add subprojects report's to result.
+     */
     @Override
     protected final void subProjectsReport() {
         writeLine();
@@ -92,6 +101,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         }
     }
 
+    /**
+     * Add task's report to result.
+     */
     @Override
     protected final void taskReport() {
         writeLine();
@@ -113,6 +125,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         }
     }
 
+    /**
+     * Add intervals' report to result.
+     */
     @Override
     protected final void intervalsReport() {
         writeLine();
@@ -135,12 +150,17 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         }
     }
 
+    /**
+     * Add line separator to result.
+     */
     private void writeLine() {
         result.append("\n------------------------------"
                 + "---------------------"
                 + "-------------------------");
     }
-
+    /**
+     * Add projects header to result.
+     */
     private void projectsHeader() {
         StringBuilder sb = new StringBuilder(WHITE_LINE);
         insertInLine(sb, POS_PROJECT_NAME, "Project");
@@ -149,7 +169,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         insertInLine(sb, POS_PROJECT_DURATION, "Total time");
         result.append("\n" + sb.toString());
     }
-
+    /**
+     * Add tasks header to result.
+     */
     private void tasksHeader() {
         StringBuilder sb = new StringBuilder(WHITE_LINE);
         insertInLine(sb, POS_TASK_PROJECT, "Project");
@@ -159,7 +181,9 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         insertInLine(sb, POS_TASK_DURATION, "Total time");
         result.append("\n" + sb.toString());
     }
-
+    /**
+     * Add intervals header to result.
+     */
     private void intervalsHeader() {
         StringBuilder sb = new StringBuilder(WHITE_LINE);
         insertInLine(sb, POS_INTERVAL_PROJECT, "Project");
@@ -171,6 +195,10 @@ public class DetailedReportAscii extends DetailedReportVisitor {
         result.append("\n" + sb.toString());
     }
 
+    /**
+     * Return the final result.
+     * @return
+     */
     @Override
     public final String getResult() {
         headersReport();

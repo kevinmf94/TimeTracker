@@ -19,11 +19,13 @@ public abstract class ReportVisitor implements ActivityVisitor {
     static final String WHITE_LINE = "                                     "
             + "                                           ";
 
+    // Colums positions of the projects table
     static final int POS_PROJECT_NAME = 0;
     static final int POS_PROJECT_START = 12;
     static final int POS_PROJECT_END = 35;
     static final int POS_PROJECT_DURATION = 60;
 
+    // Date Time Format
     private static final SimpleDateFormat FORMAT =
             new SimpleDateFormat("dd/MM/YYYY, HH:mm:ss",
                     new Locale("en"));
@@ -78,6 +80,12 @@ public abstract class ReportVisitor implements ActivityVisitor {
         return FORMAT.format(date);
     }
 
+    /**
+     * Limit the start date and end date by the limits of established range.
+     * @param intervalStart The start of interval
+     * @param intervalEnd The end of interval
+     * @return Duration
+     */
     public final int getDurationNormalized(
             final Date intervalStart, final Date intervalEnd) {
         Date start, end;
@@ -97,6 +105,11 @@ public abstract class ReportVisitor implements ActivityVisitor {
         return Interval.getDuration(start, end);
     }
 
+    /**
+     * Get the total duration of intervals between start and end date.
+     * @param intervals
+     * @return
+     */
     public final ReportInterval getDurationByIntervals(
             final Collection<Interval> intervals) {
 
@@ -137,6 +150,9 @@ public abstract class ReportVisitor implements ActivityVisitor {
         sb.replace(pos, pos + word.length(), word);
     }
 
+    /**
+     * Container class to represents an interval.
+     */
     class ReportInterval {
 
         private Date start;
