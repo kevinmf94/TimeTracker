@@ -60,11 +60,10 @@ final class Client {
         p2.addActivity(t3);
 
         //Time
-        start = new Date();
         t1.start();
         t4.start();
         wait(4000);
-
+        start = new Date();
         t1.stop();
         t2.start();
         wait(6000);
@@ -74,21 +73,21 @@ final class Client {
         wait(4000);
         t3.stop();
         t2.start();
-
+        end = new Date();
         wait(2000);
         t3.start();
         wait(4000);
         t3.stop();
         t2.stop();
 
-        end = new Date();
+
 
         timeTracker.save("data.dat");
 
         wait(1000);
         Clock.getInstance().deleteObserver(timeTracker);
 
-        //timeTracker.generateDetailedReportAscii(start, end);
+        timeTracker.generateDetailedReportAscii(start, end);
         //timeTracker.generateShortReportAscii(start, end);
         //timeTracker.generateDetailedReportHTML(start, end);
         //timeTracker.generateShortReportHTML(start, end);
