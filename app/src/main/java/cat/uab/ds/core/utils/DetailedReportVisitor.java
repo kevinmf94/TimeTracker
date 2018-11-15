@@ -12,7 +12,34 @@ import cat.uab.ds.core.entity.Interval;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 
-public abstract class DetailedReportVisitor extends ReportVisitor {
+public class DetailedReportVisitor extends ReportVisitor {
+
+    private static final String[] HEADER_PROJECTS = new String[]{
+            "Project", "Start Date", "End Date", "Total time"
+    };
+    static final int POS_PROJECT_NAME = 0;
+    static final int POS_PROJECT_START = 12;
+    static final int POS_PROJECT_END = 35;
+    static final int POS_PROJECT_DURATION = 60;
+
+    private static final String[] HEADER_TASKS = new String[]{
+            "Project", "Task", "Start Date", "End Date", "Total time"
+    };
+    private static final int POS_TASK_PROJECT = 0;
+    private static final int POS_TASK_NAME = 8;
+    private static final int POS_TASK_START = 15;
+    private static final int POS_TASK_END = 38;
+    private static final int POS_TASK_DURATION = 60;
+
+    private static final String[] HEADER_INTERVALS = new String[]{
+            "Project", "Task", "Interval", "Start Date", "End Date", "Total time"
+    };
+    private static final int POS_INTERVAL_PROJECT = 0;
+    private static final int POS_INTERVAL_TASK = 8;
+    private static final int POS_INTERVAL_NAME = 15;
+    private static final int POS_INTERVAL_START = 25;
+    private static final int POS_INTERVAL_END = 48;
+    private static final int POS_INTERVAL_DURATION = 70;
 
     private final Logger logger =
             LoggerFactory.getLogger(
@@ -25,10 +52,10 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
     private Collection<ReportInterval> intervalsProject;
     private Collection<ReportInterval> intervalsSubProject;
 
-    private Collection<String> projectsResults;
-    private Collection<String> subProjectsResults;
-    private Collection<String> tasksResults;
-    private Collection<String> intervalsResults;
+    private Collection<String[]> projectsResults;
+    private Collection<String[]> subProjectsResults;
+    private Collection<String[]> tasksResults;
+    private Collection<String[]> intervalsResults;
 
     /**
      * Initialize basic menu info with table header.
@@ -73,11 +100,11 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
 
                 ReportInterval report = mergeReportInterval(intervalsProject);
 
-                projectsResults.add(project.getName() + SEPARATOR
-                        + getDateString(report.getStart())
-                        + SEPARATOR + getDateString(report.getEnd())
-                        + SEPARATOR
-                        + durationToStr(report.getDuration()));
+                projectsResults.add(new String[]{project.getName(),
+                        getDateString(report.getStart()),
+                        getDateString(report.getEnd()),
+                        durationToStr(report.getDuration())
+                });
             }
 
         } else if (project.getLevel() == 2) {
@@ -90,13 +117,14 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             }
 
             if (intervalsSubProject.size() > 0) {
-                ReportInterval report = mergeReportInterval(intervalsSubProject);
+                ReportInterval report =
+                        mergeReportInterval(intervalsSubProject);
 
-                subProjectsResults.add(project.getName() + SEPARATOR
-                        + getDateString(report.getStart())
-                        + SEPARATOR + getDateString(report.getEnd())
-                        + SEPARATOR
-                        + durationToStr(report.getDuration()));
+                subProjectsResults.add(new String[]{project.getName(),
+                        getDateString(report.getStart()),
+                        getDateString(report.getEnd()),
+                        durationToStr(report.getDuration())
+                });
             }
         }
     }
@@ -126,13 +154,13 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             }
 
             ReportInterval report = mergeReportInterval(intervals);
-            tasksResults.add(actualProject.getName()
-                    + SEPARATOR + task.getName()
-                    + SEPARATOR + getDateString(report.getStart())
-                    + SEPARATOR
-                    + getDateString(report.getEnd())
-                    + SEPARATOR + durationToStr(report.getDuration())
-            );
+
+            tasksResults.add(new String[]{actualProject.getName(),
+                    task.getName(),
+                    getDateString(report.getStart()),
+                    getDateString(report.getEnd()),
+                    durationToStr(report.getDuration())
+            });
         }
     }
 
@@ -151,35 +179,41 @@ public abstract class DetailedReportVisitor extends ReportVisitor {
             int duration = reportInterval.getDuration();
 
             intervals.add(reportInterval);
-            intervalsResults.add(actualProject.getName()
-                    + SEPARATOR + actualTask.getName()
-                    + SEPARATOR + intervalId
-                    + SEPARATOR + getDateString(startInside)
-                    + SEPARATOR + getDateString(endInside)
-                    + SEPARATOR + durationToStr(duration));
+
+            intervalsResults.add(new String[]{actualProject.getName(),
+                    actualTask.getName(),
+                    Integer.toString(intervalId),
+                    getDateString(startInside),
+                    getDateString(endInside),
+                    durationToStr(duration)
+            });
         }
     }
 
-    protected abstract void headersReport();
-    protected abstract void projectReport();
-    protected abstract void subProjectsReport();
-    protected abstract void taskReport();
-    protected abstract void intervalsReport();
-
-    public Collection<String> getProjectsResults() {
-        return projectsResults;
-    }
-
-    public Collection<String> getSubProjectsResults() {
-        return subProjectsResults;
-    }
-
-    public Collection<String> getTasksResults() {
-        return tasksResults;
-    }
-
-    public Collection<String> getIntervalsResults() {
-        return intervalsResults;
+    public final void generate() {
+        reportFormat.addHeader("Detailed report",getStartDate(), getEndDate());
+        reportFormat.addLine();
+        reportFormat.addText("Root projects");
+        reportFormat.addTable(HEADER_PROJECTS, projectsResults, new int[]{
+                POS_PROJECT_NAME, POS_PROJECT_START, POS_PROJECT_END,
+                POS_PROJECT_DURATION});
+        reportFormat.addLine();
+        reportFormat.addText("Sub projects");
+        reportFormat.addTable(HEADER_PROJECTS, subProjectsResults, new int[]{
+                POS_PROJECT_NAME, POS_PROJECT_START, POS_PROJECT_END,
+                POS_PROJECT_DURATION});
+        reportFormat.addLine();
+        reportFormat.addText("Tasks");
+        reportFormat.addTable(HEADER_TASKS, tasksResults, new int[]{
+                POS_TASK_PROJECT, POS_TASK_NAME, POS_TASK_START, POS_TASK_END,
+                POS_TASK_DURATION});
+        reportFormat.addLine();
+        reportFormat.addText("Intervals");
+        reportFormat.addTable(HEADER_INTERVALS, intervalsResults, new int[]{
+                POS_INTERVAL_PROJECT, POS_INTERVAL_TASK, POS_INTERVAL_NAME,
+                POS_INTERVAL_START, POS_INTERVAL_END, POS_INTERVAL_DURATION});
+        reportFormat.addLine();
+        reportFormat.generate();
     }
 
 }

@@ -10,12 +10,10 @@ import java.util.Observer;
 
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.utils.Clock;
-import cat.uab.ds.core.utils.DetailedReportAscii;
-import cat.uab.ds.core.utils.DetailedReportHTML;
 import cat.uab.ds.core.utils.DetailedReportVisitor;
 import cat.uab.ds.core.utils.PrintVisitor;
-import cat.uab.ds.core.utils.ShortReportAscii;
-import cat.uab.ds.core.utils.ShortReportHTML;
+import cat.uab.ds.core.utils.ReportAscii;
+import cat.uab.ds.core.utils.ReportHTML;
 import cat.uab.ds.core.utils.ShortReportVisitor;
 
 /**
@@ -88,34 +86,35 @@ public class TimeTracker implements Observer {
 
     public final void generateDetailedReportAscii(
             final Date startDate, final Date endDate) {
-        DetailedReportAscii detailedReportAscii =
-                new DetailedReportAscii(startDate, endDate);
-        this.root.accept(detailedReportAscii);
-        System.out.println(detailedReportAscii.getResult());
+        DetailedReportVisitor detailedReportVisitor =
+                new DetailedReportVisitor(startDate, endDate,
+                        new ReportAscii());
+        this.root.accept(detailedReportVisitor);
+        detailedReportVisitor.generate();
     }
 
     public final void generateShortReportAscii(
             final Date startDate, final Date endDate) {
-        ShortReportAscii shortReportAscii =
-                new ShortReportAscii(startDate, endDate);
-        this.root.accept(shortReportAscii);
-        System.out.println(shortReportAscii.getResult());
+        ShortReportVisitor shortReportVisitor =
+                new ShortReportVisitor(startDate, endDate, new ReportAscii());
+        this.root.accept(shortReportVisitor);
+        shortReportVisitor.generate();
     }
 
     public void generateDetailedReportHTML(
             final Date startDate, final Date endDate) {
-        DetailedReportHTML detailedReportHTML =
-                new DetailedReportHTML(startDate, endDate);
-        this.root.accept(detailedReportHTML);
-        detailedReportHTML.getResult();
+        DetailedReportVisitor detailedReportVisitor =
+                new DetailedReportVisitor(startDate, endDate, new ReportHTML());
+        this.root.accept(detailedReportVisitor);
+        detailedReportVisitor.generate();
     }
 
     public void generateShortReportHTML(
             final Date startDate, final Date endDate) {
-        ShortReportHTML shortReportHTML =
-                new ShortReportHTML(startDate, endDate);
-        this.root.accept(shortReportHTML);
-        shortReportHTML.getResult();
+        ShortReportVisitor shortReportVisitor =
+                new ShortReportVisitor(startDate, endDate, new ReportHTML());
+        this.root.accept(shortReportVisitor);
+        shortReportVisitor.generate();
 
     }
 }

@@ -15,12 +15,6 @@ public abstract class ReportVisitor implements ActivityVisitor {
     static final String WHITE_LINE = "                                     "
             + "                                           ";
 
-    // Colums positions of the projects table
-    static final int POS_PROJECT_NAME = 0;
-    static final int POS_PROJECT_START = 12;
-    static final int POS_PROJECT_END = 35;
-    static final int POS_PROJECT_DURATION = 60;
-
     // Date Time Format
     private static final SimpleDateFormat FORMAT =
             new SimpleDateFormat("dd/MM/YYYY, HH:mm:ss",
@@ -29,7 +23,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
     private Date startDate;
     private Date endDate;
 
-    private ReportFormat reportFormat;
+    public ReportFormat reportFormat;
 
     /**
      * Initialize basic menu info with table header.

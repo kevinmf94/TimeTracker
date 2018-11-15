@@ -6,15 +6,22 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Interval;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 
-public abstract class ShortReportVisitor extends ReportVisitor {
+public class ShortReportVisitor extends ReportVisitor {
 
     public static final String SEPARATOR = "|";
+
+    // Colums positions of the projects table
+    static final int POS_PROJECT_NAME = 0;
+    static final int POS_PROJECT_START = 12;
+    static final int POS_PROJECT_END = 35;
+    static final int POS_PROJECT_DURATION = 60;
 
     private final Logger logger =
             LoggerFactory.getLogger(
@@ -23,7 +30,11 @@ public abstract class ShortReportVisitor extends ReportVisitor {
     private Collection<ReportInterval> intervals;
     private Collection<ReportInterval> intervalsProject;
 
-    private Collection<String> projectsResults;
+    private Collection<String[]> projectsResults;
+
+    private String[] header = new String[]{
+        "Project", "Start Date", "End Date", "Total time"
+    };
 
     /**
      * Initialize basic menu info with table header.
@@ -62,10 +73,12 @@ public abstract class ShortReportVisitor extends ReportVisitor {
             if (intervalsProject.size() > 0) {
                 ReportInterval report = mergeReportInterval(intervalsProject);
 
-                projectsResults.add(project.getName() + SEPARATOR
-                        + getDateString(report.getStart())
-                        + SEPARATOR + getDateString(report.getEnd())
-                        + SEPARATOR + durationToStr(report.getDuration()));
+                projectsResults.add(new String[]{project.getName(),
+                        getDateString(report.getStart()),
+                        getDateString(report.getEnd()),
+                        durationToStr(report.getDuration())
+                });
+
             }
 
         } else if (project.getLevel() == 2) {
@@ -106,10 +119,14 @@ public abstract class ShortReportVisitor extends ReportVisitor {
         }
     }
 
-    protected abstract void headersReport();
-    protected abstract void projectReport();
-
-    public final Collection<String> getProjectsResults() {
-        return projectsResults;
+    public final void generate() {
+        reportFormat.addHeader("Short report", getStartDate(), getEndDate());
+        reportFormat.addLine();
+        reportFormat.addText("Root projects");
+        reportFormat.addTable(header, projectsResults, new int[]{
+                POS_PROJECT_NAME, POS_PROJECT_START, POS_PROJECT_END,
+                POS_PROJECT_DURATION});
+        reportFormat.addLine();
+        reportFormat.generate();
     }
 }
