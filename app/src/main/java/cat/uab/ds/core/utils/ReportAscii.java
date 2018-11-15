@@ -17,12 +17,12 @@ public class ReportAscii implements  ReportFormat {
                     new Locale("en"));
 
     @Override
-    public void newLine() {
+    public final void newLine() {
         result.append("\n");
     }
 
     @Override
-    public void addLine() {
+    public final void addLine() {
         result.append("------------------------------"
                 + "---------------------"
                 + "-------------------------");
@@ -41,7 +41,8 @@ public class ReportAscii implements  ReportFormat {
     }
 
     @Override
-    public void addHeader(final String name, final Date start, final Date end) {
+    public final void addHeader(final String name, final Date start,
+                                final Date end) {
         addLine();
         addText(name);
         addLine();
@@ -59,7 +60,8 @@ public class ReportAscii implements  ReportFormat {
     }
 
     @Override
-    public void addTable(final String[] header, final Collection<String[]> rows,
+    public final void addTable(
+            final String[] header, final Collection<String[]> rows,
                          final int[] columnsSizes) {
 
         StringBuilder headerStr = new StringBuilder(WHITE_LINE);
@@ -80,13 +82,13 @@ public class ReportAscii implements  ReportFormat {
     }
 
     @Override
-    public void addText(final String text) {
+    public final void addText(final String text) {
         result.append(text);
         newLine();
     }
 
     @Override
-    public void generate() {
+    public final void generate() {
         System.out.println(result);
     }
 }

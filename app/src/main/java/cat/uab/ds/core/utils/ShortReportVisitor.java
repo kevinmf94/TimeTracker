@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Interval;
@@ -120,6 +119,7 @@ public class ShortReportVisitor extends ReportVisitor {
     }
 
     public final void generate() {
+        ReportFormat reportFormat = getReportFormat();
         reportFormat.addHeader("Short report", getStartDate(), getEndDate());
         reportFormat.addLine();
         reportFormat.addText("Root projects");

@@ -32,7 +32,8 @@ public class DetailedReportVisitor extends ReportVisitor {
     private static final int POS_TASK_DURATION = 60;
 
     private static final String[] HEADER_INTERVALS = new String[]{
-            "Project", "Task", "Interval", "Start Date", "End Date", "Total time"
+            "Project", "Task", "Interval", "Start Date",
+            "End Date", "Total time"
     };
     private static final int POS_INTERVAL_PROJECT = 0;
     private static final int POS_INTERVAL_TASK = 8;
@@ -191,7 +192,8 @@ public class DetailedReportVisitor extends ReportVisitor {
     }
 
     public final void generate() {
-        reportFormat.addHeader("Detailed report",getStartDate(), getEndDate());
+        ReportFormat reportFormat = getReportFormat();
+        reportFormat.addHeader("Detailed report", getStartDate(), getEndDate());
         reportFormat.addLine();
         reportFormat.addText("Root projects");
         reportFormat.addTable(HEADER_PROJECTS, projectsResults, new int[]{

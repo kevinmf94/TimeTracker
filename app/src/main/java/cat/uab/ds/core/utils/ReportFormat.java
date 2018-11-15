@@ -2,7 +2,6 @@ package cat.uab.ds.core.utils;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 interface ReportFormat {
     void addLine();

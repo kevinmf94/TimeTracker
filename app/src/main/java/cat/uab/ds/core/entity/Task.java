@@ -167,7 +167,7 @@ public abstract class Task extends Activity {
     }
 
     private boolean invariant() {
-        if(getStart() != null && getEnd() != null) {
+        if (getStart() != null && getEnd() != null) {
             if (!(getStart().before(getEnd()))) {
                 return false;
             }

@@ -101,7 +101,7 @@ public class TimeTracker implements Observer {
         shortReportVisitor.generate();
     }
 
-    public void generateDetailedReportHTML(
+    public final void generateDetailedReportHTML(
             final Date startDate, final Date endDate) {
         DetailedReportVisitor detailedReportVisitor =
                 new DetailedReportVisitor(startDate, endDate, new ReportHTML());
@@ -109,7 +109,7 @@ public class TimeTracker implements Observer {
         detailedReportVisitor.generate();
     }
 
-    public void generateShortReportHTML(
+    public final void generateShortReportHTML(
             final Date startDate, final Date endDate) {
         ShortReportVisitor shortReportVisitor =
                 new ShortReportVisitor(startDate, endDate, new ReportHTML());

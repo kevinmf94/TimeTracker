@@ -23,7 +23,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
     private Date startDate;
     private Date endDate;
 
-    public ReportFormat reportFormat;
+    private ReportFormat reportFormat;
 
     /**
      * Initialize basic menu info with table header.
@@ -175,4 +175,11 @@ public abstract class ReportVisitor implements ActivityVisitor {
         }
     }
 
+    public final ReportFormat getReportFormat() {
+        return reportFormat;
+    }
+
+    public final void setReportFormat(final ReportFormat newReportFormat) {
+        this.reportFormat = newReportFormat;
+    }
 }
