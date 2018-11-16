@@ -9,7 +9,7 @@ import paginaweb.PaginaWeb;
 
 public class ReportHTML implements ReportFormat {
 
-    private PaginaWeb web = new PaginaWeb();
+    private final PaginaWeb web = new PaginaWeb();
 
     private static final int TITLE_SIZE = 1;
     private static final int SECTION_HEADER_SIZE = 2;

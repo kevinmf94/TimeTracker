@@ -17,10 +17,10 @@ public class DetailedReportVisitor extends ReportVisitor {
     private static final String[] HEADER_PROJECTS = new String[]{
             "Project", "Start Date", "End Date", "Total time"
     };
-    static final int POS_PROJECT_NAME = 0;
-    static final int POS_PROJECT_START = 12;
-    static final int POS_PROJECT_END = 35;
-    static final int POS_PROJECT_DURATION = 60;
+    private static final int POS_PROJECT_NAME = 0;
+    private static final int POS_PROJECT_START = 12;
+    private static final int POS_PROJECT_END = 35;
+    private static final int POS_PROJECT_DURATION = 60;
 
     private static final String[] HEADER_TASKS = new String[]{
             "Project", "Task", "Start Date", "End Date", "Total time"
@@ -53,10 +53,10 @@ public class DetailedReportVisitor extends ReportVisitor {
     private Collection<ReportInterval> intervalsProject;
     private Collection<ReportInterval> intervalsSubProject;
 
-    private Collection<String[]> projectsResults;
-    private Collection<String[]> subProjectsResults;
-    private Collection<String[]> tasksResults;
-    private Collection<String[]> intervalsResults;
+    private final Collection<String[]> projectsResults;
+    private final Collection<String[]> subProjectsResults;
+    private final Collection<String[]> tasksResults;
+    private final Collection<String[]> intervalsResults;
 
     /**
      * Initialize basic menu info with table header.

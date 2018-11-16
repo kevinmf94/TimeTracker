@@ -7,9 +7,9 @@ import java.util.Locale;
 
 public class ReportAscii implements  ReportFormat {
 
-    static final String WHITE_LINE = "                                     "
+    private static final String WHITE_LINE = "                                     "
             + "                                           ";
-    private StringBuilder result = new StringBuilder();
+    private final StringBuilder result = new StringBuilder();
 
     // Date Time Format.
     private static final SimpleDateFormat DF =
@@ -35,7 +35,7 @@ public class ReportAscii implements  ReportFormat {
      * @param pos Position to insert
      * @param word String to insert
      */
-    protected void insertInLine(final StringBuilder sb, final int pos,
+    private void insertInLine(final StringBuilder sb, final int pos,
                                 final String word) {
         sb.replace(pos, pos + word.length(), word);
     }

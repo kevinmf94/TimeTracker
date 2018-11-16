@@ -22,7 +22,7 @@ public abstract class Task extends Activity {
      * Task constructor.
      * @param name The name of the task
      */
-    public Task(final String name) {
+    protected Task(final String name) {
         super(name);
     }
 
@@ -31,7 +31,7 @@ public abstract class Task extends Activity {
      * @param name The name of the task
      * @param description The description of the task
      */
-    public Task(final String name, final String description) {
+    protected Task(final String name, final String description) {
         super(name, description);
         this.invariant();
         logger.info("Create task " + name);
@@ -41,7 +41,7 @@ public abstract class Task extends Activity {
      * Task constructor from other tasks.
      * @param task Task instance
      */
-    public Task(final Task task) {
+    private Task(final Task task) {
         assert task != null;
         this.setName(task.getName());
         this.setDescription(task.getDescription());
@@ -57,7 +57,7 @@ public abstract class Task extends Activity {
         return intervals;
     }
 
-    public final void setIntervals(final ArrayList<Interval> newIntervals) {
+    private final void setIntervals(final ArrayList<Interval> newIntervals) {
         this.intervals = newIntervals;
     }
 
@@ -76,6 +76,7 @@ public abstract class Task extends Activity {
      */
     public void start() {
         assert this.invariant();
+
         if (!isRunning()) {
             logger.info("Start Task " + getName());
             Interval interval = new Interval();

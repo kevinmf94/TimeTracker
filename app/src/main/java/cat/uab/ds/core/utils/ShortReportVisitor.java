@@ -16,11 +16,11 @@ public class ShortReportVisitor extends ReportVisitor {
 
     public static final String SEPARATOR = "|";
 
-    // Colums positions of the projects table
-    static final int POS_PROJECT_NAME = 0;
-    static final int POS_PROJECT_START = 12;
-    static final int POS_PROJECT_END = 35;
-    static final int POS_PROJECT_DURATION = 60;
+    // Columns positions of the projects table
+    private static final int POS_PROJECT_NAME = 0;
+    private static final int POS_PROJECT_START = 12;
+    private static final int POS_PROJECT_END = 35;
+    private static final int POS_PROJECT_DURATION = 60;
 
     private final Logger logger =
             LoggerFactory.getLogger(
@@ -29,9 +29,9 @@ public class ShortReportVisitor extends ReportVisitor {
     private Collection<ReportInterval> intervals;
     private Collection<ReportInterval> intervalsProject;
 
-    private Collection<String[]> projectsResults;
+    private final Collection<String[]> projectsResults;
 
-    private String[] header = new String[]{
+    private final String[] header = new String[]{
         "Project", "Start Date", "End Date", "Total time"
     };
 

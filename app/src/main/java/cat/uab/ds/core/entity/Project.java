@@ -16,7 +16,6 @@ import java.util.Date;
  */
 public class Project extends Activity implements Serializable {
 
-    private final Logger logger = LoggerFactory.getLogger(Project.class);
     private final Collection<Activity> activities = new ArrayList<>();
 
     /**
@@ -32,8 +31,9 @@ public class Project extends Activity implements Serializable {
      * @param name The name of the project
      * @param description The description of the project
      */
-    public Project(final String name, final String description) {
+    private Project(final String name, final String description) {
         super(name, description);
+        Logger logger = LoggerFactory.getLogger(Project.class);
         logger.info("Create project " + name);
     }
 

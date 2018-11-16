@@ -9,7 +9,7 @@ import cat.uab.ds.core.entity.Interval;
 
 public abstract class ReportVisitor implements ActivityVisitor {
 
-    static final int MINUTE = 60;
+    private static final int MINUTE = 60;
 
     public static final String SEPARATOR = "|";
     static final String WHITE_LINE = "                                     "
@@ -31,7 +31,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
      * @param newEndDate End period
      * @param newReportFormat Report format
      */
-    public ReportVisitor(final Date newStartDate, final Date newEndDate,
+    protected ReportVisitor(final Date newStartDate, final Date newEndDate,
                          final ReportFormat newReportFormat) {
         this.startDate = newStartDate;
         this.endDate = newEndDate;
@@ -53,7 +53,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
                 "%dh %dm %ds", hours, minutes, seconds);
     }
 
-    public final Date getStartDate() {
+    protected final Date getStartDate() {
         return startDate;
     }
 
@@ -61,7 +61,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
         this.startDate = newStartDate;
     }
 
-    public final Date getEndDate() {
+    protected final Date getEndDate() {
         return endDate;
     }
 
@@ -69,7 +69,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
         this.endDate = newEndDate;
     }
 
-    public final String getDateString(final Date date) {
+    protected final String getDateString(final Date date) {
         return FORMAT.format(date);
     }
 
@@ -80,7 +80,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
      * @return ReportInterval, the container with Start Date, End Date and
      * the duration
      */
-    public final ReportInterval convertToReportInterval(
+    protected final ReportInterval convertToReportInterval(
             final Interval interval) {
         Date start = interval.getStart();
         Date end = interval.getEnd();
@@ -112,7 +112,7 @@ public abstract class ReportVisitor implements ActivityVisitor {
      * @param intervals Set of ReportInterval
      * @return ReportInterval with minStart, maxEnd and durationSum
      */
-    public final ReportInterval mergeReportInterval(
+    protected final ReportInterval mergeReportInterval(
             final Collection<ReportInterval> intervals) {
 
         Date minStart = null, maxEnd = null;
@@ -150,9 +150,9 @@ public abstract class ReportVisitor implements ActivityVisitor {
      */
     class ReportInterval {
 
-        private Date start;
-        private Date end;
-        private int duration;
+        private final Date start;
+        private final Date end;
+        private final int duration;
 
         ReportInterval(final Date reportStartDate,
                        final Date reportEndDate,
@@ -162,20 +162,20 @@ public abstract class ReportVisitor implements ActivityVisitor {
             this.duration = durationInterval;
         }
 
-        public Date getStart() {
+        protected Date getStart() {
             return start;
         }
 
-        public Date getEnd() {
+        protected Date getEnd() {
             return end;
         }
 
-        public int getDuration() {
+        protected int getDuration() {
             return duration;
         }
     }
 
-    public final ReportFormat getReportFormat() {
+    protected final ReportFormat getReportFormat() {
         return reportFormat;
     }
 

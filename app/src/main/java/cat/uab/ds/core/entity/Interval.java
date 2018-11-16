@@ -81,7 +81,7 @@ public class Interval implements Observer, Serializable {
         return isRunning;
     }
 
-    public final void setRunning(final boolean running) {
+    private void setRunning(final boolean running) {
         isRunning = running;
     }
 

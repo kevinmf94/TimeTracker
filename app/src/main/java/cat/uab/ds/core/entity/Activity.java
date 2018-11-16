@@ -31,7 +31,7 @@ public abstract class Activity implements Serializable {
      * @param newName Name of Activity (Task or Project)
      * @param newDescription Description of Activity
      */
-    public Activity(final String newName, final String newDescription) {
+    protected Activity(final String newName, final String newDescription) {
         this.name = newName;
         this.description = newDescription;
     }
@@ -40,15 +40,15 @@ public abstract class Activity implements Serializable {
         return name;
     }
 
-    public final void setName(final String newName) {
+    protected void setName(final String newName) {
         this.name = newName;
     }
 
-    public String getDescription() {
+    protected String getDescription() {
         return description;
     }
 
-    public final void setDescription(final String newDescription) {
+    protected final void setDescription(final String newDescription) {
         this.description = newDescription;
     }
 
@@ -64,7 +64,7 @@ public abstract class Activity implements Serializable {
         return level;
     }
 
-    public final void setLevel(final int newLevel) {
+    protected void setLevel(final int newLevel) {
         this.level = newLevel;
     }
 

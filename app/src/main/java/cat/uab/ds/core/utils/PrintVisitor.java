@@ -49,7 +49,7 @@ public class PrintVisitor implements ActivityVisitor {
      * Generate String with activity info (Name, Start, End and Duration).
      * @param activity Project or Task to print
      */
-    public void generateActivity(final Activity activity) {
+    private void generateActivity(final Activity activity) {
         Date start = activity.getStart();
         Date end = activity.getEnd();
         int duration = activity.getDuration();
