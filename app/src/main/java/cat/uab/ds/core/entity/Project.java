@@ -3,12 +3,12 @@ package cat.uab.ds.core.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cat.uab.ds.core.utils.ActivityVisitor;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+
+import cat.uab.ds.core.utils.ActivityVisitor;
 
 
 /**
@@ -24,6 +24,7 @@ public class Project extends Activity implements Serializable {
      */
     public Project(final String name) {
         super(name);
+        setProject(true);
     }
 
     /**
@@ -35,6 +36,7 @@ public class Project extends Activity implements Serializable {
         super(name, description);
         Logger logger = LoggerFactory.getLogger(Project.class);
         logger.info("Create project " + name);
+        setProject(true);
     }
 
     /**
@@ -128,5 +130,14 @@ public class Project extends Activity implements Serializable {
      */
     public Collection<Activity> getActivities() {
         return activities;
+    }
+
+    public boolean isRunning(){
+        for (Activity activity: getActivities()) {
+            if(activity.isRunning())
+                return true;
+        }
+
+        return false;
     }
 }

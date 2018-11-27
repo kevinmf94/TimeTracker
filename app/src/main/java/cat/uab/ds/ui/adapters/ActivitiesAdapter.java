@@ -1,8 +1,8 @@
 package cat.uab.ds.ui.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,37 +10,96 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
-import cat.uab.ds.core.entity.Activity;
+import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.R;
 
-public class ActivitiesAdapter extends ArrayAdapter<Activity> {
+public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
+
+    private static final int MINUTE = 60;
+    private static final String TAG = "ActivitiesAdapter";
 
     private Context context;
     private int resource;
 
-    public ActivitiesAdapter(Context context, int resource, List<Activity> objects) {
+    public ActivitiesAdapter(Context context, int resource, List<ActivityHolder> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, View v, ViewGroup parent) {
 
-        if (convertView == null) {
+        ViewHolder holder;
+
+        if (v == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(resource, null);
+            v = layoutInflater.inflate(resource, null);
+
+            holder = new ViewHolder();
+            holder.title = v.findViewById(R.id.activityTitle);
+            holder.duration = v.findViewById(R.id.duration);
+            holder.btn = v.findViewById(R.id.btnPlay);
+            v.setTag(holder);
+        } else {
+            holder = (ViewHolder) v.getTag();
         }
 
-        Activity item = getItem(position);
+        final ActivityHolder item = getItem(position);
 
-        if (convertView != null) {
-            TextView title = convertView.findViewById(R.id.activityTitle);
-            title.setText(item.getName());
+        holder.title.setText(item.getName());
+        holder.duration.setText(durationToStr(item.getDuration()));
+
+        if(item.isTask()){
+            Log.d(TAG, item.toString()+" Duration: "+item.getDuration());
+            holder.btn.setVisibility(View.VISIBLE);
+
+            if(item.isRunning()){
+                holder.btn.setText("Stop");
+                holder.btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "Click task");
+                        Intent intent = new Intent(MainActivity.STOP_TASK);
+                        intent.putExtra("pos", position);
+                        context.sendBroadcast(intent);
+                    }
+                });
+            } else {
+                holder.btn.setText("Start");
+                holder.btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "Click task");
+                        Intent intent = new Intent(MainActivity.START_TASK);
+                        intent.putExtra("pos", position);
+                        context.sendBroadcast(intent);
+                    }
+                });
+            }
+
+
+        } else {
+            holder.btn.setVisibility(View.GONE);
         }
 
-        return convertView;
+        return v;
+    }
+
+    private String durationToStr(final int time) {
+        long hours = time / MINUTE / MINUTE;
+        long minutes = time / MINUTE;
+        long seconds = time % MINUTE;
+
+        return String.format(new Locale("en"),
+                "%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    class ViewHolder {
+        TextView title;
+        TextView duration;
+        TextView btn;
     }
 }

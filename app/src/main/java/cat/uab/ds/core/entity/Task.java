@@ -24,6 +24,7 @@ public abstract class Task extends Activity {
      */
     protected Task(final String name) {
         super(name);
+        setTask(true);
     }
 
     /**
@@ -34,6 +35,7 @@ public abstract class Task extends Activity {
     protected Task(final String name, final String description) {
         super(name, description);
         this.invariant();
+        setTask(true);
         logger.info("Create task " + name);
     }
 

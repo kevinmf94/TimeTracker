@@ -15,7 +15,7 @@ import cat.uab.ds.ui.R;
 
 public class SplashFragment extends Fragment {
 
-    public final static int TIME_SPLASH = 500;
+    public final static int TIME_SPLASH = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class SplashFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((MainActivity) getActivity()).loadMainList();
+                ((MainActivity) getActivity()).loadActivity();
             }
         }, TIME_SPLASH);
     }

@@ -16,6 +16,8 @@ public abstract class Activity implements Serializable {
     private String description;
 
     private boolean isRoot = false; //For dummy root project container
+    private boolean isProject = false;
+    private boolean isTask = false;
 
     Activity() { }
 
@@ -81,6 +83,8 @@ public abstract class Activity implements Serializable {
 
     public abstract int getDuration();
 
+    public abstract boolean isRunning();
+
     public Activity getParent() {
         return parent;
     }
@@ -88,4 +92,21 @@ public abstract class Activity implements Serializable {
     public void setParent(Activity parent) {
         this.parent = parent;
     }
+
+    protected void setProject(boolean project) {
+        isProject = project;
+    }
+
+    public boolean isProject() {
+        return isProject;
+    }
+
+    protected void setTask(boolean task) {
+        isTask = task;
+    }
+
+    public boolean isTask() {
+        return isTask;
+    }
+
 }
