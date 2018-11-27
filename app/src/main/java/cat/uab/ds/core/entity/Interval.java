@@ -19,6 +19,7 @@ public class Interval implements Observer, Serializable {
     private Date end = null;
 
     private boolean isRunning = false;
+    private Task parent = null;
 
     /**
      * Interval Constructor. Register yourself to Clock Observable updates.
@@ -98,5 +99,13 @@ public class Interval implements Observer, Serializable {
     public static int getDuration(final Date start, final Date end) {
         return Math.round((end.getTime() - start.getTime())
                 / Configuration.SECONDS_TO_MILLISECONDS);
+    }
+
+    public Task getParent() {
+        return parent;
+    }
+
+    public void setParent(Task parent) {
+        this.parent = parent;
     }
 }

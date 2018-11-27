@@ -1,4 +1,4 @@
-package cat.uab.ds;
+package cat.uab.ds.core;
 
 import java.util.Date;
 

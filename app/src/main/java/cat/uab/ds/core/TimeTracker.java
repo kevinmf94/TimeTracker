@@ -4,10 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
+import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.utils.Clock;
 import cat.uab.ds.core.utils.DetailedReportVisitor;
@@ -29,7 +31,7 @@ public class TimeTracker implements Observer {
     public TimeTracker() {
         root.setRoot(true);
         Clock clock = Clock.getInstance();
-        clock.addObserver(this);
+        //clock.addObserver(this);
     }
 
     public final void addProject(final Project project) {
@@ -116,5 +118,9 @@ public class TimeTracker implements Observer {
         this.root.accept(shortReportVisitor);
         shortReportVisitor.generate();
 
+    }
+
+    public Project getRoot() {
+        return root;
     }
 }

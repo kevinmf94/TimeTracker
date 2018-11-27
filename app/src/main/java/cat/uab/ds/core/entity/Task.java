@@ -80,6 +80,7 @@ public abstract class Task extends Activity {
         if (!isRunning()) {
             logger.info("Start Task " + getName());
             Interval interval = new Interval();
+            interval.setParent(this);
             interval.start();
             intervals.add(interval);
         }

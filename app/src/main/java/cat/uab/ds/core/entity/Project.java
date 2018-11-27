@@ -118,6 +118,7 @@ public class Project extends Activity implements Serializable {
      */
     public void addActivity(final Activity activity) {
         activity.setLevel(this.getLevel() + 1);
+        activity.setParent(this);
         this.activities.add(activity);
     }
 
