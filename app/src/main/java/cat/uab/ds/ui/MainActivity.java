@@ -1,9 +1,11 @@
 package cat.uab.ds.ui;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -14,14 +16,12 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import cat.uab.ds.core.entity.Activity;
-import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.ui.adapters.ActivityHolder;
 import cat.uab.ds.ui.fragments.ListFragment;
 import cat.uab.ds.ui.fragments.SplashFragment;
 import cat.uab.ds.ui.services.TreeManagerService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogInterface.OnClickListener {
 
     //Constants
     private final static String TAG = "MainActivity";
@@ -29,8 +29,12 @@ public class MainActivity extends AppCompatActivity {
     public final static String DOWN_TREE = "DownTree";
     public final static String UP_TREE = "UpTree";
     public final static String CREATE_ACTIVITY = "CreateActivity";
+    public final static String REMOVE_ACTIVITY = "RemoveActivity";
     public final static String START_TASK = "StartTask";
     public final static String STOP_TASK = "StopTask";
+
+    public final static int REQUEST_PROJECT = 0;
+    public final static int REQUEST_TASK = 1;
 
     //UI and Fragments
     private FloatingActionButton floatingActionButton;
@@ -76,17 +80,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addActivity(View view){
-        Intent intent = new Intent(this, AddProjectActivity.class);
-        startActivityForResult(intent, 0);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.selectCreateTitle)
+                .setItems(R.array.selectCreate, this);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
-        /*Intent intent2 = new Intent(CREATE_ACTIVITY);
-        intent2.putExtra("activity", new Project("PX"));
-        sendBroadcast(intent2);*/
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        Log.d(TAG, "Escogido: "+which);
+
+        Intent intent;
+
+        switch (which){
+            case 0:
+                intent = new Intent(this, AddProjectActivity.class);
+                startActivityForResult(intent, REQUEST_PROJECT);
+                break;
+            case 1:
+                intent = new Intent(this, AddTaskActivity.class);
+                startActivityForResult(intent, REQUEST_TASK);
+                break;
+        }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            switch (requestCode){
+                case REQUEST_PROJECT:
+                case REQUEST_TASK:
+                    data.setAction(CREATE_ACTIVITY);
+                    sendBroadcast(data);
+                    break;
+            }
+        }
     }
 
     @Override

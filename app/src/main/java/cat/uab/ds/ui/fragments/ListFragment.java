@@ -1,6 +1,8 @@
 package cat.uab.ds.ui.fragments;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,13 +16,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.R;
 import cat.uab.ds.ui.adapters.ActivitiesAdapter;
 import cat.uab.ds.ui.adapters.ActivityHolder;
 
-public class ListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ListFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private final static String TAG = "ListFragment";
 
@@ -45,6 +46,7 @@ public class ListFragment extends Fragment implements AdapterView.OnItemClickLis
         emptyText = v.findViewById(R.id.emptyText);
         activitiesList = v.findViewById(R.id.activitiesList);
         activitiesList.setOnItemClickListener(this);
+        activitiesList.setOnItemLongClickListener(this);
         activitiesList.setAdapter(adapter);
 
         return v;
@@ -59,6 +61,34 @@ public class ListFragment extends Fragment implements AdapterView.OnItemClickLis
             intent.putExtra("pos", position);
             mainActivity.sendBroadcast(intent);
         }
+        else if(activity.isTask()) {
+
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(R.string.removeTitle)
+                .setMessage(R.string.removeMessage)
+                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.REMOVE_ACTIVITY);
+                        intent.putExtra("pos", position);
+                        mainActivity.sendBroadcast(intent);
+                    }
+                }).
+                setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        return true;
     }
 
     private void updateView(int nElements){
@@ -77,5 +107,7 @@ public class ListFragment extends Fragment implements AdapterView.OnItemClickLis
         adapter.addAll(activities);
         adapter.notifyDataSetChanged();
     }
+
+
 }
 

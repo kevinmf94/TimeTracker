@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
             holder.title = v.findViewById(R.id.activityTitle);
             holder.duration = v.findViewById(R.id.duration);
             holder.btn = v.findViewById(R.id.btnPlay);
+            holder.typeIcon = v.findViewById(R.id.imgType);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -57,7 +59,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
             holder.btn.setVisibility(View.VISIBLE);
 
             if(item.isRunning()){
-                holder.btn.setText("Stop");
+                holder.btn.setImageResource(R.drawable.ic_stop);
                 holder.btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -68,7 +70,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
                     }
                 });
             } else {
-                holder.btn.setText("Start");
+                holder.btn.setImageResource(R.drawable.ic_play);
                 holder.btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -80,8 +82,9 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
                 });
             }
 
-
+            holder.typeIcon.setImageResource(R.drawable.ic_task);
         } else {
+            holder.typeIcon.setImageResource(R.drawable.ic_folder);
             holder.btn.setVisibility(View.GONE);
         }
 
@@ -100,6 +103,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
     class ViewHolder {
         TextView title;
         TextView duration;
-        TextView btn;
+        ImageView btn;
+        ImageView typeIcon;
     }
 }

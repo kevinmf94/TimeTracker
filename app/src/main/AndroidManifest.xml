@@ -26,6 +26,8 @@
                     android:scheme="android-app-google-plus-demo" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddTaskActivity"></activity>
+        <activity android:name=".AddProjectActivity"></activity>
 
         <service android:name=".services.TreeManagerService"/>
     </application>

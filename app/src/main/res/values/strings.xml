@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">TimeTracker</string>
+
+    <string name="removeTitle">Remove</string>
+    <string name="removeMessage">Are you sure you want to remove it?</string>
+    <string name="selectCreateTitle">Add a</string>
+    <array name="selectCreate">
+        <item>Project</item>
+        <item>Task</item>
+    </array>
+
+    <!-- Create project/task -->
+    <string name="actionBarProject">Create Project</string>
+    <string name="actionBarTask">Create Task</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="accept">Accept</string>
+    <string name="noNameError">Name required</string>
+
 </resources>

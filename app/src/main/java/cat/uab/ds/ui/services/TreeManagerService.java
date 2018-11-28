@@ -50,6 +50,7 @@ public class TreeManagerService extends Service implements Observer {
         filter.addAction(MainActivity.DOWN_TREE);
         filter.addAction(MainActivity.UP_TREE);
         filter.addAction(MainActivity.CREATE_ACTIVITY);
+        filter.addAction(MainActivity.REMOVE_ACTIVITY);
         filter.addAction(MainActivity.START_TASK);
         filter.addAction(MainActivity.STOP_TASK);
         registerReceiver(receiver, filter);
@@ -81,6 +82,7 @@ public class TreeManagerService extends Service implements Observer {
         p1.addActivity(new TaskBasic("T1"));
         root.addActivity(p1);
         root.addActivity(new Project("P2"));
+        root.addActivity(new TaskBasic("TP"));
     }
 
     private void sendChilds(){
@@ -120,6 +122,14 @@ public class TreeManagerService extends Service implements Observer {
             }
             else if (action.equals(MainActivity.CREATE_ACTIVITY)) {
                 actual.addActivity((Activity) intent.getSerializableExtra("activity"));
+            }
+            else if (action.equals(MainActivity.REMOVE_ACTIVITY)) {
+                int pos = intent.getIntExtra("pos", -1);
+                if (pos > -1) {
+                    ArrayList<Activity> activities =
+                            (ArrayList<Activity>) actual.getActivities();
+                    activities.remove(activities.get(pos));
+                }
             }
             else if (action.equals(MainActivity.START_TASK)) {
                 int pos = intent.getIntExtra("pos", -1);
