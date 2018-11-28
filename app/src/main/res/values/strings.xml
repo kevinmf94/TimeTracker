@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">TimeTracker</string>
+    <string name="app_name" translatable="false">TimeTracker</string>
 
     <string name="removeTitle">Remove</string>
     <string name="removeMessage">Are you sure you want to remove it?</string>
     <string name="selectCreateTitle">Add a</string>
     <array name="selectCreate">
-        <item>Project</item>
-        <item>Task</item>
+        <item>@string/project</item>
+        <item>@string/task</item>
     </array>
 
     <!-- Create project/task -->
@@ -18,5 +18,10 @@
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>
     <string name="noNameError">Name required</string>
+    <string name="exitTitle">Exit</string>
+    <string name="exitMessage">" Are there any scheduled tasks and are you sure you want to leave?"</string>
+    <string name="emptyMessage">Does not have any project or task, create one now</string>
+    <string name="project">Project</string>
+    <string name="task">Task</string>
 
 </resources>

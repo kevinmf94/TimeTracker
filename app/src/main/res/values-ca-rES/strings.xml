@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TimeTracker</string>
+    <string name="removeTitle">Esborrar</string>
+    <string name="removeMessage">Esta segur que el vols esborrar?</string>
+    <string name="selectCreateTitle">Afegir un</string>
+    <string name="actionBarProject">Crear projecte</string>
+    <string name="actionBarTask">Crear tasca</string>
+    <string name="name">Nom</string>
+    <string name="description">Descripcio</string>
+    <string name="create">Crear</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="noNameError">Nom requerit</string>
+    <string name="exitTitle">Sortir</string>
+    <string name="exitMessage">Hi ha tascas cronometrantse estas segur que vols sortir?</string>
+    <string name="emptyMessage">No hi ha cap projecte o tasca, crea un ara</string>
+    <string name="project">Projecte</string>
+    <string name="task">Tasca</string>
+</resources>

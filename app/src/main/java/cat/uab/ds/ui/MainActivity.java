@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     public final static String REMOVE_ACTIVITY = "RemoveActivity";
     public final static String START_TASK = "StartTask";
     public final static String STOP_TASK = "StopTask";
+    public final static String PAUSE_ALL = "PauseAll";
+    public final static String RESUME_ALL = "ResumeAll";
 
     public final static int REQUEST_PROJECT = 0;
     public final static int REQUEST_TASK = 1;
@@ -39,9 +44,12 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     //UI and Fragments
     private FloatingActionButton floatingActionButton;
     private ListFragment listFragment;
+    private MenuItem playPauseItem;
 
     private Receiver receiver;
     private boolean isRoot = true;
+    private boolean rootRunning = false;
+    private boolean isPaused = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +131,28 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     @Override
     public void onBackPressed() {
         if(isRoot){
-            super.onBackPressed();
+            if(rootRunning){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.exitTitle)
+                        .setMessage(R.string.exitMessage)
+                        .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            sendBroadcast(new Intent(PAUSE_ALL));
+                            MainActivity.super.onBackPressed();
+                            }
+                        }).
+                        setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                super.onBackPressed();
+            }
         } else {
             Log.d(TAG, "OnBackPressed");
             sendBroadcast(new Intent(MainActivity.UP_TREE));
@@ -145,11 +174,37 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
             if (action.equals(TreeManagerService.RECEIVE_CHILDREN)) {
                 Log.d(TAG, "Receive Childs");
                 isRoot = intent.getBooleanExtra("isRoot", true);
+                rootRunning = intent.getBooleanExtra("rootRunning", false);
+                isPaused = intent.getBooleanExtra("isPaused" , false);
                 ArrayList<ActivityHolder> activities = (ArrayList<ActivityHolder>) intent.getSerializableExtra("childs");
 
-                Log.d(TAG, "NChilds "+activities.size());
+                playPauseItem.setVisible((rootRunning && !isPaused) || (isPaused && !rootRunning));
                 listFragment.actualitzaDades(activities);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_menu, menu);
+        playPauseItem = menu.findItem(R.id.playPauseAll);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.playPauseAll){
+            if(isPaused){
+                item.setIcon(R.drawable.ic_pause_white);
+                sendBroadcast(new Intent(RESUME_ALL));
+            } else {
+                item.setIcon(R.drawable.ic_play_white);
+                sendBroadcast(new Intent(PAUSE_ALL));
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

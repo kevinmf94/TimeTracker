@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.icu.text.LocaleDisplayNames;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -32,6 +31,7 @@ public class TreeManagerService extends Service implements Observer {
     private Receiver receiver;
     private Project root = new Project("root");
     private Project actual;
+    private ArrayList<Task> pausedTask = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -53,6 +53,8 @@ public class TreeManagerService extends Service implements Observer {
         filter.addAction(MainActivity.REMOVE_ACTIVITY);
         filter.addAction(MainActivity.START_TASK);
         filter.addAction(MainActivity.STOP_TASK);
+        filter.addAction(MainActivity.PAUSE_ALL);
+        filter.addAction(MainActivity.RESUME_ALL);
         registerReceiver(receiver, filter);
 
         super.onCreate();
@@ -93,6 +95,8 @@ public class TreeManagerService extends Service implements Observer {
         }
         intent.putExtra("childs", activities);
         intent.putExtra("isRoot", actual.isRoot());
+        intent.putExtra("rootRunning", root.isRunning());
+        intent.putExtra("isPaused", (pausedTask.size() > 0));
         sendBroadcast(intent);
     }
 
@@ -149,8 +153,33 @@ public class TreeManagerService extends Service implements Observer {
                     task.stop();
                 }
             }
+            else if (action.equals(MainActivity.PAUSE_ALL)) {
+                pauseAll(root);
+            }
+            else if (action.equals(MainActivity.RESUME_ALL)) {
+                resumeAll();
+            }
 
             sendChilds();
         }
+    }
+
+    public void pauseAll(Project root){
+        for(Activity activity : root.getActivities()){
+            if(activity.isTask() && activity.isRunning()){
+                ((Task) activity).stop();
+                pausedTask.add((Task) activity);
+            }
+            else if (activity.isProject()) {
+                pauseAll((Project) activity);
+            }
+        }
+    }
+
+    public void resumeAll(){
+        for(Task task : pausedTask){
+            task.start();
+        }
+        pausedTask.clear();
     }
 }
