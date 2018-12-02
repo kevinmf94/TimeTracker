@@ -24,8 +24,8 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
     private Context context;
     private int resource;
 
-    public ActivitiesAdapter(Context context, int resource, List<ActivityHolder> objects) {
-        super(context, resource, objects);
+    public ActivitiesAdapter(Context context, int resource) {
+        super(context, resource);
         this.context = context;
         this.resource = resource;
     }
@@ -100,7 +100,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
                 "%02d:%02d:%02d", hours, minutes, seconds);
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         TextView title;
         TextView duration;
         ImageView btn;

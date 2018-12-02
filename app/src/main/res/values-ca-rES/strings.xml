@@ -17,4 +17,5 @@
     <string name="emptyMessage">No hi ha cap projecte o tasca, crea un ara</string>
     <string name="project">Projecte</string>
     <string name="task">Tasca</string>
+    <string name="emptyMessageIntervals">No conte cap interval</string>
 </resources>

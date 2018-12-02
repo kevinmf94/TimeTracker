@@ -23,5 +23,6 @@
     <string name="emptyMessage">Does not have any project or task, create one now</string>
     <string name="project">Project</string>
     <string name="task">Task</string>
+    <string name="emptyMessageIntervals">Does not have any interval</string>
 
 </resources>

@@ -14,12 +14,15 @@ import java.util.Observer;
 
 import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Configuration;
+import cat.uab.ds.core.entity.Interval;
 import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 import cat.uab.ds.core.entity.TaskBasic;
 import cat.uab.ds.core.utils.Clock;
+import cat.uab.ds.ui.IntervalsActivity;
 import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.adapters.ActivityHolder;
+import cat.uab.ds.ui.adapters.IntervalHolder;
 
 public class TreeManagerService extends Service implements Observer {
 
@@ -27,11 +30,13 @@ public class TreeManagerService extends Service implements Observer {
     public static final String TAG = "TreeManagerService";
 
     public static final String RECEIVE_CHILDREN = "ReceiveChildren";
+    public static final String RECEIVE_INTERVALS = "ReceiveIntervals";
 
     private Receiver receiver;
     private Project root = new Project("root");
     private Project actual;
     private ArrayList<Task> pausedTask = new ArrayList<>();
+    private int posIntervals = -1;
 
     @Override
     public void onCreate() {
@@ -55,6 +60,8 @@ public class TreeManagerService extends Service implements Observer {
         filter.addAction(MainActivity.STOP_TASK);
         filter.addAction(MainActivity.PAUSE_ALL);
         filter.addAction(MainActivity.RESUME_ALL);
+        filter.addAction(IntervalsActivity.GET_INTERVALS);
+        filter.addAction(IntervalsActivity.REMOVE_INTERVAL);
         registerReceiver(receiver, filter);
 
         super.onCreate();
@@ -100,13 +107,39 @@ public class TreeManagerService extends Service implements Observer {
         sendBroadcast(intent);
     }
 
+    private void sendIntervals(int pos){
+        if(pos > -1){
+            Intent intent = new Intent(RECEIVE_INTERVALS);
+            ArrayList<IntervalHolder> intervals = new ArrayList<>();
+            Task task = (Task) actual.getActivities().toArray()[pos];
+            Log.d(TAG, "nIntervals "+task.getIntervals().size());
+            for(Interval interval: task.getIntervals()){
+                intervals.add(new IntervalHolder(interval));
+            }
+
+            intent.putExtra("activityData", new ActivityHolder(task));
+            intent.putExtra("intervals", intervals);
+            sendBroadcast(intent);
+        }
+    }
+
+    private void removeInterval(int pos){
+        if(pos > -1){
+            Task task = (Task) actual.getActivities().toArray()[posIntervals];
+            task.getIntervals().remove(pos);
+        }
+
+        sendIntervals(posIntervals);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         //Log.d(TAG, "Updated Clock");
         sendChilds();
+        sendIntervals(posIntervals);
     }
 
-    class Receiver extends BroadcastReceiver {
+    private class Receiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -158,6 +191,14 @@ public class TreeManagerService extends Service implements Observer {
             }
             else if (action.equals(MainActivity.RESUME_ALL)) {
                 resumeAll();
+            }
+            else if (action.equals(IntervalsActivity.GET_INTERVALS)) {
+                posIntervals = intent.getIntExtra("taskPos", -1);
+                sendIntervals(posIntervals);
+            }
+            else if (action.equals(IntervalsActivity.REMOVE_INTERVAL)) {
+                int pos = intent.getIntExtra("pos", -1);
+                removeInterval(pos);
             }
 
             sendChilds();

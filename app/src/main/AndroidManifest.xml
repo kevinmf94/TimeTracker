@@ -28,8 +28,10 @@
         </activity>
         <activity android:name=".AddTaskActivity"></activity>
         <activity android:name=".AddProjectActivity"></activity>
+        <activity android:name=".IntervalsActivity"></activity>
 
         <service android:name=".services.TreeManagerService"/>
+
     </application>
 
 </manifest>

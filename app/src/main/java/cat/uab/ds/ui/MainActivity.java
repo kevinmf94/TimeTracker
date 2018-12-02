@@ -20,7 +20,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import cat.uab.ds.ui.adapters.ActivityHolder;
-import cat.uab.ds.ui.fragments.ListFragment;
+import cat.uab.ds.ui.fragments.ActivitiesListFragment;
 import cat.uab.ds.ui.fragments.SplashFragment;
 import cat.uab.ds.ui.services.TreeManagerService;
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
     //UI and Fragments
     private FloatingActionButton floatingActionButton;
-    private ListFragment listFragment;
+    private ActivitiesListFragment activitiesListFragment;
     private MenuItem playPauseItem;
 
     private Receiver receiver;
@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     }
 
     public void loadActivity(){
-        listFragment = new ListFragment();
+        activitiesListFragment = new ActivitiesListFragment();
         receiver = new Receiver();
 
         FragmentManager manager = this.getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.mainFragment, listFragment);
+        transaction.replace(R.id.mainFragment, activitiesListFragment);
         transaction.commit();
 
         startService(new Intent(this, TreeManagerService.class));
@@ -165,25 +165,6 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         super.onDestroy();
     }
 
-    class Receiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (action.equals(TreeManagerService.RECEIVE_CHILDREN)) {
-                Log.d(TAG, "Receive Childs");
-                isRoot = intent.getBooleanExtra("isRoot", true);
-                rootRunning = intent.getBooleanExtra("rootRunning", false);
-                isPaused = intent.getBooleanExtra("isPaused" , false);
-                ArrayList<ActivityHolder> activities = (ArrayList<ActivityHolder>) intent.getSerializableExtra("childs");
-
-                playPauseItem.setVisible((rootRunning && !isPaused) || (isPaused && !rootRunning));
-                listFragment.actualitzaDades(activities);
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -206,5 +187,24 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class Receiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equals(TreeManagerService.RECEIVE_CHILDREN)) {
+                Log.d(TAG, "Receive Childs");
+                isRoot = intent.getBooleanExtra("isRoot", true);
+                rootRunning = intent.getBooleanExtra("rootRunning", false);
+                isPaused = intent.getBooleanExtra("isPaused" , false);
+                ArrayList<ActivityHolder> activities = (ArrayList<ActivityHolder>) intent.getSerializableExtra("childs");
+
+                playPauseItem.setVisible((rootRunning && !isPaused) || (isPaused && !rootRunning));
+                activitiesListFragment.updateData(activities);
+            }
+        }
     }
 }
