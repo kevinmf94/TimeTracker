@@ -85,7 +85,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
             holder.typeIcon.setImageResource(R.drawable.ic_task);
         } else {
             holder.typeIcon.setImageResource(R.drawable.ic_folder);
-            holder.btn.setVisibility(View.GONE);
+            holder.btn.setImageResource(R.drawable.ic_arrow_right);
         }
 
         return v;
