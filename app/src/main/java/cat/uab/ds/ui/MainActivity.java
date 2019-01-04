@@ -176,14 +176,51 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.playPauseAll){
-            if(isPaused){
-                item.setIcon(R.drawable.ic_pause_white);
-                sendBroadcast(new Intent(RESUME_ALL));
-            } else {
-                item.setIcon(R.drawable.ic_play_white);
-                sendBroadcast(new Intent(PAUSE_ALL));
-            }
+        switch (item.getItemId()){
+            case R.id.playPauseAll:
+                if(isPaused){
+                    item.setIcon(R.drawable.ic_pause_white);
+                    sendBroadcast(new Intent(RESUME_ALL));
+                } else {
+                    item.setIcon(R.drawable.ic_play_white);
+                    sendBroadcast(new Intent(PAUSE_ALL));
+                }
+                break;
+            case R.id.generateReport:
+                String[] options = {
+                        getString(R.string.short_report),
+                        getString(R.string.extended_report)
+                };
+
+                AlertDialog.Builder reportsDialogBld = new AlertDialog.Builder(this);
+                reportsDialogBld.setTitle(R.string.selectReportType)
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // the user clicked on colors[which]
+                            }
+                        });
+                AlertDialog reportsDialog = reportsDialogBld.create();
+                reportsDialog.show();
+                break;
+            case R.id.changeLanguage:
+                String[] langs = {
+                        "English",
+                        "Español",
+                        "Català"
+                };
+
+                AlertDialog.Builder langsDialogBld = new AlertDialog.Builder(this);
+                langsDialogBld.setTitle(R.string.selectReportType)
+                        .setItems(langs, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // the user clicked on colors[which]
+                            }
+                        });
+                AlertDialog langsDialog = langsDialogBld.create();
+                langsDialog.show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

@@ -24,5 +24,11 @@
     <string name="project">Project</string>
     <string name="task">Task</string>
     <string name="emptyMessageIntervals">Does not have any interval</string>
+    <string name="generate_report">Generate Report</string>
+    <string name="selectReportType">Select the report type</string>
+    <string name="selectOption">Choose an option</string>
+    <string name="short_report">Short Report</string>
+    <string name="extended_report">Extended Report</string>
+    <string name="change_language">Change language</string>
 
 </resources>

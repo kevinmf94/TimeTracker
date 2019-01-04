@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TimeTracker</string>
     <string name="removeTitle">Eliminar</string>
     <string name="removeMessage">Esta seguro de que quiere eliminarlo?</string>
     <string name="selectCreateTitle">Añadir un</string>
@@ -18,4 +17,10 @@
     <string name="project">Proyecto</string>
     <string name="task">Tarea</string>
     <string name="emptyMessageIntervals">No contiene ningun intervalo</string>
+    <string name="generate_report">Generar Informe</string>
+    <string name="selectReportType">Elige el tipo de informe</string>
+    <string name="selectOption">Elige una opción</string>
+    <string name="short_report">Informe Breve</string>
+    <string name="extended_report">Informe Extendido</string>
+    <string name="change_language">Cambiar idioma</string>
 </resources>
