@@ -60,6 +60,15 @@
         android:weightSum="2">
 
         <Button
+            android:id="@+id/btnCancelProject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onCancel"
+            android:text="@string/cancel"
+            android:textSize="@dimen/textSize" />
+
+        <Button
             android:id="@+id/btnAcceptTask"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -67,15 +76,6 @@
             android:text="@string/create"
             android:textSize="@dimen/textSize"
             android:onClick="onAccept"/>
-
-        <Button
-            android:id="@+id/btnCancelProject"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancel"
-            android:textSize="@dimen/textSize"
-            android:onClick="onCancel"/>
 
     </LinearLayout>
 

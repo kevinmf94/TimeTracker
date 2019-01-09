@@ -23,4 +23,8 @@
     <string name="short_report">Informe Breve</string>
     <string name="extended_report">Informe Extendido</string>
     <string name="change_language">Cambiar idioma</string>
+    <string name="type">Tipo</string>
+    <string name="startDate">Fecha Inicio</string>
+    <string name="endDate">Fecha Fin</string>
+    <string name="format">Formato</string>
 </resources>

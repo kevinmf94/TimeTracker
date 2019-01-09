@@ -23,4 +23,8 @@
     <string name="short_report">Informe Breu</string>
     <string name="extended_report">Informe Extès</string>
     <string name="change_language">Canviar l\'idioma</string>
+    <string name="type">Tipus</string>
+    <string name="startDate">Data Inici</string>
+    <string name="endDate">Data Fi</string>
+    <string name="format">Format</string>
 </resources>

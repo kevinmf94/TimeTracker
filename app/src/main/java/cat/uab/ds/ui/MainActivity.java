@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         switch (which){
             case 0:
                 intent = new Intent(this, AddProjectActivity.class);
-                startActivityForResult(intent, REQUEST_PROJECT);
+                startActivity(intent);
                 break;
             case 1:
                 intent = new Intent(this, AddTaskActivity.class);
@@ -187,21 +187,8 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 }
                 break;
             case R.id.generateReport:
-                String[] options = {
-                        getString(R.string.short_report),
-                        getString(R.string.extended_report)
-                };
-
-                AlertDialog.Builder reportsDialogBld = new AlertDialog.Builder(this);
-                reportsDialogBld.setTitle(R.string.selectReportType)
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // the user clicked on colors[which]
-                            }
-                        });
-                AlertDialog reportsDialog = reportsDialogBld.create();
-                reportsDialog.show();
+                Intent intent = new Intent(this, GenerateReportActivity.class);
+                startActivityForResult(intent, REQUEST_PROJECT);
                 break;
             case R.id.changeLanguage:
                 String[] langs = {

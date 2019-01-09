@@ -30,5 +30,12 @@
     <string name="short_report">Short Report</string>
     <string name="extended_report">Extended Report</string>
     <string name="change_language">Change language</string>
+    <string name="type">Type</string>
+    <string name="startDate">Start Date</string>
+    <string name="endDate">End Date</string>
+    <string name="format">Format</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

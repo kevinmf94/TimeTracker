@@ -29,6 +29,7 @@
         <activity android:name=".AddTaskActivity"></activity>
         <activity android:name=".AddProjectActivity"></activity>
         <activity android:name=".IntervalsActivity"></activity>
+        <activity android:name=".GenerateReportActivity"></activity>
 
         <service android:name=".services.TreeManagerService"/>
 
