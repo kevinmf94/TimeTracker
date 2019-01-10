@@ -6,7 +6,7 @@
     </array>
     <string-array name="report_types_array">
         <item>Short</item>
-        <item>Detallado</item>
+        <item>Detailed</item>
     </string-array>
     <string-array name="formats_array">
         <item>Text</item>

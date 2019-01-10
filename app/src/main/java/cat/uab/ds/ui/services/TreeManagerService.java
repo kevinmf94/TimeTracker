@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -286,13 +287,30 @@ public class TreeManagerService extends Service implements Observer {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
 
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         try {
             switch (format){
                 case 0:
                     outputFile = new File(outputDir, "report-" + type_name + "_" + df.format(cal.getTime()) + ".txt");
+
+                    Uri apkURI = FileProvider.getUriForFile(
+                            getApplicationContext(),
+                            getApplicationContext()
+                                    .getPackageName() + ".provider", outputFile);
+                    intent.setDataAndType(apkURI, "text/plain");
+
                     break;
                 case 1:
                     outputFile = new File(outputDir, "report-" + type_name + "_"+ df.format(cal.getTime()) +".html");
+
+                    Uri apkURI2 = FileProvider.getUriForFile(
+                            getApplicationContext(),
+                            getApplicationContext()
+                                    .getPackageName() + ".provider", outputFile);
+                    intent.setDataAndType(apkURI2, "text/html");
+
                     break;
             }
 
@@ -305,6 +323,8 @@ public class TreeManagerService extends Service implements Observer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        getApplicationContext().startActivity(intent);
 
     }
 }
