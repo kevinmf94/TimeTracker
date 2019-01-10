@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         switch (which){
             case 0:
                 intent = new Intent(this, AddProjectActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_PROJECT);
                 break;
             case 1:
                 intent = new Intent(this, AddTaskActivity.class);

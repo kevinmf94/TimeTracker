@@ -20,6 +20,7 @@ public abstract class TaskDecorator extends Task {
         }
 
         this.task = newTask;
+        setTask(true);
     }
 
     public final Task getTask() {

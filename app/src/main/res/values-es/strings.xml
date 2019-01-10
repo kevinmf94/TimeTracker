@@ -27,4 +27,7 @@
     <string name="startDate">Fecha Inicio</string>
     <string name="endDate">Fecha Fin</string>
     <string name="format">Formato</string>
+    <string name="scheduled">Programada</string>
+    <string name="limited">Limitada</string>
+    <string name="timeLimit">Límite de tiempo (s)</string>
 </resources>
