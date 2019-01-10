@@ -21,7 +21,7 @@
     <string name="selectReportType">Elige el tipo de informe</string>
     <string name="selectOption">Elige una opción</string>
     <string name="short_report">Informe Breve</string>
-    <string name="extended_report">Informe Extendido</string>
+    <string name="extended_report">Informe Detallado</string>
     <string name="change_language">Cambiar idioma</string>
     <string name="type">Tipo</string>
     <string name="startDate">Fecha Inicio</string>

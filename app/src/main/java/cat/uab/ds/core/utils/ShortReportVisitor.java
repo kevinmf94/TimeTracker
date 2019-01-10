@@ -118,7 +118,7 @@ public class ShortReportVisitor extends ReportVisitor {
         }
     }
 
-    public final void generate() {
+    public final String generate() {
         ReportFormat reportFormat = getReportFormat();
         reportFormat.addHeader("Short report", getStartDate(), getEndDate());
         reportFormat.addLine();
@@ -127,6 +127,6 @@ public class ShortReportVisitor extends ReportVisitor {
                 POS_PROJECT_NAME, POS_PROJECT_START, POS_PROJECT_END,
                 POS_PROJECT_DURATION});
         reportFormat.addLine();
-        reportFormat.generate();
+        return reportFormat.generate();
     }
 }

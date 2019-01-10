@@ -1,8 +1,11 @@
 package cat.uab.ds.ui;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,7 +22,18 @@ import java.util.Calendar;
 
 public class GenerateReportActivity extends AppCompatActivity {
 
+    public static final String GENERATE_REPORT = "GenerateReport";
     DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+    public enum REPORT_TYPES {
+        SHORT,
+        DETAILED
+    }
+
+    public enum REPORT_FORMATS {
+        ASCII,
+        HTML
+    }
 
     private Spinner type;
     private Spinner format;
@@ -48,12 +62,13 @@ public class GenerateReportActivity extends AppCompatActivity {
                 R.array.report_types_array, android.R.layout.simple_spinner_item);
         adapterTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type.setAdapter(adapterTypes);
-        type.setSelection(0);
+        type.setSelection(REPORT_TYPES.SHORT.ordinal());
+
         ArrayAdapter<CharSequence> adapterFormats = ArrayAdapter.createFromResource(this,
                 R.array.formats_array, android.R.layout.simple_spinner_item);
         adapterFormats.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         format.setAdapter(adapterFormats);
-        format.setSelection(0);
+        format.setSelection(REPORT_FORMATS.ASCII.ordinal());
 
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -68,16 +83,43 @@ public class GenerateReportActivity extends AppCompatActivity {
         });
 
         updateButtonsText();
+
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
     }
 
     public void onCreate(View view){
 
         if (checkErrors()) {
-            Intent intent = new Intent();
 
-            //intent.putExtra("activity", task);
-            setResult(RESULT_OK, intent);
-            finish();
+            Intent intent = new Intent(GENERATE_REPORT);
+            intent.putExtra("from", start.getTime());
+            intent.putExtra("to", end.getTime());
+            intent.putExtra("type", type.getSelectedItemPosition());
+            intent.putExtra("format", format.getSelectedItemPosition());
+            sendBroadcast(intent);
+            //setResult(RESULT_OK, intent);
+            //finish();
         }
     }
 

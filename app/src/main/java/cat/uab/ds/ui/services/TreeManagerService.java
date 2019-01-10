@@ -1,14 +1,25 @@
 package cat.uab.ds.ui.services;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,6 +30,13 @@ import cat.uab.ds.core.entity.Project;
 import cat.uab.ds.core.entity.Task;
 import cat.uab.ds.core.entity.TaskBasic;
 import cat.uab.ds.core.utils.Clock;
+import cat.uab.ds.core.utils.DetailedReportVisitor;
+import cat.uab.ds.core.utils.ReportAscii;
+import cat.uab.ds.core.utils.ReportFormat;
+import cat.uab.ds.core.utils.ReportHTML;
+import cat.uab.ds.core.utils.ReportVisitor;
+import cat.uab.ds.core.utils.ShortReportVisitor;
+import cat.uab.ds.ui.GenerateReportActivity;
 import cat.uab.ds.ui.IntervalsActivity;
 import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.adapters.ActivityHolder;
@@ -62,6 +80,7 @@ public class TreeManagerService extends Service implements Observer {
         filter.addAction(MainActivity.RESUME_ALL);
         filter.addAction(IntervalsActivity.GET_INTERVALS);
         filter.addAction(IntervalsActivity.REMOVE_INTERVAL);
+        filter.addAction(GenerateReportActivity.GENERATE_REPORT);
         registerReceiver(receiver, filter);
 
         super.onCreate();
@@ -199,6 +218,13 @@ public class TreeManagerService extends Service implements Observer {
             else if (action.equals(IntervalsActivity.REMOVE_INTERVAL)) {
                 int pos = intent.getIntExtra("pos", -1);
                 removeInterval(pos);
+            }else if(action.equals(GenerateReportActivity.GENERATE_REPORT)){
+                int type = intent.getIntExtra("type", -1);
+                int format = intent.getIntExtra("format", -1);
+                Date from = (Date)intent.getSerializableExtra("from");
+                Date to = (Date)intent.getSerializableExtra("to");
+
+                generateReport(type, format, from, to);
             }
 
             sendChilds();
@@ -222,5 +248,63 @@ public class TreeManagerService extends Service implements Observer {
             task.start();
         }
         pausedTask.clear();
+    }
+
+
+    public final void generateReport(int type, int format, final Date startDate, final Date endDate) {
+
+        ReportFormat iFormat = null;
+        switch (format){
+            case 0:
+                iFormat = new ReportAscii();
+                break;
+            case 1:
+                iFormat = new ReportHTML();
+                break;
+        }
+        String type_name = "";
+        ReportVisitor iVisitor = null;
+        switch (type){
+            case 0:
+                type_name = "short";
+                iVisitor = new ShortReportVisitor(startDate, endDate, iFormat);
+                break;
+            case 1:
+                type_name = "detailed";
+                iVisitor = new DetailedReportVisitor(startDate, endDate, iFormat);
+                break;
+        }
+
+        this.root.accept(iVisitor);
+        String res = iVisitor.generate();
+
+        File outputDir =   Environment.getExternalStoragePublicDirectory("/TimeTracker/Reports");
+        outputDir.mkdirs();
+
+        File outputFile = null;
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+
+        try {
+            switch (format){
+                case 0:
+                    outputFile = new File(outputDir, "report-" + type_name + "_" + df.format(cal.getTime()) + ".txt");
+                    break;
+                case 1:
+                    outputFile = new File(outputDir, "report-" + type_name + "_"+ df.format(cal.getTime()) +".html");
+                    break;
+            }
+
+            FileOutputStream stream = new FileOutputStream(outputFile);
+            stream.write(res.getBytes());
+            stream.close();
+
+            Toast.makeText(getApplicationContext(), "Report generated in " + outputDir.getPath(), Toast.LENGTH_LONG).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -1,5 +1,7 @@
 package cat.uab.ds.core.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -87,7 +89,24 @@ public class ReportHTML implements ReportFormat {
     }
 
     @Override
-    public final void generate() {
+    public final String generate() {
+        // Create a stream to hold the output
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+
+        // IMPORTANT: Save the old System.out!
+        PrintStream old = System.out;
+
+        // Tell Java to use your special stream
+        System.setOut(ps);
+
+        // Print some output: goes to your special stream
         web.escriuPagina();
+
+        // Put things back
+        System.out.flush();
+        System.setOut(old);
+
+        return baos.toString();
     }
 }

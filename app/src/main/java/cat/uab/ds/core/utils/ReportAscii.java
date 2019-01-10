@@ -88,7 +88,9 @@ public class ReportAscii implements  ReportFormat {
     }
 
     @Override
-    public final void generate() {
+    public final String generate() {
+
         System.out.println(result);
+        return result.toString();
     }
 }

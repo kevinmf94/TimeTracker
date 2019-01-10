@@ -4,12 +4,6 @@
     <string name="removeTitle">Remove</string>
     <string name="removeMessage">Are you sure you want to remove it?</string>
     <string name="selectCreateTitle">Add a</string>
-    <array name="selectCreate">
-        <item>@string/project</item>
-        <item>@string/task</item>
-    </array>
-
-    <!-- Create project/task -->
     <string name="actionBarProject">Create Project</string>
     <string name="actionBarTask">Create Task</string>
     <string name="name">Name</string>
@@ -28,14 +22,12 @@
     <string name="selectReportType">Select the report type</string>
     <string name="selectOption">Choose an option</string>
     <string name="short_report">Short Report</string>
-    <string name="extended_report">Extended Report</string>
+    <string name="extended_report">Detailed Report</string>
     <string name="change_language">Change language</string>
     <string name="type">Type</string>
     <string name="startDate">Start Date</string>
     <string name="endDate">End Date</string>
     <string name="format">Format</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="scheduled">Scheduled</string>
     <string name="limited">Limited</string>
     <string name="timeLimit">Time Limit (s)</string>

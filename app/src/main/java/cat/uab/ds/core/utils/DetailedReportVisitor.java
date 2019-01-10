@@ -191,7 +191,7 @@ public class DetailedReportVisitor extends ReportVisitor {
         }
     }
 
-    public final void generate() {
+    public final String generate() {
         ReportFormat reportFormat = getReportFormat();
         reportFormat.addHeader("Detailed report", getStartDate(), getEndDate());
         reportFormat.addLine();
@@ -215,7 +215,7 @@ public class DetailedReportVisitor extends ReportVisitor {
                 POS_INTERVAL_PROJECT, POS_INTERVAL_TASK, POS_INTERVAL_NAME,
                 POS_INTERVAL_START, POS_INTERVAL_END, POS_INTERVAL_DURATION});
         reportFormat.addLine();
-        reportFormat.generate();
+        return reportFormat.generate();
     }
 
 }

@@ -182,4 +182,6 @@ public abstract class ReportVisitor implements ActivityVisitor {
     public final void setReportFormat(final ReportFormat newReportFormat) {
         this.reportFormat = newReportFormat;
     }
+
+    public abstract String generate();
 }
