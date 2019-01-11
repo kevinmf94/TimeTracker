@@ -23,10 +23,15 @@ import cat.uab.ds.core.entity.TaskBasic;
 import cat.uab.ds.core.entity.TaskLimited;
 import cat.uab.ds.core.entity.TaskScheduled;
 
+/**
+ *
+ */
 public class AddTaskActivity extends AppCompatActivity {
 
-    DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private Calendar scheduledCal;
 
+    //UI
     private EditText name;
     private EditText description;
     private CheckBox scheduledChk;
@@ -35,8 +40,6 @@ public class AddTaskActivity extends AppCompatActivity {
     private EditText limitedNumber;
     private LinearLayout scheduledLyt;
     private LinearLayout limitedLyt;
-
-    private Calendar scheduledCal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class AddTaskActivity extends AppCompatActivity {
         scheduledLyt = findViewById(R.id.layoutScheduled);
         limitedLyt = findViewById(R.id.layoutLimited);
 
+        //Scheduled Task Decorator Checkbox click handler. If is checked, shows the scheduled options (start date).
         scheduledChk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(((CheckBox)v).isChecked()){
@@ -68,6 +72,7 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
 
+        //Limited Task Decorator Checkbox click handler. If is checked, shows the limited options (time limit).
         limitedChk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(((CheckBox)v).isChecked()){
@@ -80,6 +85,7 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
 
+        //Scheduled date picker button click handler.
         scheduledBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                showDatePicker(scheduledCal);
@@ -88,6 +94,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Shows a DatePicker and update the date calendar. Then shows a TimePicker.
+     * @param cal Calendar to change
+     */
     public void showDatePicker(final Calendar cal){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
@@ -106,6 +116,10 @@ public class AddTaskActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /**
+     * Shows a TimePicker and update the date calendar. Then refresh the buttons text.
+     * @param cal Calendar to change
+     */
     public void showTimePicker(final Calendar cal){
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -122,6 +136,9 @@ public class AddTaskActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
+    /**
+     * Function to refresh scheduled date button text
+     */
     private void refreshScheduledButton(){
         if(scheduledCal != null){
             scheduledBtn.setText(df.format(scheduledCal.getTime()));
@@ -130,12 +147,18 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handler function for the "Create" button.
+     * It creates a task, decorates it if is necessary, and send it to TreeManagerService.
+     * @param view Button view
+     */
     public void onAccept(View view){
 
         if (checkErrors()) {
             Intent intent = new Intent();
             Task task = new TaskBasic(name.getText().toString(),
                     description.getText().toString());
+
             if(scheduledChk.isChecked()){
                 task = new TaskScheduled(task, scheduledCal.getTime());
             }
@@ -150,6 +173,10 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check errors on user inputs
+     * @return isCorrect (bool)
+     */
     public boolean checkErrors(){
 
         boolean correct = true;

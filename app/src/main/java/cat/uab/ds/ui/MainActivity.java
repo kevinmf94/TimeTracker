@@ -1,5 +1,6 @@
 package cat.uab.ds.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,9 +9,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,12 +22,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import cat.uab.ds.ui.adapters.ActivityHolder;
 import cat.uab.ds.ui.fragments.ActivitiesListFragment;
 import cat.uab.ds.ui.fragments.SplashFragment;
 import cat.uab.ds.ui.services.TreeManagerService;
 
+/**
+ * The MainActivity of TimeTracker app.
+ */
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnClickListener {
 
     //Constants
@@ -87,6 +95,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         floatingActionButton.show();
     }
 
+    /**
+     * Function called when AddButton is clicked.
+     * Shows an AlertDialog to ask user to Create Project or Task.
+     * @param view The button view
+     */
     public void addActivity(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.selectCreateTitle)
@@ -95,6 +108,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         dialog.show();
     }
 
+    /**
+     * Function called when an option of the AlertDialog is selected.
+     * @param dialog AlertDialog
+     * @param which Option selected
+     */
     @Override
     public void onClick(DialogInterface dialog, int which) {
         Log.d(TAG, "Escogido: "+which);
@@ -102,11 +120,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         Intent intent;
 
         switch (which){
-            case 0:
+            case 0: //Add Project
                 intent = new Intent(this, AddProjectActivity.class);
                 startActivityForResult(intent, REQUEST_PROJECT);
                 break;
-            case 1:
+            case 1: //Add task
                 intent = new Intent(this, AddTaskActivity.class);
                 startActivityForResult(intent, REQUEST_TASK);
                 break;
@@ -114,6 +132,12 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
 
     }
 
+    /**
+     * Callback function when Create Project or Create Task Activity ends.
+     * @param requestCode Activity start request code
+     * @param resultCode The result code of activity when ends
+     * @param data Intent from activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -128,10 +152,13 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         }
     }
 
+    /**
+     * Handler for hardware back button click.
+     */
     @Override
     public void onBackPressed() {
         if(isRoot){
-            if(rootRunning){
+            if(rootRunning){ // If there are any running task, show Alert to confirm exit.
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.exitTitle)
                         .setMessage(R.string.exitMessage)
@@ -165,6 +192,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         super.onDestroy();
     }
 
+    /**
+     * Fill OptionsMenu from ActionBar
+     * @param menu The Menu
+     * @return Boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -173,24 +205,31 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handler function called when an ActionBar Menu Option is clicked.
+     * @param item MenuItem that has been clicked
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.playPauseAll:
-                if(isPaused){
+            case R.id.playPauseAll: //Pause all button is clicked
+                if(isPaused){   // If is paused, send intent to resume all task
                     item.setIcon(R.drawable.ic_pause_white);
                     sendBroadcast(new Intent(RESUME_ALL));
-                } else {
+                } else {    // Send Intent to pause all running tasks
                     item.setIcon(R.drawable.ic_play_white);
                     sendBroadcast(new Intent(PAUSE_ALL));
                 }
                 break;
-            case R.id.generateReport:
+            case R.id.generateReport: // Option to load GenerateReportActivity
                 Intent intent = new Intent(this, GenerateReportActivity.class);
                 startActivityForResult(intent, REQUEST_PROJECT);
                 break;
-            case R.id.changeLanguage:
+            case R.id.changeLanguage: // Option to change the actual language. Show AlertDialog and the available languages.
+
+                //Languages list
                 String[] langs = {
                         "English",
                         "Español",
@@ -198,11 +237,15 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 };
 
                 AlertDialog.Builder langsDialogBld = new AlertDialog.Builder(this);
-                langsDialogBld.setTitle(R.string.selectReportType)
+                langsDialogBld.setTitle(R.string.selectOption)
                         .setItems(langs, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // the user clicked on colors[which]
+                                switch (which){
+                                    case 0: setLocale("en"); break;
+                                    case 1: setLocale("es"); break;
+                                    case 2: setLocale("ca"); break;
+                                }
                             }
                         });
                 AlertDialog langsDialog = langsDialogBld.create();
@@ -213,22 +256,43 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Receiver class of broadcast intents.
+     * In this case, receives the Projects/Tasks list from the service.
+     */
     private class Receiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equals(TreeManagerService.RECEIVE_CHILDREN)) {
+            if (action.equals(TreeManagerService.RECEIVE_CHILDREN)) { // Update projects/tasks list in view
                 Log.d(TAG, "Receive Childs");
                 isRoot = intent.getBooleanExtra("isRoot", true);
                 rootRunning = intent.getBooleanExtra("rootRunning", false);
                 isPaused = intent.getBooleanExtra("isPaused" , false);
+                cat.uab.ds.core.entity.Activity parent = (cat.uab.ds.core.entity.Activity)intent.getSerializableExtra("parent");
                 ArrayList<ActivityHolder> activities = (ArrayList<ActivityHolder>) intent.getSerializableExtra("childs");
 
                 playPauseItem.setVisible((rootRunning && !isPaused) || (isPaused && !rootRunning));
-                activitiesListFragment.updateData(activities);
+                activitiesListFragment.updateData(parent,activities);
             }
         }
+    }
+
+    /**
+     * This function changes the language configuration and refresh the MainActivity
+     * @param lang The new language
+     */
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, MainActivity.class);
+        startActivity(refresh);
+        finish();
     }
 }

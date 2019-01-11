@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="removeTitle">Esborrar</string>
-    <string name="removeMessage">Esta segur que el vols esborrar?</string>
+    <string name="removeMessage">Estàs segur que el vols esborrar?</string>
     <string name="selectCreateTitle">Afegir un</string>
     <string name="actionBarProject">Crear projecte</string>
     <string name="actionBarTask">Crear tasca</string>
     <string name="name">Nom</string>
-    <string name="description">Descripcio</string>
+    <string name="description">Descripció</string>
     <string name="create">Crear</string>
     <string name="cancel">Cancelar</string>
     <string name="accept">Aceptar</string>
-    <string name="noNameError">Nom requerit</string>
+    <string name="noNameError">Nom obligatori</string>
     <string name="exitTitle">Sortir</string>
-    <string name="exitMessage">Hi ha tascas cronometrantse estas segur que vols sortir?</string>
-    <string name="emptyMessage">No hi ha cap projecte o tasca, crea un ara</string>
+    <string name="exitMessage">Hi ha tasques actives estàs segur que vols sortir?</string>
+    <string name="emptyMessage">No hi ha cap projecte o tasca</string>
     <string name="project">Projecte</string>
     <string name="task">Tasca</string>
-    <string name="emptyMessageIntervals">No conte cap interval</string>
-    <string name="generate_report">Generate Report</string>
+    <string name="emptyMessageIntervals">No conté cap interval</string>
+    <string name="generate_report">Generar Informe</string>
     <string name="selectReportType">Tria el tipus d\'informe</string>
     <string name="selectOption">Tria una opció</string>
     <string name="short_report">Informe Breu</string>
@@ -32,4 +32,6 @@
     <string name="timeLimit">Límit de temps (s)</string>
     <string name="editProject_title">Editar Projecte</string>
     <string name="editTask_title">Editar Tasca</string>
+    <string name="fromDateHigherThanToDate">La data d\'inici és més gran que la de fi</string>
+    <string name="duration">Durada</string>
 </resources>

@@ -14,7 +14,7 @@
     <string name="noNameError">Name required</string>
     <string name="exitTitle">Exit</string>
     <string name="exitMessage">" Are there any scheduled tasks and are you sure you want to leave?"</string>
-    <string name="emptyMessage">Does not have any project or task, create one now</string>
+    <string name="emptyMessage">Does not have any project or task</string>
     <string name="project">Project</string>
     <string name="task">Task</string>
     <string name="emptyMessageIntervals">Does not have any interval</string>
@@ -33,4 +33,6 @@
     <string name="timeLimit">Time Limit (s)</string>
     <string name="editProject_title">Edit Project</string>
     <string name="editTask_title">Edit Task</string>
+    <string name="fromDateHigherThanToDate">Start Date is higher than End Date</string>
+    <string name="duration">Duration</string>
 </resources>

@@ -9,8 +9,12 @@ import android.widget.EditText;
 
 import cat.uab.ds.core.entity.Project;
 
+/**
+ * Activity to create a new project. Show the name and description inputs to user.
+ */
 public class AddProjectActivity extends AppCompatActivity {
 
+    //UI
     private EditText name;
     private EditText description;
 
@@ -37,6 +41,10 @@ public class AddProjectActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check errors on user inputs
+     * @return isCorrect (bool)
+     */
     public boolean checkErrors(){
 
         boolean correct = true;
