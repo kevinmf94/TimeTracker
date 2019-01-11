@@ -22,17 +22,23 @@ import cat.uab.ds.ui.adapters.IntervalAdapter;
 import cat.uab.ds.ui.adapters.IntervalHolder;
 import cat.uab.ds.ui.services.TreeManagerService;
 
+/**
+ * Activity to list the intervals of a Task.
+ */
 public class IntervalsActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
 
+    //Constants
     private static final String TAG = "IntervalsActivity";
 
     public static final String GET_INTERVALS = "GetIntervals";
     public static final String REMOVE_INTERVAL = "RemoveInterval";
 
-    private Receiver receiver;
-
+    //UI
     private ListView listView;
     private TextView textView;
+
+    //Other
+    private Receiver receiver;
     private IntervalAdapter adapter;
     private int pos;
 
@@ -87,6 +93,10 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
         return true;
     }
 
+    /**
+     * Receiver class of broadcast intents.
+     * In this case, receive the intervals list from the service.
+     */
     private class Receiver extends BroadcastReceiver {
 
         @Override
@@ -107,10 +117,18 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    /**
+     * Changes the ActionBar title to the activity name.
+     * @param activity
+     */
     private void updateDataInterface(ActivityHolder activity) {
         getSupportActionBar().setTitle(activity.getName());
     }
 
+    /**
+     * Show or hide the empty elements message.
+     * @param nElements Number of elements in list
+     */
     private void updateView(int nElements){
         if (nElements > 0) {
             listView.setVisibility(View.VISIBLE);
@@ -121,7 +139,10 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
-
+    /**
+     * Refresh the elements of the list
+     * @param intervalHolderList
+     */
     private void updateIntervals(List<IntervalHolder> intervalHolderList) {
         updateView(intervalHolderList.size());
         adapter.clear();

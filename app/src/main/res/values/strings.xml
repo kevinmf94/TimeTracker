@@ -31,5 +31,6 @@
     <string name="scheduled">Scheduled</string>
     <string name="limited">Limited</string>
     <string name="timeLimit">Time Limit (s)</string>
+    <string name="fromDateHigherThanToDate">Start Date is higher than End Date</string>
 
 </resources>

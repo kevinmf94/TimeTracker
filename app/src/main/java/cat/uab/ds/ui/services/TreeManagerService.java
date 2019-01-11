@@ -43,6 +43,10 @@ import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.adapters.ActivityHolder;
 import cat.uab.ds.ui.adapters.IntervalHolder;
 
+/**
+ * The Manager Class to store the data tree with all Projects, Tasks and Intervals.
+ * Is in charge of send data (in list), add elements, remove elements, pause tasks, resume tasks, generate reports...
+ */
 public class TreeManagerService extends Service implements Observer {
 
     //Constants
@@ -66,7 +70,7 @@ public class TreeManagerService extends Service implements Observer {
         clock.addObserver(this);
         root.setRoot(true);
         actual = root;
-        this.generateTree();
+        this.generateTree(); // Generate dummy tree
 
         //Receiver declaration
         receiver = new Receiver();
@@ -106,6 +110,9 @@ public class TreeManagerService extends Service implements Observer {
         super.onDestroy();
     }
 
+    /**
+     * Function to generate dummy data tree
+     */
     public void generateTree(){
         Project p1 = new Project("P1");
         p1.addActivity(new TaskBasic("T1"));
@@ -114,6 +121,9 @@ public class TreeManagerService extends Service implements Observer {
         root.addActivity(new TaskBasic("TP"));
     }
 
+    /**
+     * Fucntion to send a list of projects/tasks to the receivers.
+     */
     private void sendChilds(){
         Intent intent = new Intent(RECEIVE_CHILDREN);
         ArrayList<ActivityHolder> activities = new ArrayList<>();
@@ -126,7 +136,9 @@ public class TreeManagerService extends Service implements Observer {
         intent.putExtra("isPaused", (pausedTask.size() > 0));
         sendBroadcast(intent);
     }
-
+    /**
+     * Fucntion to send an intervals list to the receivers.
+     */
     private void sendIntervals(int pos){
         if(pos > -1){
             Intent intent = new Intent(RECEIVE_INTERVALS);
@@ -143,6 +155,10 @@ public class TreeManagerService extends Service implements Observer {
         }
     }
 
+    /**
+     * Removes an interval of the tree.
+     * @param pos
+     */
     private void removeInterval(int pos){
         if(pos > -1){
             Task task = (Task) actual.getActivities().toArray()[posIntervals];
@@ -159,13 +175,17 @@ public class TreeManagerService extends Service implements Observer {
         sendIntervals(posIntervals);
     }
 
+    /**
+     * Receiver class of broadcast intents.
+     * In this case, receive the action and data of the others activities requests.
+     */
     private class Receiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equals(MainActivity.DOWN_TREE)) {
+            if (action.equals(MainActivity.DOWN_TREE)) { // Get down in tree in specific child
                 Log.d(TAG, "Open Activity ");
                 int pos = intent.getIntExtra("pos", -1);
                 if (pos > -1) {
@@ -174,13 +194,13 @@ public class TreeManagerService extends Service implements Observer {
                     actual = (Project) activities.get(pos);
                 }
             }
-            else if (action.equals(MainActivity.UP_TREE)) {
+            else if (action.equals(MainActivity.UP_TREE)) { // Get up in tree
                 actual = (Project) actual.getParent();
             }
-            else if (action.equals(MainActivity.CREATE_ACTIVITY)) {
+            else if (action.equals(MainActivity.CREATE_ACTIVITY)) { // Add activity
                 actual.addActivity((Activity) intent.getSerializableExtra("activity"));
             }
-            else if (action.equals(MainActivity.REMOVE_ACTIVITY)) {
+            else if (action.equals(MainActivity.REMOVE_ACTIVITY)) { // Remove activity
                 int pos = intent.getIntExtra("pos", -1);
                 if (pos > -1) {
                     ArrayList<Activity> activities =
@@ -188,7 +208,7 @@ public class TreeManagerService extends Service implements Observer {
                     activities.remove(activities.get(pos));
                 }
             }
-            else if (action.equals(MainActivity.START_TASK)) {
+            else if (action.equals(MainActivity.START_TASK)) { // Start running task
                 int pos = intent.getIntExtra("pos", -1);
                 if (pos > -1) {
                     ArrayList<Activity> activities =
@@ -197,7 +217,7 @@ public class TreeManagerService extends Service implements Observer {
                     task.start();
                 }
             }
-            else if (action.equals(MainActivity.STOP_TASK)) {
+            else if (action.equals(MainActivity.STOP_TASK)) { // Stop running task
                 int pos = intent.getIntExtra("pos", -1);
                 if (pos > -1) {
                     ArrayList<Activity> activities =
@@ -206,20 +226,20 @@ public class TreeManagerService extends Service implements Observer {
                     task.stop();
                 }
             }
-            else if (action.equals(MainActivity.PAUSE_ALL)) {
+            else if (action.equals(MainActivity.PAUSE_ALL)) { // Pause all
                 pauseAll(root);
             }
-            else if (action.equals(MainActivity.RESUME_ALL)) {
+            else if (action.equals(MainActivity.RESUME_ALL)) {// Resume all
                 resumeAll();
             }
-            else if (action.equals(IntervalsActivity.GET_INTERVALS)) {
+            else if (action.equals(IntervalsActivity.GET_INTERVALS)) { // Send intervals
                 posIntervals = intent.getIntExtra("taskPos", -1);
                 sendIntervals(posIntervals);
             }
-            else if (action.equals(IntervalsActivity.REMOVE_INTERVAL)) {
+            else if (action.equals(IntervalsActivity.REMOVE_INTERVAL)) { // Remove interval
                 int pos = intent.getIntExtra("pos", -1);
                 removeInterval(pos);
-            }else if(action.equals(GenerateReportActivity.GENERATE_REPORT)){
+            }else if(action.equals(GenerateReportActivity.GENERATE_REPORT)){ // Generate report
                 int type = intent.getIntExtra("type", -1);
                 int format = intent.getIntExtra("format", -1);
                 Date from = (Date)intent.getSerializableExtra("from");
@@ -232,18 +252,25 @@ public class TreeManagerService extends Service implements Observer {
         }
     }
 
+    /**
+     * Recursive function to pause all activities running in a tree
+     * @param root The root project of the tree
+     */
     public void pauseAll(Project root){
         for(Activity activity : root.getActivities()){
-            if(activity.isTask() && activity.isRunning()){
+            if(activity.isTask() && activity.isRunning()){ // if is running task
                 ((Task) activity).stop();
                 pausedTask.add((Task) activity);
             }
-            else if (activity.isProject()) {
-                pauseAll((Project) activity);
+            else if (activity.isProject()) { // if is project
+                pauseAll((Project) activity); // Recursive call
             }
         }
     }
 
+    /**
+     * Function to resume all paused tasks
+     */
     public void resumeAll(){
         for(Task task : pausedTask){
             task.start();
@@ -251,36 +278,47 @@ public class TreeManagerService extends Service implements Observer {
         pausedTask.clear();
     }
 
-
+    /**
+     * Function to generate report with in specified format.
+     * Generates the file and writes it on device storage.
+     * Then send an intent to open the generated file with another reader app.
+     * @param type The type of the report (Short/Detailed)
+     * @param format The format of the report (Ascii/HTML)
+     * @param startDate Start date of the report data
+     * @param endDate End date of the report data
+     */
     public final void generateReport(int type, int format, final Date startDate, final Date endDate) {
 
         ReportFormat iFormat = null;
         switch (format){
-            case 0:
+            case 0: // Ascii
                 iFormat = new ReportAscii();
                 break;
-            case 1:
+            case 1: // HTML
                 iFormat = new ReportHTML();
                 break;
         }
         String type_name = "";
         ReportVisitor iVisitor = null;
         switch (type){
-            case 0:
+            case 0: // Short
                 type_name = "short";
                 iVisitor = new ShortReportVisitor(startDate, endDate, iFormat);
                 break;
-            case 1:
+            case 1: // Detailed
                 type_name = "detailed";
                 iVisitor = new DetailedReportVisitor(startDate, endDate, iFormat);
                 break;
         }
 
+        //Visit all tree
         this.root.accept(iVisitor);
-        String res = iVisitor.generate();
 
+        String result = iVisitor.generate();
+
+        //Output file directory
         File outputDir =   Environment.getExternalStoragePublicDirectory("/TimeTracker/Reports");
-        outputDir.mkdirs();
+        outputDir.mkdirs(); // if not exists
 
         File outputFile = null;
 
@@ -290,6 +328,7 @@ public class TreeManagerService extends Service implements Observer {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+        //Write file in storage
         try {
             switch (format){
                 case 0:
@@ -315,16 +354,17 @@ public class TreeManagerService extends Service implements Observer {
             }
 
             FileOutputStream stream = new FileOutputStream(outputFile);
-            stream.write(res.getBytes());
+            stream.write(result.getBytes());
             stream.close();
 
-            Toast.makeText(getApplicationContext(), "Report generated in " + outputDir.getPath(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Report generated in " + outputDir.getPath(), Toast.LENGTH_LONG).show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        getApplicationContext().startActivity(intent);
+        getApplicationContext().startActivity(intent); // Intent to open the generated file (with another app)
 
     }
 }

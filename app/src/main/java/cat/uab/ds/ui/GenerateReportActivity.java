@@ -20,11 +20,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Activity with the necessary user inputs to generate the report.
+ */
 public class GenerateReportActivity extends AppCompatActivity {
 
     public static final String GENERATE_REPORT = "GenerateReport";
     DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
+    //Constats
     public enum REPORT_TYPES {
         SHORT,
         DETAILED
@@ -35,10 +39,13 @@ public class GenerateReportActivity extends AppCompatActivity {
         HTML
     }
 
+    //UI
     private Spinner type;
     private Spinner format;
     private Button startButton;
     private Button endButton;
+
+    //Others
     private Calendar start;
     private Calendar end;
 
@@ -58,56 +65,51 @@ public class GenerateReportActivity extends AppCompatActivity {
         start = Calendar.getInstance();
         start.add(Calendar.MONTH, -1);
 
+        // Fill report types Spinner
         ArrayAdapter<CharSequence> adapterTypes = ArrayAdapter.createFromResource(this,
                 R.array.report_types_array, android.R.layout.simple_spinner_item);
         adapterTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         type.setAdapter(adapterTypes);
         type.setSelection(REPORT_TYPES.SHORT.ordinal());
 
+        // Fill report formats Spinner
         ArrayAdapter<CharSequence> adapterFormats = ArrayAdapter.createFromResource(this,
                 R.array.formats_array, android.R.layout.simple_spinner_item);
         adapterFormats.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         format.setAdapter(adapterFormats);
         format.setSelection(REPORT_FORMATS.ASCII.ordinal());
 
+        //Start/End buttons handlers
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDatePicker(start);
             }
         });
-
         endButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDatePicker(end);
             }
         });
 
+        //Set date buttons texts
         updateButtonsText();
 
+
+        //Check permissions to write in device storage.
+        // If is necessary, shows a dialog to request permission to user.
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
         }
+        ////////////////
 
     }
 
+    /**
+     * Handler for the "Create" button. It generates the report.
+     * @param view The button view
+     */
     public void onCreate(View view){
 
         if (checkErrors()) {
@@ -123,21 +125,32 @@ public class GenerateReportActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check errors on user inputs
+     * @return isCorrect (bool)
+     */
     public boolean checkErrors(){
 
         boolean correct = true;
         if(start.after(end)){
             correct = false;
-            Toast.makeText(this, "La fecha de inicio es mayor a la de fin.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.fromDateHigherThanToDate, Toast.LENGTH_LONG).show();
         }
         return correct;
     }
 
+    /**
+     * Function to refresh date buttons text
+     */
     public void updateButtonsText(){
         startButton.setText(df.format(start.getTime()));
         endButton.setText(df.format(end.getTime()));
     }
 
+    /**
+     * Shows a DatePicker and update the date calendar. Then shows a TimePicker.
+     * @param cal Calendar to change
+     */
     public void showDatePicker(final Calendar cal){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
@@ -156,6 +169,10 @@ public class GenerateReportActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /**
+     * Shows a TimePicker and update the date calendar. Then refresh the buttons text.
+     * @param cal Calendar to change
+     */
     public void showTimePicker(final Calendar cal){
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -166,7 +183,7 @@ public class GenerateReportActivity extends AppCompatActivity {
                         cal.set(Calendar.HOUR_OF_DAY,hourOfDay);
                         cal.set(Calendar.MINUTE, minute);
 
-                        updateButtonsText();
+                        updateButtonsText(); // Refresh buttons text
                     }
                 }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), false);
         timePickerDialog.show();

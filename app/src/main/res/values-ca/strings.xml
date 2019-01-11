@@ -6,7 +6,7 @@
     <string name="actionBarProject">Crear projecte</string>
     <string name="actionBarTask">Crear tasca</string>
     <string name="name">Nom</string>
-    <string name="description">Descripcio</string>
+    <string name="description">Descripció</string>
     <string name="create">Crear</string>
     <string name="cancel">Cancelar</string>
     <string name="accept">Aceptar</string>
@@ -17,7 +17,7 @@
     <string name="project">Projecte</string>
     <string name="task">Tasca</string>
     <string name="emptyMessageIntervals">No conte cap interval</string>
-    <string name="generate_report">Generate Report</string>
+    <string name="generate_report">Generar Informe</string>
     <string name="selectReportType">Tria el tipus d\'informe</string>
     <string name="selectOption">Tria una opció</string>
     <string name="short_report">Informe Breu</string>
@@ -30,4 +30,5 @@
     <string name="scheduled">Programada</string>
     <string name="limited">Limitada</string>
     <string name="timeLimit">Límit de temps (s)</string>
+    <string name="fromDateHigherThanToDate">La data d\'inici és més gran que la de fi</string>
 </resources>
