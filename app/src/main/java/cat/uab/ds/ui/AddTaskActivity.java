@@ -28,7 +28,6 @@ import cat.uab.ds.core.entity.TaskScheduled;
  */
 public class AddTaskActivity extends AppCompatActivity {
 
-    private DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     private Calendar scheduledCal;
 
     //UI
@@ -141,7 +140,7 @@ public class AddTaskActivity extends AppCompatActivity {
      */
     private void refreshScheduledButton(){
         if(scheduledCal != null){
-            scheduledBtn.setText(df.format(scheduledCal.getTime()));
+            scheduledBtn.setText(Utils.dfDateTime.format(scheduledCal.getTime()));
         }else{
             scheduledBtn.setText("");
         }

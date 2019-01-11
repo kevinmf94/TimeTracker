@@ -21,8 +21,6 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private static final String TAG = "EditTaskActivity";
 
-    DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
     public static final String GET_CHILD = "GetChild";
     public static final String UPDATE_TASK = "UpdateTask";
 

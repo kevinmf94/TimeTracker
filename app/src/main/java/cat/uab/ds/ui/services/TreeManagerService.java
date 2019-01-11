@@ -158,6 +158,7 @@ public class TreeManagerService extends Service implements Observer {
             }
 
             intent.putExtra("activityData", new ActivityHolder(task));
+            intent.putExtra("parent", task);
             intent.putExtra("intervals", intervals);
             sendBroadcast(intent);
         }

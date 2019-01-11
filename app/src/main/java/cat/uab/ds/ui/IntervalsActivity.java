@@ -14,9 +14,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.ui.adapters.ActivityHolder;
 import cat.uab.ds.ui.adapters.IntervalAdapter;
 import cat.uab.ds.ui.adapters.IntervalHolder;
@@ -36,11 +41,18 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
     //UI
     private ListView listView;
     private TextView textView;
+    private TextView txtName;
+    private TextView txtDesc;
+    private TextView txtIni;
+    private TextView txtFin;
+    private TextView txtDuration;
+    private TextView txtBreadcrumb;
 
     //Other
     private Receiver receiver;
     private IntervalAdapter adapter;
     private int pos;
+    private Activity parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,13 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
 
         listView = findViewById(R.id.listItems);
         textView = findViewById(R.id.emptyText);
+        txtName = findViewById(R.id.txtName);
+        txtDesc = findViewById(R.id.txtDesc);
+        txtIni = findViewById(R.id.txtIni);
+        txtFin = findViewById(R.id.txtFin);
+        txtDuration = findViewById(R.id.txtDuration);
+        txtBreadcrumb = findViewById(R.id.txtBreadcrumb);
+
         receiver = new Receiver();
 
         adapter = new IntervalAdapter(this, R.layout.interval_item_list);
@@ -109,6 +128,8 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
 
                 ActivityHolder activity = (ActivityHolder) intent.getSerializableExtra("activityData");
 
+                parent = (Activity) intent.getSerializableExtra("parent");;
+
                 Log.d(TAG, "Received nIntervals "+intervalHolders.size());
 
                 updateDataInterface(activity);
@@ -137,6 +158,17 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
             listView.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);
         }
+
+        txtName.setText(parent.getName());
+        txtDesc.setText(parent.getDescription());
+        Date start = parent.getStart();
+        Date end = parent.getEnd();
+        txtIni.setText(start!=null? Utils.dfDateTimeSeconds.format(start) : "");
+        txtFin.setText(end!=null? Utils.dfDateTimeSeconds.format(end) : "");
+        txtDuration.setText(Utils.durationToStr(parent.getDuration()));
+
+
+        txtBreadcrumb.setText(Utils.MakeBreadCrumb(parent));
     }
 
     /**

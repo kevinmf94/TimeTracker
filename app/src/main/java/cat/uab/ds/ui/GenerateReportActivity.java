@@ -26,7 +26,6 @@ import java.util.Calendar;
 public class GenerateReportActivity extends AppCompatActivity {
 
     public static final String GENERATE_REPORT = "GenerateReport";
-    DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     //Constats
     public enum REPORT_TYPES {
@@ -143,8 +142,8 @@ public class GenerateReportActivity extends AppCompatActivity {
      * Function to refresh date buttons text
      */
     public void updateButtonsText(){
-        startButton.setText(df.format(start.getTime()));
-        endButton.setText(df.format(end.getTime()));
+        startButton.setText(Utils.dfDateTime.format(start.getTime()));
+        endButton.setText(Utils.dfDateTime.format(end.getTime()));
     }
 
     /**

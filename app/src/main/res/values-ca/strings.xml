@@ -35,4 +35,5 @@
     <string name="fromDateHigherThanToDate">La data d\'inici és més gran que la de fi</string>
     <string name="duration">Durada</string>
     <string name="running">Actiu</string>
+    <string name="level">Nivel</string>
 </resources>

@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +26,13 @@ import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.ui.IntervalsActivity;
 import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.R;
+import cat.uab.ds.ui.Utils;
 import cat.uab.ds.ui.adapters.ActivitiesAdapter;
 import cat.uab.ds.ui.adapters.ActivityHolder;
 
 public class ActivitiesListFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private final static String TAG = "ActivitiesListFragment";
-
-    DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     private ActivitiesAdapter adapter;
     private MainActivity mainActivity;
@@ -43,6 +44,7 @@ public class ActivitiesListFragment extends Fragment implements AdapterView.OnIt
     private TextView txtIni;
     private TextView txtFin;
     private TextView txtDuration;
+    private TextView txtBreadcrumb;
 
     private Activity parent;
 
@@ -71,6 +73,7 @@ public class ActivitiesListFragment extends Fragment implements AdapterView.OnIt
         txtIni = v.findViewById(R.id.txtIni);
         txtFin = v.findViewById(R.id.txtFin);
         txtDuration = v.findViewById(R.id.txtDuration);
+        txtBreadcrumb = v.findViewById(R.id.txtBreadcrumb);
 
         return v;
     }
@@ -125,19 +128,29 @@ public class ActivitiesListFragment extends Fragment implements AdapterView.OnIt
             emptyText.setVisibility(View.VISIBLE);
         }
 
+        AppCompatActivity ctx = (AppCompatActivity) getActivity();
+        ActionBar bar = ctx.getSupportActionBar();
+
         if (parent.isRoot()){
+            bar.setTitle(R.string.app_name);
             descLyt.setVisibility(View.GONE);
+            txtBreadcrumb.setVisibility(View.GONE);
         }else{
+            bar.setTitle(parent.getName());
             descLyt.setVisibility(View.VISIBLE);
+            txtBreadcrumb.setVisibility(View.VISIBLE);
         }
+
+        txtBreadcrumb.setText(Utils.MakeBreadCrumb(parent));
 
         txtName.setText(parent.getName());
         txtDesc.setText(parent.getDescription());
+
         Date start = parent.getStart();
         Date end = parent.getEnd();
-        txtIni.setText(start!=null? df.format(start) : "");
-        txtFin.setText(end!=null? df.format(end) : "");
-        txtDuration.setText(durationToStr(parent.getDuration()));
+        txtIni.setText(start!=null? Utils.dfDateTimeSeconds.format(start) : "");
+        txtFin.setText(end!=null? Utils.dfDateTimeSeconds.format(end) : "");
+        txtDuration.setText(Utils.durationToStr(parent.getDuration()));
 
     }
 
@@ -147,21 +160,6 @@ public class ActivitiesListFragment extends Fragment implements AdapterView.OnIt
         adapter.clear();
         adapter.addAll(activities);
         adapter.notifyDataSetChanged();
-    }
-
-    /**
-     * Converts a number in milliseconds to readable duration string (Hours,
-     * Minutes and Seconds).
-     * @param time Duration of activity in milliseconds
-     * @return Duration string
-     */
-    protected String durationToStr(final int time) {
-        long hours = time / 60 / 60;
-        long minutes = time / 60;
-        long seconds = time % 60;
-
-        return String.format(new Locale("en"),
-                "%dh %dm %ds", hours, minutes, seconds);
     }
 
 }
