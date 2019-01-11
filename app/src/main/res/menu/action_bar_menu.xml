@@ -9,6 +9,15 @@
         android:visible="false"
         app:showAsAction="always" />
     <item
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Item"
+        app:showAsAction="always">
+        <menu >
+            <item android:title="@string/sort_by_date" />
+            <item android:title="@string/sort_by_name" />
+        </menu>
+    </item>
+    <item
         android:id="@+id/generateReport"
         android:title="@string/generate_report" />
     <item

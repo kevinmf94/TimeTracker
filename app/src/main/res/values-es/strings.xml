@@ -36,4 +36,6 @@
     <string name="duration">Duración</string>
     <string name="running">Activa</string>
     <string name="level">Nivel</string>
+    <string name="sort_by_date">Por Fecha</string>
+    <string name="sort_by_name">Por Nombre</string>
 </resources>
