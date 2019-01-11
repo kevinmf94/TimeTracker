@@ -37,6 +37,8 @@ import cat.uab.ds.core.utils.ReportFormat;
 import cat.uab.ds.core.utils.ReportHTML;
 import cat.uab.ds.core.utils.ReportVisitor;
 import cat.uab.ds.core.utils.ShortReportVisitor;
+import cat.uab.ds.ui.EditProjectActivity;
+import cat.uab.ds.ui.EditTaskActivity;
 import cat.uab.ds.ui.GenerateReportActivity;
 import cat.uab.ds.ui.IntervalsActivity;
 import cat.uab.ds.ui.MainActivity;
@@ -54,6 +56,7 @@ public class TreeManagerService extends Service implements Observer {
 
     public static final String RECEIVE_CHILDREN = "ReceiveChildren";
     public static final String RECEIVE_INTERVALS = "ReceiveIntervals";
+    public static final String SEND_CHILD = "SendChild";
 
     private Receiver receiver;
     private Project root = new Project("root");
@@ -86,6 +89,10 @@ public class TreeManagerService extends Service implements Observer {
         filter.addAction(IntervalsActivity.GET_INTERVALS);
         filter.addAction(IntervalsActivity.REMOVE_INTERVAL);
         filter.addAction(GenerateReportActivity.GENERATE_REPORT);
+        filter.addAction(EditProjectActivity.GET_CHILD);
+        filter.addAction(EditProjectActivity.UPDATE_PROJECT);
+        filter.addAction(EditTaskActivity.GET_CHILD);
+        filter.addAction(EditTaskActivity.UPDATE_TASK);
         registerReceiver(receiver, filter);
 
         super.onCreate();
@@ -247,6 +254,47 @@ public class TreeManagerService extends Service implements Observer {
                 Date to = (Date)intent.getSerializableExtra("to");
 
                 generateReport(type, format, from, to);
+            } else if(action.equals(EditProjectActivity.GET_CHILD) || action.equals(EditTaskActivity.GET_CHILD)){
+
+                int pos = intent.getIntExtra("pos", -1);
+                if(pos == -1)
+                    return;
+
+                Log.d(TAG, "GetChild "+pos);
+                ArrayList<Activity> activities =
+                        (ArrayList<Activity>) actual.getActivities();
+                Intent send = new Intent(SEND_CHILD);
+                send.putExtra("activity", activities.get(pos));
+                sendBroadcast(send);
+            } else if(action.equals(EditProjectActivity.UPDATE_PROJECT)){
+                int pos = intent.getIntExtra("pos", -1);
+                if(pos == -1)
+                    return;
+
+                Log.d(TAG, "Update project child "+pos);
+                String name = intent.getStringExtra("name");
+                String description = intent.getStringExtra("description");
+
+                ArrayList<Activity> activities =
+                        (ArrayList<Activity>) actual.getActivities();
+                Activity activity = activities.get(pos);
+                activity.setName(name);
+                activity.setDescription(description);
+
+            } else if(action.equals(EditTaskActivity.UPDATE_TASK)){
+                int pos = intent.getIntExtra("pos", -1);
+                if(pos == -1)
+                    return;
+
+                Log.d(TAG, "Update task child "+pos);
+                String name = intent.getStringExtra("name");
+                String description = intent.getStringExtra("description");
+
+                ArrayList<Activity> activities =
+                        (ArrayList<Activity>) actual.getActivities();
+                Activity activity = activities.get(pos);
+                activity.setName(name);
+                activity.setDescription(description);
             }
 
             sendChilds();

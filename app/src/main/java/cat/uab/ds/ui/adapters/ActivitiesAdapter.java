@@ -13,6 +13,10 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Locale;
 
+import cat.uab.ds.ui.AddProjectActivity;
+import cat.uab.ds.ui.AddTaskActivity;
+import cat.uab.ds.ui.EditProjectActivity;
+import cat.uab.ds.ui.EditTaskActivity;
 import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.R;
 
@@ -43,6 +47,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
             holder.title = v.findViewById(R.id.activityTitle);
             holder.duration = v.findViewById(R.id.duration);
             holder.btn = v.findViewById(R.id.btnPlay);
+            holder.editBtn = v.findViewById(R.id.editBtn);
             holder.typeIcon = v.findViewById(R.id.imgType);
             v.setTag(holder);
         } else {
@@ -88,6 +93,23 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
             holder.btn.setImageResource(R.drawable.ic_arrow_right);
         }
 
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Edit activity");
+                Intent intent = null;
+                if(item.isTask()){
+                    intent = new Intent(context, EditTaskActivity.class);
+                } else if (item.isProject()) {
+                    intent = new Intent(context, EditProjectActivity.class);
+                }
+
+                intent.putExtra("pos", position);
+                context.startActivity(intent);
+            }
+        });
+
+
         return v;
     }
 
@@ -104,6 +126,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
         TextView title;
         TextView duration;
         ImageView btn;
+        ImageView editBtn;
         ImageView typeIcon;
     }
 }

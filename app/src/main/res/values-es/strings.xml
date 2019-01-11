@@ -30,6 +30,8 @@
     <string name="scheduled">Programada</string>
     <string name="limited">Limitada</string>
     <string name="timeLimit">Límite de tiempo (s)</string>
+    <string name="editProject_title">Editar Proyecto</string>
+    <string name="editTask_title">Editar Tarea</string>
     <string name="fromDateHigherThanToDate">La fecha de inicio es mayor que la de fin</string>
     <string name="duration">Duración</string>
 </resources>

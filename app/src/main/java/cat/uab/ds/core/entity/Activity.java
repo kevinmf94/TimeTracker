@@ -43,7 +43,7 @@ public abstract class Activity implements Serializable {
         return name;
     }
 
-    protected void setName(final String newName) {
+    public void setName(final String newName) {
         this.name = newName;
     }
 
@@ -51,7 +51,7 @@ public abstract class Activity implements Serializable {
         return description;
     }
 
-    protected final void setDescription(final String newDescription) {
+    public final void setDescription(final String newDescription) {
         this.description = newDescription;
     }
 
