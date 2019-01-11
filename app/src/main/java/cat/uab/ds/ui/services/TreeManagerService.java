@@ -65,7 +65,7 @@ public class TreeManagerService extends Service implements Observer {
     public void onCreate() {
         Log.d(TAG, "Created TreeManagerService");
 
-        Configuration.setMinimumTime(2);
+        Configuration.setMinimumTime(1);
         Clock clock = Clock.getInstance();
         clock.addObserver(this);
         root.setRoot(true);
