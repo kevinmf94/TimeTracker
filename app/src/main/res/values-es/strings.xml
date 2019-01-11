@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="removeTitle">Eliminar</string>
-    <string name="removeMessage">Esta seguro de que quiere eliminarlo?</string>
+    <string name="removeMessage">Estás seguro de que quiere eliminarlo?</string>
     <string name="selectCreateTitle">Añadir un</string>
     <string name="actionBarProject">Crear Proyecto</string>
     <string name="actionBarTask">Crear Tarea</string>
@@ -10,13 +10,13 @@
     <string name="create">Crear</string>
     <string name="cancel">Cancelar</string>
     <string name="accept">Aceptar</string>
-    <string name="noNameError">Nombre requerido</string>
+    <string name="noNameError">Nombre obligatorio</string>
     <string name="exitTitle">Salir</string>
-    <string name="exitMessage">Hay tareas cronometrandose estas seguro que quieres salir?</string>
-    <string name="emptyMessage">No hay ningun proyecto o tarea, crea uno ahora</string>
+    <string name="exitMessage">Hay tareas activas estás seguro que quieres salir?</string>
+    <string name="emptyMessage">No hay ningún proyecto o tarea</string>
     <string name="project">Proyecto</string>
     <string name="task">Tarea</string>
-    <string name="emptyMessageIntervals">No contiene ningun intervalo</string>
+    <string name="emptyMessageIntervals">No contiene ningún intervalo</string>
     <string name="generate_report">Generar Informe</string>
     <string name="selectReportType">Elige el tipo de informe</string>
     <string name="selectOption">Elige una opción</string>
@@ -31,4 +31,5 @@
     <string name="limited">Limitada</string>
     <string name="timeLimit">Límite de tiempo (s)</string>
     <string name="fromDateHigherThanToDate">La fecha de inicio es mayor que la de fin</string>
+    <string name="duration">Duración</string>
 </resources>

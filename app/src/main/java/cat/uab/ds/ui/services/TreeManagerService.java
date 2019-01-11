@@ -134,6 +134,7 @@ public class TreeManagerService extends Service implements Observer {
         intent.putExtra("isRoot", actual.isRoot());
         intent.putExtra("rootRunning", root.isRunning());
         intent.putExtra("isPaused", (pausedTask.size() > 0));
+        intent.putExtra("parent", actual);
         sendBroadcast(intent);
     }
     /**

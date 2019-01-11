@@ -47,7 +47,7 @@ public abstract class Activity implements Serializable {
         this.name = newName;
     }
 
-    protected String getDescription() {
+    public String getDescription() {
         return description;
     }
 

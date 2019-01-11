@@ -10,11 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
 
+import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.ui.IntervalsActivity;
 import cat.uab.ds.ui.MainActivity;
 import cat.uab.ds.ui.R;
@@ -25,10 +31,20 @@ public class ActivitiesListFragment extends Fragment implements AdapterView.OnIt
 
     private final static String TAG = "ActivitiesListFragment";
 
+    DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
     private ActivitiesAdapter adapter;
     private MainActivity mainActivity;
     private ListView activitiesList;
     private TextView emptyText;
+    private LinearLayout descLyt;
+    private TextView txtName;
+    private TextView txtDesc;
+    private TextView txtIni;
+    private TextView txtFin;
+    private TextView txtDuration;
+
+    private Activity parent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +64,13 @@ public class ActivitiesListFragment extends Fragment implements AdapterView.OnIt
         activitiesList.setOnItemClickListener(this);
         activitiesList.setOnItemLongClickListener(this);
         activitiesList.setAdapter(adapter);
+
+        descLyt = v.findViewById(R.id.descLayout);
+        txtName = v.findViewById(R.id.txtName);
+        txtDesc = v.findViewById(R.id.txtDesc);
+        txtIni = v.findViewById(R.id.txtIni);
+        txtFin = v.findViewById(R.id.txtFin);
+        txtDuration = v.findViewById(R.id.txtDuration);
 
         return v;
     }
@@ -101,15 +124,45 @@ public class ActivitiesListFragment extends Fragment implements AdapterView.OnIt
             activitiesList.setVisibility(View.GONE);
             emptyText.setVisibility(View.VISIBLE);
         }
+
+        if (parent.isRoot()){
+            descLyt.setVisibility(View.GONE);
+        }else{
+            descLyt.setVisibility(View.VISIBLE);
+        }
+
+        txtName.setText(parent.getName());
+        txtDesc.setText(parent.getDescription());
+        Date start = parent.getStart();
+        Date end = parent.getEnd();
+        txtIni.setText(start!=null? df.format(start) : "");
+        txtFin.setText(end!=null? df.format(end) : "");
+        txtDuration.setText(durationToStr(parent.getDuration()));
+
     }
 
-    public void updateData(Collection<ActivityHolder> activities) {
+    public void updateData(Activity parent, Collection<ActivityHolder> activities) {
+        this.parent = parent;
         updateView(activities.size());
         adapter.clear();
         adapter.addAll(activities);
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Converts a number in milliseconds to readable duration string (Hours,
+     * Minutes and Seconds).
+     * @param time Duration of activity in milliseconds
+     * @return Duration string
+     */
+    protected String durationToStr(final int time) {
+        long hours = time / 60 / 60;
+        long minutes = time / 60;
+        long seconds = time % 60;
+
+        return String.format(new Locale("en"),
+                "%dh %dm %ds", hours, minutes, seconds);
+    }
 
 }
 

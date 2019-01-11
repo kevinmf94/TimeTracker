@@ -1,5 +1,6 @@
 package cat.uab.ds.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -270,10 +271,11 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 isRoot = intent.getBooleanExtra("isRoot", true);
                 rootRunning = intent.getBooleanExtra("rootRunning", false);
                 isPaused = intent.getBooleanExtra("isPaused" , false);
+                cat.uab.ds.core.entity.Activity parent = (cat.uab.ds.core.entity.Activity)intent.getSerializableExtra("parent");
                 ArrayList<ActivityHolder> activities = (ArrayList<ActivityHolder>) intent.getSerializableExtra("childs");
 
                 playPauseItem.setVisible((rootRunning && !isPaused) || (isPaused && !rootRunning));
-                activitiesListFragment.updateData(activities);
+                activitiesListFragment.updateData(parent,activities);
             }
         }
     }
