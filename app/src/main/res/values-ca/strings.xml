@@ -30,4 +30,6 @@
     <string name="scheduled">Programada</string>
     <string name="limited">Limitada</string>
     <string name="timeLimit">Límit de temps (s)</string>
+    <string name="editProject_title">Editar Projecte</string>
+    <string name="editTask_title">Editar Tasca</string>
 </resources>

@@ -31,5 +31,6 @@
     <string name="scheduled">Scheduled</string>
     <string name="limited">Limited</string>
     <string name="timeLimit">Time Limit (s)</string>
-
+    <string name="editProject_title">Edit Project</string>
+    <string name="editTask_title">Edit Task</string>
 </resources>
