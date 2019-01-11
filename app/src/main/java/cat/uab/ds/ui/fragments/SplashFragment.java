@@ -15,7 +15,7 @@ import cat.uab.ds.ui.R;
 
 public class SplashFragment extends Fragment {
 
-    public final static int TIME_SPLASH = 0;
+    public final static int TIME_SPLASH = 2000;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

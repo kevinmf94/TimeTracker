@@ -49,6 +49,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
             holder.btn = v.findViewById(R.id.btnPlay);
             holder.editBtn = v.findViewById(R.id.editBtn);
             holder.typeIcon = v.findViewById(R.id.imgType);
+            holder.runningTxt = v.findViewById(R.id.runningTxt);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -93,6 +94,11 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
             holder.btn.setImageResource(R.drawable.ic_arrow_right);
         }
 
+        if(item.isRunning())
+            holder.runningTxt.setVisibility(View.VISIBLE);
+        else
+            holder.runningTxt.setVisibility(View.GONE);
+
         holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +131,7 @@ public class ActivitiesAdapter extends ArrayAdapter<ActivityHolder>  {
     private class ViewHolder {
         TextView title;
         TextView duration;
+        TextView runningTxt;
         ImageView btn;
         ImageView editBtn;
         ImageView typeIcon;

@@ -35,4 +35,5 @@
     <string name="editTask_title">Edit Task</string>
     <string name="fromDateHigherThanToDate">Start Date is higher than End Date</string>
     <string name="duration">Duration</string>
+    <string name="running">Running</string>
 </resources>

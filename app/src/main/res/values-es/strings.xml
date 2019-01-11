@@ -34,4 +34,5 @@
     <string name="editTask_title">Editar Tarea</string>
     <string name="fromDateHigherThanToDate">La fecha de inicio es mayor que la de fin</string>
     <string name="duration">Duración</string>
+    <string name="running">Activa</string>
 </resources>

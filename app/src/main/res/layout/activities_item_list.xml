@@ -42,6 +42,15 @@
         android:layout_gravity="right"
         android:gravity="right|center_vertical">
 
+        <TextView
+            android:id="@+id/runningTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/running"
+            android:textColor="@android:color/holo_green_light"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"
