@@ -252,17 +252,17 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
                 langsDialog.show();
                 break;
             case R.id.sortByDate:
-                Intent sortDateIntent = new Intent(TreeManagerService.SORT);
+                Intent sortDateIntent = new Intent(TreeManagerService.SORT_ACTIVITIES);
                 sortDateIntent.putExtra("by", "date");
                 sendBroadcast(sortDateIntent);
                 break;
             case R.id.sortByName:
-                Intent sortNameIntent = new Intent(TreeManagerService.SORT);
+                Intent sortNameIntent = new Intent(TreeManagerService.SORT_ACTIVITIES);
                 sortNameIntent.putExtra("by", "name");
                 sendBroadcast(sortNameIntent);
                 break;
             case R.id.sortByDuration:
-                Intent sortDurationIntent = new Intent(TreeManagerService.SORT);
+                Intent sortDurationIntent = new Intent(TreeManagerService.SORT_ACTIVITIES);
                 sortDurationIntent.putExtra("by", "duration");
                 sendBroadcast(sortDurationIntent);
                 break;

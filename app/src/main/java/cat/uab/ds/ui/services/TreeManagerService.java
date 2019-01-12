@@ -66,7 +66,8 @@ public class TreeManagerService extends Service implements Observer {
     public static final String RECEIVE_CHILDREN = "ReceiveChildren";
     public static final String RECEIVE_INTERVALS = "ReceiveIntervals";
     public static final String SEND_CHILD = "SendChild";
-    public static final String SORT = "Sort";
+    public static final String SORT_ACTIVITIES = "SortActivities";
+    public static final String SORT_INTERVALS = "SortIntervals";
 
     private Receiver receiver;
     private Project root = new Project("root");
@@ -106,7 +107,8 @@ public class TreeManagerService extends Service implements Observer {
         filter.addAction(EditProjectActivity.UPDATE_PROJECT);
         filter.addAction(EditTaskActivity.GET_CHILD);
         filter.addAction(EditTaskActivity.UPDATE_TASK);
-        filter.addAction(SORT);
+        filter.addAction(SORT_ACTIVITIES);
+        filter.addAction(SORT_INTERVALS);
         registerReceiver(receiver, filter);
 
         super.onCreate();
@@ -325,20 +327,28 @@ public class TreeManagerService extends Service implements Observer {
                 Activity activity = activities.get(pos);
                 activity.setName(name);
                 activity.setDescription(description);
-            } else if(action.equals(SORT)){ // Sort and send activities/intervals
+            } else if(action.equals(SORT_ACTIVITIES)){ // Sort and send activities
                 String by = intent.getStringExtra("by");
 
                 switch (by){
                     case "date":
                         compActivities = new SortActivityByDate();
-                        compIntervals = new SortIntervalByDate();
                         break;
                     case "name":
                         compActivities = new SortActivityByName();
-                        compIntervals = null;
                         break;
                     case "duration":
                         compActivities = new SortActivityByDuration();
+                        break;
+                }
+            } else if(action.equals(SORT_INTERVALS)){ // Sort and send intervals
+                String by = intent.getStringExtra("by");
+
+                switch (by){
+                    case "date":
+                        compIntervals = new SortIntervalByDate();
+                        break;
+                    case "duration":
                         compIntervals = new SortIntervalByDuration();
                         break;
                 }

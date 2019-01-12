@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -99,6 +100,30 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar_menu_intervals, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Handler function called when an ActionBar Menu Option is clicked.
+     * @param item MenuItem that has been clicked
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.sortByDate:
+                Intent sortDateIntent = new Intent(TreeManagerService.SORT_INTERVALS);
+                sortDateIntent.putExtra("by", "date");
+                sendBroadcast(sortDateIntent);
+                break;
+            case R.id.sortByDuration:
+                Intent sortDurationIntent = new Intent(TreeManagerService.SORT_INTERVALS);
+                sortDurationIntent.putExtra("by", "duration");
+                sendBroadcast(sortDurationIntent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
