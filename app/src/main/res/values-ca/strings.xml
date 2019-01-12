@@ -38,4 +38,5 @@
     <string name="level">Nivel</string>
     <string name="sort_by_date">Per Data</string>
     <string name="sort_by_name">Per Nom</string>
+    <string name="sort_by_duration">Per Durada</string>
 </resources>

@@ -20,10 +20,19 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import cat.uab.ds.comparators.SortActivityByDate;
+import cat.uab.ds.comparators.SortActivityByDuration;
+import cat.uab.ds.comparators.SortActivityByName;
+import cat.uab.ds.comparators.SortIntervalByDate;
+import cat.uab.ds.comparators.SortIntervalByDuration;
 import cat.uab.ds.core.entity.Activity;
 import cat.uab.ds.core.entity.Configuration;
 import cat.uab.ds.core.entity.Interval;
@@ -57,12 +66,16 @@ public class TreeManagerService extends Service implements Observer {
     public static final String RECEIVE_CHILDREN = "ReceiveChildren";
     public static final String RECEIVE_INTERVALS = "ReceiveIntervals";
     public static final String SEND_CHILD = "SendChild";
+    public static final String SORT = "Sort";
 
     private Receiver receiver;
     private Project root = new Project("root");
     private Project actual;
     private ArrayList<Task> pausedTask = new ArrayList<>();
     private int posIntervals = -1;
+
+    Comparator<Activity> compActivities = null;
+    Comparator<Interval> compIntervals = null;
 
     @Override
     public void onCreate() {
@@ -93,6 +106,7 @@ public class TreeManagerService extends Service implements Observer {
         filter.addAction(EditProjectActivity.UPDATE_PROJECT);
         filter.addAction(EditTaskActivity.GET_CHILD);
         filter.addAction(EditTaskActivity.UPDATE_TASK);
+        filter.addAction(SORT);
         registerReceiver(receiver, filter);
 
         super.onCreate();
@@ -129,37 +143,52 @@ public class TreeManagerService extends Service implements Observer {
     }
 
     /**
-     * Fucntion to send a list of projects/tasks to the receivers.
+     * Fucntion to send a list of projects/tasks to the receivers. With comparator
      */
     private void sendChilds(){
         Intent intent = new Intent(RECEIVE_CHILDREN);
-        ArrayList<ActivityHolder> activities = new ArrayList<>();
-        for(Activity activity: actual.getActivities()){
-            activities.add(new ActivityHolder(activity));
+        ArrayList<ActivityHolder> holders = new ArrayList<>();
+
+        ArrayList<Activity> activities = (ArrayList)actual.getActivities();
+
+        if(compActivities != null){
+            Collections.sort(activities, compActivities);
         }
-        intent.putExtra("childs", activities);
+
+        for(Activity activity: actual.getActivities()){
+            holders.add(new ActivityHolder(activity));
+        }
+        intent.putExtra("childs", holders);
         intent.putExtra("isRoot", actual.isRoot());
         intent.putExtra("rootRunning", root.isRunning());
         intent.putExtra("isPaused", (pausedTask.size() > 0));
         intent.putExtra("parent", actual);
         sendBroadcast(intent);
     }
+
     /**
-     * Fucntion to send an intervals list to the receivers.
+     * Fucntion to send an intervals list to the receivers. With comparator
      */
     private void sendIntervals(int pos){
         if(pos > -1){
             Intent intent = new Intent(RECEIVE_INTERVALS);
-            ArrayList<IntervalHolder> intervals = new ArrayList<>();
+            ArrayList<IntervalHolder> holders = new ArrayList<>();
             Task task = (Task) actual.getActivities().toArray()[pos];
             Log.d(TAG, "nIntervals "+task.getIntervals().size());
-            for(Interval interval: task.getIntervals()){
-                intervals.add(new IntervalHolder(interval));
+
+            ArrayList<Interval> intervals = task.getIntervals();
+
+            if(compIntervals != null){
+                Collections.sort(intervals, compIntervals);
+            }
+
+            for(Interval interval: intervals){
+                holders.add(new IntervalHolder(interval));
             }
 
             intent.putExtra("activityData", new ActivityHolder(task));
             intent.putExtra("parent", task);
-            intent.putExtra("intervals", intervals);
+            intent.putExtra("intervals", holders);
             sendBroadcast(intent);
         }
     }
@@ -296,6 +325,23 @@ public class TreeManagerService extends Service implements Observer {
                 Activity activity = activities.get(pos);
                 activity.setName(name);
                 activity.setDescription(description);
+            } else if(action.equals(SORT)){ // Sort and send activities/intervals
+                String by = intent.getStringExtra("by");
+
+                switch (by){
+                    case "date":
+                        compActivities = new SortActivityByDate();
+                        compIntervals = new SortIntervalByDate();
+                        break;
+                    case "name":
+                        compActivities = new SortActivityByName();
+                        compIntervals = null;
+                        break;
+                    case "duration":
+                        compActivities = new SortActivityByDuration();
+                        compIntervals = new SortIntervalByDuration();
+                        break;
+                }
             }
 
             sendChilds();

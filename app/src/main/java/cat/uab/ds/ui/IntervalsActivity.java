@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -85,6 +87,18 @@ public class IntervalsActivity extends AppCompatActivity implements AdapterView.
         Intent intent = new Intent(GET_INTERVALS);
         intent.putExtra("taskPos", pos);
         sendBroadcast(intent);
+    }
+
+    /**
+     * Fill OptionsMenu from ActionBar
+     * @param menu The Menu
+     * @return Boolean
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_menu_intervals, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

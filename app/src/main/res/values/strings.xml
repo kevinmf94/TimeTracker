@@ -39,4 +39,5 @@
     <string name="level">Level</string>
     <string name="sort_by_date">By Date</string>
     <string name="sort_by_name">By Name</string>
+    <string name="sort_by_duration">By Duration</string>
 </resources>
